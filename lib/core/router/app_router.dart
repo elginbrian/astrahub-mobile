@@ -16,6 +16,9 @@ import '../../features/onboarding/presentation/pages/onboarding_1_page.dart';
 import '../../features/onboarding/presentation/pages/onboarding_2_page.dart';
 import '../../features/onboarding/presentation/pages/onboarding_3_page.dart';
 import '../../features/onboarding/presentation/pages/onboarding_4_page.dart';
+import '../../features/new_service/presentation/pages/new_service_page.dart';
+import '../../features/service_validation/presentation/pages/service_validation_page.dart';
+import '../../features/service_payment_success/presentation/pages/service_payment_success_page.dart';
 import 'app_routes.dart';
 import 'route_guard.dart';
 
@@ -155,6 +158,33 @@ final appRouterProvider = Provider<GoRouter>((ref) {
           key: state.pageKey,
           child: const PurchaseStatusPage(),
           transitionsBuilder: _slideTransition,
+        ),
+      ),
+      GoRoute(
+        path: AppRoutes.newService,
+        name: AppRoutes.newServiceName,
+        pageBuilder: (context, state) => CustomTransitionPage(
+          key: state.pageKey,
+          child: const NewServicePage(),
+          transitionsBuilder: _slideTransition,
+        ),
+      ),
+      GoRoute(
+        path: AppRoutes.serviceValidation,
+        name: AppRoutes.serviceValidationName,
+        pageBuilder: (context, state) => CustomTransitionPage(
+          key: state.pageKey,
+          child: const ServiceValidationPage(),
+          transitionsBuilder: _slideTransition,
+        ),
+      ),
+      GoRoute(
+        path: AppRoutes.servicePaymentSuccess,
+        name: AppRoutes.servicePaymentSuccessName,
+        pageBuilder: (context, state) => CustomTransitionPage(
+          key: state.pageKey,
+          child: const ServicePaymentSuccessPage(),
+          transitionsBuilder: _scaleFadeTransition,
         ),
       ),
     ],

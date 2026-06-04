@@ -15,6 +15,9 @@ abstract class AppRoutes {
   static const checkout = '/checkout';
   static const paymentSuccess = '/payment-success';
   static const purchaseStatus = '/purchase-status';
+  static const newService = '/new-service';
+  static const serviceValidation = '/service-validation';
+  static const servicePaymentSuccess = '/service-payment-success';
 
   // ── Names ──────────────────────────────────────────────────────────
   static const splashName = 'splash';
@@ -31,4 +34,7 @@ abstract class AppRoutes {
   static const checkoutName = 'checkout';
   static const paymentSuccessName = 'paymentSuccess';
   static const purchaseStatusName = 'purchaseStatus';
+  static const newServiceName = 'newService';
+  static const serviceValidationName = 'serviceValidation';
+  static const servicePaymentSuccessName = 'servicePaymentSuccess';
 }

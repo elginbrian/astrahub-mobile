@@ -24,6 +24,9 @@ class RouteGuard {
     AppRoutes.checkout,
     AppRoutes.paymentSuccess,
     AppRoutes.purchaseStatus,
+    AppRoutes.newService,
+    AppRoutes.serviceValidation,
+    AppRoutes.servicePaymentSuccess,
   };
 
   Future<String?> redirect(_, GoRouterState state) async {
