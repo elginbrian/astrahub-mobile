@@ -9,6 +9,7 @@ abstract class AppRoutes {
   static const login = '/login';
   static const register = '/register';
   static const shop = '/shop';
+  static const productDetail = '/product-detail';
 
   // ── Names ──────────────────────────────────────────────────────────
   static const splashName = 'splash';
@@ -19,4 +20,5 @@ abstract class AppRoutes {
   static const loginName = 'login';
   static const registerName = 'register';
   static const shopName = 'shop';
+  static const productDetailName = 'productDetail';
 }

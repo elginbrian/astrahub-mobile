@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import '../../../../core/theme/app_colors.dart';
+import 'package:go_router/go_router.dart';
 
+import '../../../../core/theme/app_colors.dart';
+import '../../../../core/router/app_routes.dart';
 class ProductCard extends StatelessWidget {
   final String title;
   final double rating;
@@ -22,8 +24,10 @@ class ProductCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
+    return GestureDetector(
+      onTap: () => context.push(AppRoutes.productDetail),
+      child: Container(
+        decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(12),
         border: Border.all(color: const Color(0xFFE5E7EB)),
@@ -156,6 +160,7 @@ class ProductCard extends StatelessWidget {
           ),
         ],
       ),
+    ),
     );
   }
 }
