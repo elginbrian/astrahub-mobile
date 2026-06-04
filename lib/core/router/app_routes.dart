@@ -11,6 +11,7 @@ abstract class AppRoutes {
   static const shop = '/shop';
   static const cart = '/cart';
   static const productDetail = '/product-detail';
+  static const checkout = '/checkout';
 
   // ── Names ──────────────────────────────────────────────────────────
   static const splashName = 'splash';
@@ -23,4 +24,5 @@ abstract class AppRoutes {
   static const shopName = 'shop';
   static const cartName = 'cart';
   static const productDetailName = 'productDetail';
+  static const checkoutName = 'checkout';
 }

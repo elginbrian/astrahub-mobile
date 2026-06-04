@@ -8,6 +8,7 @@ import '../../features/auth/presentation/pages/splash_page.dart';
 import '../../features/dashboard/presentation/pages/shop_page.dart';
 import '../../features/dashboard/presentation/pages/product_detail_page.dart';
 import '../../features/cart/presentation/pages/cart_page.dart';
+import '../../features/checkout/presentation/pages/checkout_page.dart';
 import '../../features/onboarding/presentation/pages/onboarding_1_page.dart';
 import '../../features/onboarding/presentation/pages/onboarding_2_page.dart';
 import '../../features/onboarding/presentation/pages/onboarding_3_page.dart';
@@ -112,6 +113,15 @@ final appRouterProvider = Provider<GoRouter>((ref) {
         pageBuilder: (context, state) => CustomTransitionPage(
           key: state.pageKey,
           child: const CartPage(),
+          transitionsBuilder: _fadeTransition,
+        ),
+      ),
+      GoRoute(
+        path: AppRoutes.checkout,
+        name: AppRoutes.checkoutName,
+        pageBuilder: (context, state) => CustomTransitionPage(
+          key: state.pageKey,
+          child: const CheckoutPage(),
           transitionsBuilder: _fadeTransition,
         ),
       ),

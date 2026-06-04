@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:go_router/go_router.dart';
 import '../../../../../core/theme/app_colors.dart';
+import '../../../../../core/router/app_routes.dart';
 
 class CartBottomBar extends StatelessWidget {
   const CartBottomBar({super.key});
@@ -80,7 +82,7 @@ class CartBottomBar extends StatelessWidget {
             ),
             const SizedBox(width: 16),
             ElevatedButton(
-              onPressed: () {},
+              onPressed: () => context.pushNamed(AppRoutes.checkoutName),
               style: ElevatedButton.styleFrom(
                 backgroundColor: AppColors.astraBlue,
                 foregroundColor: Colors.white,
