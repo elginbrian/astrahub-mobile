@@ -4,10 +4,6 @@ import 'package:go_router/go_router.dart';
 
 import '../../../../../core/router/app_routes.dart';
 import '../widgets/onboarding_layout.dart';
-
-/// Onboarding screen 2 of 4.
-/// Design: "Catat Servis dalam Hitungan Detik" — mechanic with motorcycle & service chips.
-/// Next → Onboarding 3
 class Onboarding2Page extends ConsumerWidget {
   const Onboarding2Page({super.key});
 

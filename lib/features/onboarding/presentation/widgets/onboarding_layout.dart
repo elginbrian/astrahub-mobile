@@ -4,8 +4,6 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../../../../core/theme/app_colors.dart';
 import 'onboarding_dot_indicator.dart';
 
-/// Shared layout used by all onboarding screens (1–4).
-/// Each screen passes its own content — layout stays consistent.
 class OnboardingLayout extends StatelessWidget {
   const OnboardingLayout({
     super.key,
@@ -23,7 +21,7 @@ class OnboardingLayout extends StatelessWidget {
   final String assetPath;
   final String title;
   final String subtitle;
-  final int currentPage;   // 1-indexed
+  final int currentPage;
   final int totalPages;
   final String buttonLabel;
   final VoidCallback onNext;
@@ -37,7 +35,6 @@ class OnboardingLayout extends StatelessWidget {
       body: SafeArea(
         child: Column(
           children: [
-            // ── Illustration ──────────────────────────────────────────
             Expanded(
               flex: 5,
               child: Padding(
@@ -48,8 +45,6 @@ class OnboardingLayout extends StatelessWidget {
                 ),
               ),
             ),
-
-            // ── Text + Dots + Button ──────────────────────────────────
             Expanded(
               flex: 3,
               child: Padding(
@@ -60,7 +55,7 @@ class OnboardingLayout extends StatelessWidget {
                     Text(
                       title,
                       textAlign: textAlign,
-                      style: GoogleFonts.inter(
+                      style: GoogleFonts.plusJakartaSans(
                         fontSize: 22,
                         fontWeight: FontWeight.w700,
                         color: const Color(0xFF111827),
@@ -71,7 +66,7 @@ class OnboardingLayout extends StatelessWidget {
                     Text(
                       subtitle,
                       textAlign: textAlign,
-                      style: GoogleFonts.inter(
+                      style: GoogleFonts.plusJakartaSans(
                         fontSize: 14,
                         fontWeight: FontWeight.w400,
                         color: const Color(0xFF6B7280),
@@ -79,15 +74,11 @@ class OnboardingLayout extends StatelessWidget {
                       ),
                     ),
                     const Spacer(),
-
-                    // ── Dot indicator ────────────────────────────────
                     OnboardingDotIndicator(
                       total: totalPages,
-                      current: currentPage - 1, // convert to 0-indexed
+                      current: currentPage - 1,
                     ),
                     const SizedBox(height: 24),
-
-                    // ── CTA Button ────────────────────────────────────
                     _OnboardingButton(label: buttonLabel, onTap: onNext),
                     const SizedBox(height: 24),
                   ],
@@ -100,10 +91,6 @@ class OnboardingLayout extends StatelessWidget {
     );
   }
 }
-
-
-
-// ── CTA Button ────────────────────────────────────────────────────────────────
 
 class _OnboardingButton extends StatelessWidget {
   const _OnboardingButton({required this.label, required this.onTap});
@@ -119,7 +106,7 @@ class _OnboardingButton extends StatelessWidget {
       child: ElevatedButton(
         onPressed: onTap,
         style: ElevatedButton.styleFrom(
-          backgroundColor: AppColors.primary,
+          backgroundColor: AppColors.astraBlue,
           foregroundColor: Colors.white,
           elevation: 0,
           shape: RoundedRectangleBorder(
@@ -133,7 +120,7 @@ class _OnboardingButton extends StatelessWidget {
             const SizedBox(width: 12),
             Text(
               label,
-              style: GoogleFonts.inter(
+              style: GoogleFonts.plusJakartaSans(
                 fontSize: 16,
                 fontWeight: FontWeight.w600,
               ),

@@ -5,11 +5,6 @@ import '../../domain/usecases/login_usecase.dart';
 import 'login_state.dart';
 
 part 'login_viewmodel.g.dart';
-
-/// MVVM ViewModel – bridges the domain use case with the UI.
-///
-/// The UI reads [loginViewModelProvider] and calls [login].
-/// It NEVER imports use cases or repositories directly.
 @riverpod
 class LoginViewModel extends _$LoginViewModel {
   @override
@@ -33,9 +28,6 @@ class LoginViewModel extends _$LoginViewModel {
   }
 }
 
-// ── Dependency providers ──────────────────────────────────────────────────────
-
 final loginUseCaseProvider = Provider<LoginUseCase>((ref) {
-  // TODO: inject from GetIt / override in tests
   throw UnimplementedError('Register AuthRepository in injection.dart');
 });

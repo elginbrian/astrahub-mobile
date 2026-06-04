@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 
 import '../../../../../core/theme/app_colors.dart';
-
-/// Shared animated dot indicator used across all onboarding screens.
 class OnboardingDotIndicator extends StatelessWidget {
   const OnboardingDotIndicator({
     super.key,
     required this.total,
-    required this.current, // 0-indexed
+    required this.current,
   });
 
   final int total;
@@ -26,7 +24,7 @@ class OnboardingDotIndicator extends StatelessWidget {
           width: isActive ? 28 : 8,
           height: 8,
           decoration: BoxDecoration(
-            color: isActive ? AppColors.primary : const Color(0xFFD1D5DB),
+            color: isActive ? AppColors.astraBlue : const Color(0xFFD1D5DB),
             borderRadius: BorderRadius.circular(100),
           ),
         );

@@ -9,7 +9,7 @@ abstract class AppTheme {
         useMaterial3: true,
         brightness: Brightness.light,
         colorScheme: const ColorScheme.light(
-          primary: AppColors.primary,
+          primary: AppColors.astraBlue,
           onPrimary: AppColors.white,
           secondary: AppColors.secondary,
           onSecondary: AppColors.white,
@@ -18,13 +18,13 @@ abstract class AppTheme {
           error: AppColors.error,
           onError: AppColors.white,
         ),
-        textTheme: GoogleFonts.interTextTheme(),
+        textTheme: GoogleFonts.plusJakartaSansTextTheme(),
         scaffoldBackgroundColor: AppColors.backgroundLight,
         appBarTheme: AppBarTheme(
           backgroundColor: AppColors.surfaceLight,
           foregroundColor: AppColors.textPrimaryLight,
           elevation: 0,
-          titleTextStyle: GoogleFonts.inter(
+          titleTextStyle: GoogleFonts.plusJakartaSans(
             fontSize: 18,
             fontWeight: FontWeight.w600,
             color: AppColors.textPrimaryLight,
@@ -32,13 +32,13 @@ abstract class AppTheme {
         ),
         elevatedButtonTheme: ElevatedButtonThemeData(
           style: ElevatedButton.styleFrom(
-            backgroundColor: AppColors.primary,
+            backgroundColor: AppColors.astraBlue,
             foregroundColor: AppColors.white,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(12),
             ),
             minimumSize: const Size(double.infinity, 52),
-            textStyle: GoogleFonts.inter(
+            textStyle: GoogleFonts.plusJakartaSans(
               fontSize: 16,
               fontWeight: FontWeight.w600,
             ),
@@ -57,7 +57,7 @@ abstract class AppTheme {
           ),
           focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(12),
-            borderSide: const BorderSide(color: AppColors.primary, width: 2),
+            borderSide: const BorderSide(color: AppColors.astraBlue, width: 2),
           ),
           errorBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(12),
@@ -87,13 +87,13 @@ abstract class AppTheme {
           error: AppColors.errorDark,
           onError: AppColors.white,
         ),
-        textTheme: GoogleFonts.interTextTheme(ThemeData.dark().textTheme),
+        textTheme: GoogleFonts.plusJakartaSansTextTheme(ThemeData.dark().textTheme),
         scaffoldBackgroundColor: AppColors.backgroundDark,
         appBarTheme: AppBarTheme(
           backgroundColor: AppColors.surfaceDark,
           foregroundColor: AppColors.textPrimaryDark,
           elevation: 0,
-          titleTextStyle: GoogleFonts.inter(
+          titleTextStyle: GoogleFonts.plusJakartaSans(
             fontSize: 18,
             fontWeight: FontWeight.w600,
             color: AppColors.textPrimaryDark,

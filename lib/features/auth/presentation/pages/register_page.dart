@@ -44,7 +44,6 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
     }
 
     setState(() => _isLoading = true);
-    // TODO: implement real registration via ViewModel
     await Future.delayed(const Duration(seconds: 2));
     if (mounted) {
       setState(() => _isLoading = false);
@@ -67,7 +66,7 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
       children: [
         Text(
           label,
-          style: GoogleFonts.inter(
+          style: GoogleFonts.plusJakartaSans(
             fontSize: 12,
             fontWeight: FontWeight.w600,
             color: const Color(0xFF374151),
@@ -78,7 +77,7 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
           controller: controller,
           keyboardType: keyboardType,
           obscureText: obscureText,
-          style: GoogleFonts.inter(
+          style: GoogleFonts.plusJakartaSans(
             fontSize: 14, 
             color: const Color(0xFF111827),
           ),
@@ -86,7 +85,7 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
             fillColor: Colors.white,
             filled: true,
             hintText: hint,
-            hintStyle: GoogleFonts.inter(
+            hintStyle: GoogleFonts.plusJakartaSans(
               color: const Color(0xFF9CA3AF),
               fontSize: 14,
             ),
@@ -103,7 +102,7 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
             ),
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(10),
-              borderSide: BorderSide(color: AppColors.primary),
+              borderSide: BorderSide(color: AppColors.astraBlue),
             ),
           ),
           validator: validator,
@@ -123,10 +122,9 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // ── Header Text ───────────────────────────────────────────
               Text(
                 'Daftar Akun Baru',
-                style: GoogleFonts.inter(
+                style: GoogleFonts.plusJakartaSans(
                   fontSize: 22,
                   fontWeight: FontWeight.w700,
                   color: const Color(0xFF111827),
@@ -135,7 +133,7 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
               const SizedBox(height: 8),
               Text(
                 'Lengkapi data bengkel Anda untuk mulai mengelola operasional secara profesional.',
-                style: GoogleFonts.inter(
+                style: GoogleFonts.plusJakartaSans(
                   fontSize: 14,
                   fontWeight: FontWeight.w400,
                   color: const Color(0xFF6B7280),
@@ -143,8 +141,6 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                 ),
               ),
               const SizedBox(height: 32),
-
-              // ── Register Form ──────────────────────────────────────────
               Form(
                 key: _formKey,
                 child: Column(
@@ -215,8 +211,6 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                 ),
               ),
               const SizedBox(height: 8),
-
-              // ── Terms & Conditions Checkbox ─────────────────────────────
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -236,7 +230,7 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                   Expanded(
                     child: RichText(
                       text: TextSpan(
-                        style: GoogleFonts.inter(
+                        style: GoogleFonts.plusJakartaSans(
                           fontSize: 12,
                           color: const Color(0xFF4B5563),
                           height: 1.5,
@@ -245,13 +239,13 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                           const TextSpan(text: 'Saya menyetujui '),
                           TextSpan(
                             text: 'Syarat & Ketentuan',
-                            style: const TextStyle(color: Color(0xFF1D4ED8)),
+                            style: TextStyle(color: AppColors.astraBlue),
                             recognizer: TapGestureRecognizer()..onTap = () {},
                           ),
                           const TextSpan(text: ' serta '),
                           TextSpan(
                             text: 'Kebijakan Privasi',
-                            style: const TextStyle(color: Color(0xFF1D4ED8)),
+                            style: TextStyle(color: AppColors.astraBlue),
                             recognizer: TapGestureRecognizer()..onTap = () {},
                           ),
                           const TextSpan(text: ' AstraMechanic-Hub.'),
@@ -262,15 +256,13 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                 ],
               ),
               const SizedBox(height: 24),
-
-              // ── Register Button ─────────────────────────────────────────
               SizedBox(
                 width: double.infinity,
                 height: 48,
                 child: ElevatedButton(
                   onPressed: _isLoading ? null : _onRegister,
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: AppColors.primary,
+                    backgroundColor: AppColors.astraBlue,
                     foregroundColor: Colors.white,
                     elevation: 0,
                     shape: RoundedRectangleBorder(
@@ -288,7 +280,7 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                         )
                       : Text(
                           'Lanjutkan',
-                          style: GoogleFonts.inter(
+                          style: GoogleFonts.plusJakartaSans(
                             fontSize: 14,
                             fontWeight: FontWeight.w600,
                           ),
@@ -296,8 +288,6 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                 ),
               ),
               const SizedBox(height: 24),
-
-              // ── Security Banner ─────────────────────────────────────────
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
                 decoration: BoxDecoration(
@@ -306,12 +296,12 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                 ),
                 child: Row(
                   children: [
-                    Icon(Icons.security, color: AppColors.primary, size: 20),
+                    Icon(Icons.security, color: AppColors.astraBlue, size: 20),
                     const SizedBox(width: 12),
                     Expanded(
                       child: Text(
                         'Data Anda dilindungi dengan standar keamanan Astra.',
-                        style: GoogleFonts.inter(
+                        style: GoogleFonts.plusJakartaSans(
                           fontSize: 12,
                           color: const Color(0xFF374151),
                         ),
@@ -322,13 +312,12 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
               ),
               const SizedBox(height: 32),
 
-              // ── Footer ────────────────────────────────────────────────
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
                     'Sudah punya akun? ',
-                    style: GoogleFonts.inter(
+                    style: GoogleFonts.plusJakartaSans(
                       fontSize: 14,
                       color: const Color(0xFF6B7280),
                     ),
@@ -337,10 +326,10 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                     onTap: () => context.goNamed(AppRoutes.loginName),
                     child: Text(
                       'Masuk',
-                      style: GoogleFonts.inter(
+                      style: GoogleFonts.plusJakartaSans(
                         fontSize: 14,
                         fontWeight: FontWeight.w600,
-                        color: AppColors.primary,
+                        color: AppColors.astraBlue,
                       ),
                     ),
                   ),

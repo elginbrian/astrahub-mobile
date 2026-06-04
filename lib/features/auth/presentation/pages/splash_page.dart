@@ -32,7 +32,6 @@ class _SplashPageState extends ConsumerState<SplashPage>
   Future<void> _navigate() async {
     await Future.delayed(const Duration(seconds: 2));
     if (!mounted) return;
-    // TODO: check if user has seen onboarding (SharedPrefs) and if authenticated
     context.goNamed(AppRoutes.onboarding1Name);
   }
 
@@ -45,7 +44,7 @@ class _SplashPageState extends ConsumerState<SplashPage>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.primary,
+      backgroundColor: AppColors.astraBlue,
       body: FadeTransition(
         opacity: _fadeAnim,
         child: const Center(

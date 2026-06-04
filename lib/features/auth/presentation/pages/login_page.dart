@@ -31,7 +31,6 @@ class _LoginPageState extends ConsumerState<LoginPage> {
   Future<void> _onLogin() async {
     if (!(_formKey.currentState?.validate() ?? false)) return;
     await ref.read(loginViewModelProvider.notifier).login(
-          // passing phone number as email for the underlying usecase for now
           email: _phoneController.text.trim(),
           password: _passwordController.text,
         );
@@ -56,7 +55,6 @@ class _LoginPageState extends ConsumerState<LoginPage> {
           child: Column(
             children: [
               const SizedBox(height: 24),
-              // ── Illustration ──────────────────────────────────────────
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 24),
                 child: Image.asset(
@@ -67,8 +65,6 @@ class _LoginPageState extends ConsumerState<LoginPage> {
               ),
 
               const SizedBox(height: 24),
-              
-              // ── Header Text ───────────────────────────────────────────
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 28),
                 child: Column(
@@ -76,7 +72,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                     Text(
                       'Kelola Bengkel Lebih Mudah',
                       textAlign: TextAlign.center,
-                      style: GoogleFonts.inter(
+                      style: GoogleFonts.plusJakartaSans(
                         fontSize: 22,
                         fontWeight: FontWeight.w700,
                         color: const Color(0xFF111827),
@@ -86,7 +82,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                     Text(
                       'Catat servis, pesan suku cadang, dan terima pembayaran dalam satu aplikasi.',
                       textAlign: TextAlign.center,
-                      style: GoogleFonts.inter(
+                      style: GoogleFonts.plusJakartaSans(
                         fontSize: 14,
                         fontWeight: FontWeight.w400,
                         color: const Color(0xFF6B7280),
@@ -98,8 +94,6 @@ class _LoginPageState extends ConsumerState<LoginPage> {
               ),
 
               const SizedBox(height: 24),
-
-              // ── Login Form Card ───────────────────────────────────────
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 24),
                 child: Container(
@@ -114,10 +108,9 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        // Phone Number
                         Text(
                           'Nomor HP',
-                          style: GoogleFonts.inter(
+                          style: GoogleFonts.plusJakartaSans(
                             fontSize: 12,
                             fontWeight: FontWeight.w600,
                             color: const Color(0xFF374151),
@@ -127,7 +120,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                         TextFormField(
                           controller: _phoneController,
                           keyboardType: TextInputType.phone,
-                          style: GoogleFonts.inter(
+                          style: GoogleFonts.plusJakartaSans(
                             fontSize: 14,
                             color: const Color(0xFF111827),
                           ),
@@ -135,7 +128,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                             fillColor: Colors.white,
                             filled: true,
                             hintText: '0812xxxxxxx',
-                            hintStyle: GoogleFonts.inter(
+                            hintStyle: GoogleFonts.plusJakartaSans(
                               color: const Color(0xFF9CA3AF),
                               fontSize: 14,
                             ),
@@ -153,7 +146,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                             ),
                             focusedBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(10),
-                              borderSide: BorderSide(color: AppColors.primary),
+                              borderSide: BorderSide(color: AppColors.astraBlue),
                             ),
                           ),
                           validator: (v) => v != null && v.isNotEmpty
@@ -161,11 +154,9 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                               : 'Nomor HP tidak boleh kosong',
                         ),
                         const SizedBox(height: 16),
-
-                        // Password
                         Text(
                           'Password',
-                          style: GoogleFonts.inter(
+                          style: GoogleFonts.plusJakartaSans(
                             fontSize: 12,
                             fontWeight: FontWeight.w600,
                             color: const Color(0xFF374151),
@@ -175,7 +166,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                         TextFormField(
                           controller: _passwordController,
                           obscureText: _obscurePassword,
-                          style: GoogleFonts.inter(
+                          style: GoogleFonts.plusJakartaSans(
                             fontSize: 14,
                             color: const Color(0xFF111827),
                           ),
@@ -183,7 +174,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                             fillColor: Colors.white,
                             filled: true,
                             hintText: 'Masukkan password',
-                            hintStyle: GoogleFonts.inter(
+                            hintStyle: GoogleFonts.plusJakartaSans(
                               color: const Color(0xFF9CA3AF),
                               fontSize: 14,
                             ),
@@ -201,7 +192,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                             ),
                             focusedBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(10),
-                              borderSide: BorderSide(color: AppColors.primary),
+                              borderSide: BorderSide(color: AppColors.astraBlue),
                             ),
                             suffixIcon: IconButton(
                               icon: Icon(
@@ -220,8 +211,6 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                               : 'Password min. 6 karakter',
                         ),
                         const SizedBox(height: 12),
-
-                        // Remember Me & Forgot Password
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
@@ -244,7 +233,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                                 const SizedBox(width: 8),
                                 Text(
                                   'Ingat Saya',
-                                  style: GoogleFonts.inter(
+                                  style: GoogleFonts.plusJakartaSans(
                                     fontSize: 12,
                                     color: const Color(0xFF4B5563),
                                   ),
@@ -253,24 +242,22 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                             ),
                             Text(
                               'Lupa Password?',
-                              style: GoogleFonts.inter(
+                              style: GoogleFonts.plusJakartaSans(
                                 fontSize: 12,
                                 fontWeight: FontWeight.w600,
-                                color: AppColors.primary,
+                                color: AppColors.astraBlue,
                               ),
                             ),
                           ],
                         ),
                         const SizedBox(height: 20),
-
-                        // Login Button
                         SizedBox(
                           width: double.infinity,
                           height: 48,
                           child: ElevatedButton(
                             onPressed: isLoading ? null : _onLogin,
                             style: ElevatedButton.styleFrom(
-                              backgroundColor: AppColors.primary,
+                              backgroundColor: AppColors.astraBlue,
                               foregroundColor: Colors.white,
                               elevation: 0,
                               shape: RoundedRectangleBorder(
@@ -288,7 +275,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                                   )
                                 : Text(
                                     'Masuk',
-                                    style: GoogleFonts.inter(
+                                    style: GoogleFonts.plusJakartaSans(
                                       fontSize: 14,
                                       fontWeight: FontWeight.w600,
                                     ),
@@ -296,8 +283,6 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                           ),
                         ),
                         const SizedBox(height: 20),
-
-                        // OR Divider
                         Row(
                           children: [
                             const Expanded(child: Divider(color: Color(0xFFE5E7EB))),
@@ -305,7 +290,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                               padding: const EdgeInsets.symmetric(horizontal: 12),
                               child: Text(
                                 'ATAU',
-                                style: GoogleFonts.inter(
+                                style: GoogleFonts.plusJakartaSans(
                                   fontSize: 12,
                                   color: const Color(0xFF9CA3AF),
                                   fontWeight: FontWeight.w500,
@@ -316,14 +301,11 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                           ],
                         ),
                         const SizedBox(height: 20),
-
-                        // Google Login Button
                         SizedBox(
                           width: double.infinity,
                           height: 48,
                           child: OutlinedButton(
                             onPressed: () {
-                              // TODO: Implement Google Sign-In
                             },
                             style: OutlinedButton.styleFrom(
                               foregroundColor: const Color(0xFF111827),
@@ -335,21 +317,15 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                // Standard Google G icon fallback using Flutter's built-in icons 
-                                // Alternatively, using a Colored Box or image if asset exists. 
-                                // I will use a simple colored text 'G' for now since I don't have the svg
-                                Text(
-                                  'G',
-                                  style: GoogleFonts.poppins(
-                                    color: Colors.red,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 18,
-                                  ),
+                                Image.asset(
+                                  'assets/images/google-assets.png',
+                                  width: 24,
+                                  height: 24,
                                 ),
                                 const SizedBox(width: 12),
                                 Text(
                                   'Masuk dengan Google',
-                                  style: GoogleFonts.inter(
+                                  style: GoogleFonts.plusJakartaSans(
                                     fontSize: 14,
                                     fontWeight: FontWeight.w600,
                                   ),
@@ -365,14 +341,12 @@ class _LoginPageState extends ConsumerState<LoginPage> {
               ),
 
               const SizedBox(height: 32),
-
-              // ── Footer ────────────────────────────────────────────────
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
                     'Belum punya akun? ',
-                    style: GoogleFonts.inter(
+                    style: GoogleFonts.plusJakartaSans(
                       fontSize: 14,
                       color: const Color(0xFF6B7280),
                     ),
@@ -381,10 +355,10 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                     onTap: () => context.goNamed(AppRoutes.registerName),
                     child: Text(
                       'Daftar Sekarang',
-                      style: GoogleFonts.inter(
+                      style: GoogleFonts.plusJakartaSans(
                         fontSize: 14,
                         fontWeight: FontWeight.w600,
-                        color: AppColors.primary,
+                        color: AppColors.astraBlue,
                       ),
                     ),
                   ),

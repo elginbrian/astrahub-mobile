@@ -4,10 +4,6 @@ import 'package:go_router/go_router.dart';
 
 import '../../../../../core/router/app_routes.dart';
 import '../widgets/onboarding_layout.dart';
-
-/// Onboarding screen 1 of 4.
-/// Design: "Pesan Suku Cadang Resmi Astra" — man holding phone with products.
-/// Next → Onboarding 2
 class Onboarding1Page extends ConsumerWidget {
   const Onboarding1Page({super.key});
 

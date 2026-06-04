@@ -4,10 +4,6 @@ import 'package:go_router/go_router.dart';
 
 import '../../../../../core/router/app_routes.dart';
 import '../widgets/onboarding_layout.dart';
-
-/// Onboarding screen 3 of 4.
-/// Design: "Pantau Keuangan Bengkel dengan Mudah" — man with tablet, bar chart & payment chips.
-/// Next → Onboarding 4
 class Onboarding3Page extends ConsumerWidget {
   const Onboarding3Page({super.key});
 
