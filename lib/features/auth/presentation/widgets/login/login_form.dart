@@ -28,7 +28,7 @@ class _LoginFormState extends State<LoginForm> {
 
   void _onLogin() {
     // Bypass validation for development/testing
-    context.goNamed(AppRoutes.shopName);
+    context.goNamed(AppRoutes.mainName);
   }
 
   @override

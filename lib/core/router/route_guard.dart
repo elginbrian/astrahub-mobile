@@ -17,12 +17,16 @@ class RouteGuard {
     AppRoutes.onboarding4,
     AppRoutes.login,
     AppRoutes.register,
+    AppRoutes.main,
     AppRoutes.shop,
     AppRoutes.productDetail,
     AppRoutes.cart,
     AppRoutes.checkout,
     AppRoutes.paymentSuccess,
     AppRoutes.purchaseStatus,
+    AppRoutes.newService,
+    AppRoutes.serviceValidation,
+    AppRoutes.servicePaymentSuccess,
   };
 
   Future<String?> redirect(_, GoRouterState state) async {
@@ -35,7 +39,7 @@ class RouteGuard {
       return AppRoutes.login;
     }
     if (isAuthenticated && state.matchedLocation == AppRoutes.login) {
-      return AppRoutes.shop;
+      return AppRoutes.main;
     }
     return null;
   }

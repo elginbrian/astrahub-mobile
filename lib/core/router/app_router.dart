@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import '../../features/auth/presentation/pages/login_page.dart';
 import '../../features/auth/presentation/pages/register_page.dart';
 import '../../features/auth/presentation/pages/splash_page.dart';
+import '../../features/dashboard/presentation/pages/main_navigation_page.dart';
 import '../../features/dashboard/presentation/pages/shop_page.dart';
 import '../../features/dashboard/presentation/pages/product_detail_page.dart';
 import '../../features/cart/presentation/pages/cart_page.dart';
@@ -15,6 +16,9 @@ import '../../features/onboarding/presentation/pages/onboarding_1_page.dart';
 import '../../features/onboarding/presentation/pages/onboarding_2_page.dart';
 import '../../features/onboarding/presentation/pages/onboarding_3_page.dart';
 import '../../features/onboarding/presentation/pages/onboarding_4_page.dart';
+import '../../features/new_service/presentation/pages/new_service_page.dart';
+import '../../features/service_validation/presentation/pages/service_validation_page.dart';
+import '../../features/service_payment_success/presentation/pages/service_payment_success_page.dart';
 import 'app_routes.dart';
 import 'route_guard.dart';
 
@@ -91,6 +95,17 @@ final appRouterProvider = Provider<GoRouter>((ref) {
         ),
       ),
       
+      // ── Main Shell ──────────────────────────────────────────────────
+      GoRoute(
+        path: AppRoutes.main,
+        name: AppRoutes.mainName,
+        pageBuilder: (context, state) => CustomTransitionPage(
+          key: state.pageKey,
+          child: const MainNavigationPage(),
+          transitionsBuilder: _fadeTransition,
+        ),
+      ),
+      
       GoRoute(
         path: AppRoutes.shop,
         name: AppRoutes.shopName,
@@ -143,6 +158,33 @@ final appRouterProvider = Provider<GoRouter>((ref) {
           key: state.pageKey,
           child: const PurchaseStatusPage(),
           transitionsBuilder: _slideTransition,
+        ),
+      ),
+      GoRoute(
+        path: AppRoutes.newService,
+        name: AppRoutes.newServiceName,
+        pageBuilder: (context, state) => CustomTransitionPage(
+          key: state.pageKey,
+          child: const NewServicePage(),
+          transitionsBuilder: _slideTransition,
+        ),
+      ),
+      GoRoute(
+        path: AppRoutes.serviceValidation,
+        name: AppRoutes.serviceValidationName,
+        pageBuilder: (context, state) => CustomTransitionPage(
+          key: state.pageKey,
+          child: const ServiceValidationPage(),
+          transitionsBuilder: _slideTransition,
+        ),
+      ),
+      GoRoute(
+        path: AppRoutes.servicePaymentSuccess,
+        name: AppRoutes.servicePaymentSuccessName,
+        pageBuilder: (context, state) => CustomTransitionPage(
+          key: state.pageKey,
+          child: const ServicePaymentSuccessPage(),
+          transitionsBuilder: _scaleFadeTransition,
         ),
       ),
     ],

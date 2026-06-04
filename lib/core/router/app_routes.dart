@@ -8,12 +8,16 @@ abstract class AppRoutes {
   static const onboarding4 = '/onboarding/4';
   static const login = '/login';
   static const register = '/register';
+  static const main = '/main';
   static const shop = '/shop';
   static const cart = '/cart';
   static const productDetail = '/product-detail';
   static const checkout = '/checkout';
   static const paymentSuccess = '/payment-success';
   static const purchaseStatus = '/purchase-status';
+  static const newService = '/new-service';
+  static const serviceValidation = '/service-validation';
+  static const servicePaymentSuccess = '/service-payment-success';
 
   // ── Names ──────────────────────────────────────────────────────────
   static const splashName = 'splash';
@@ -23,10 +27,14 @@ abstract class AppRoutes {
   static const onboarding4Name = 'onboarding4';
   static const loginName = 'login';
   static const registerName = 'register';
+  static const mainName = 'main';
   static const shopName = 'shop';
   static const cartName = 'cart';
   static const productDetailName = 'productDetail';
   static const checkoutName = 'checkout';
   static const paymentSuccessName = 'paymentSuccess';
   static const purchaseStatusName = 'purchaseStatus';
+  static const newServiceName = 'newService';
+  static const serviceValidationName = 'serviceValidation';
+  static const servicePaymentSuccessName = 'servicePaymentSuccess';
 }
