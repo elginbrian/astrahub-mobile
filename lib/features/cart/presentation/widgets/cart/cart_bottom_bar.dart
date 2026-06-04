@@ -82,7 +82,7 @@ class CartBottomBar extends StatelessWidget {
             ElevatedButton(
               onPressed: () {},
               style: ElevatedButton.styleFrom(
-                backgroundColor: const Color(0xFF0F41BE),
+                backgroundColor: AppColors.astraBlue,
                 foregroundColor: Colors.white,
                 elevation: 0,
                 minimumSize: Size.zero,
