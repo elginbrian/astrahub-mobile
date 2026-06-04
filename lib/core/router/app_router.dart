@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import '../../features/auth/presentation/pages/login_page.dart';
 import '../../features/auth/presentation/pages/register_page.dart';
 import '../../features/auth/presentation/pages/splash_page.dart';
+import '../../features/dashboard/presentation/pages/main_navigation_page.dart';
 import '../../features/dashboard/presentation/pages/shop_page.dart';
 import '../../features/dashboard/presentation/pages/product_detail_page.dart';
 import '../../features/cart/presentation/pages/cart_page.dart';
@@ -87,6 +88,17 @@ final appRouterProvider = Provider<GoRouter>((ref) {
         pageBuilder: (context, state) => CustomTransitionPage(
           key: state.pageKey,
           child: const RegisterPage(),
+          transitionsBuilder: _fadeTransition,
+        ),
+      ),
+      
+      // ── Main Shell ──────────────────────────────────────────────────
+      GoRoute(
+        path: AppRoutes.main,
+        name: AppRoutes.mainName,
+        pageBuilder: (context, state) => CustomTransitionPage(
+          key: state.pageKey,
+          child: const MainNavigationPage(),
           transitionsBuilder: _fadeTransition,
         ),
       ),

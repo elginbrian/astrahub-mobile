@@ -17,6 +17,7 @@ class RouteGuard {
     AppRoutes.onboarding4,
     AppRoutes.login,
     AppRoutes.register,
+    AppRoutes.main,
     AppRoutes.shop,
     AppRoutes.productDetail,
     AppRoutes.cart,
@@ -35,7 +36,7 @@ class RouteGuard {
       return AppRoutes.login;
     }
     if (isAuthenticated && state.matchedLocation == AppRoutes.login) {
-      return AppRoutes.shop;
+      return AppRoutes.main;
     }
     return null;
   }

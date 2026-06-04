@@ -8,6 +8,7 @@ abstract class AppRoutes {
   static const onboarding4 = '/onboarding/4';
   static const login = '/login';
   static const register = '/register';
+  static const main = '/main';
   static const shop = '/shop';
   static const cart = '/cart';
   static const productDetail = '/product-detail';
@@ -23,6 +24,7 @@ abstract class AppRoutes {
   static const onboarding4Name = 'onboarding4';
   static const loginName = 'login';
   static const registerName = 'register';
+  static const mainName = 'main';
   static const shopName = 'shop';
   static const cartName = 'cart';
   static const productDetailName = 'productDetail';
