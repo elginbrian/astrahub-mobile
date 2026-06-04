@@ -3,8 +3,13 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../features/auth/presentation/pages/login_page.dart';
+import '../../features/auth/presentation/pages/register_page.dart';
 import '../../features/auth/presentation/pages/splash_page.dart';
 import '../../features/dashboard/presentation/pages/dashboard_page.dart';
+import '../../features/onboarding/presentation/pages/onboarding_1_page.dart';
+import '../../features/onboarding/presentation/pages/onboarding_2_page.dart';
+import '../../features/onboarding/presentation/pages/onboarding_3_page.dart';
+import '../../features/onboarding/presentation/pages/onboarding_4_page.dart';
 import 'app_routes.dart';
 import 'route_guard.dart';
 
@@ -16,16 +21,72 @@ final appRouterProvider = Provider<GoRouter>((ref) {
     debugLogDiagnostics: true,
     redirect: guard.redirect,
     routes: [
+      // ── Splash ──────────────────────────────────────────────────────
       GoRoute(
         path: AppRoutes.splash,
         name: AppRoutes.splashName,
         builder: (_, __) => const SplashPage(),
       ),
+
+      // ── Onboarding (4 separate screens) ─────────────────────────────
+      GoRoute(
+        path: AppRoutes.onboarding1,
+        name: AppRoutes.onboarding1Name,
+        pageBuilder: (context, state) => CustomTransitionPage(
+          key: state.pageKey,
+          child: const Onboarding1Page(),
+          transitionsBuilder: _slideTransition,
+        ),
+      ),
+      GoRoute(
+        path: AppRoutes.onboarding2,
+        name: AppRoutes.onboarding2Name,
+        pageBuilder: (context, state) => CustomTransitionPage(
+          key: state.pageKey,
+          child: const Onboarding2Page(),
+          transitionsBuilder: _slideTransition,
+        ),
+      ),
+      GoRoute(
+        path: AppRoutes.onboarding3,
+        name: AppRoutes.onboarding3Name,
+        pageBuilder: (context, state) => CustomTransitionPage(
+          key: state.pageKey,
+          child: const Onboarding3Page(),
+          transitionsBuilder: _slideTransition,
+        ),
+      ),
+      GoRoute(
+        path: AppRoutes.onboarding4,
+        name: AppRoutes.onboarding4Name,
+        pageBuilder: (context, state) => CustomTransitionPage(
+          key: state.pageKey,
+          child: const Onboarding4Page(),
+          transitionsBuilder: _slideTransition,
+        ),
+      ),
+
+      // ── Auth ────────────────────────────────────────────────────────
       GoRoute(
         path: AppRoutes.login,
         name: AppRoutes.loginName,
-        builder: (_, __) => const LoginPage(),
+        pageBuilder: (context, state) => CustomTransitionPage(
+          key: state.pageKey,
+          child: const LoginPage(),
+          transitionsBuilder: _fadeTransition,
+        ),
       ),
+      GoRoute(
+        path: AppRoutes.register,
+        name: AppRoutes.registerName,
+        pageBuilder: (context, state) => CustomTransitionPage(
+          key: state.pageKey,
+          child: const RegisterPage(),
+          transitionsBuilder: _fadeTransition,
+        ),
+      ),
+
+      // ── Main App (protected) ─────────────────────────────────────────
       ShellRoute(
         builder: (context, state, child) => child,
         routes: [
@@ -42,12 +103,27 @@ final appRouterProvider = Provider<GoRouter>((ref) {
       ),
     ],
     errorBuilder: (context, state) => Scaffold(
-      body: Center(
-        child: Text('Route not found: ${state.error}'),
-      ),
+      body: Center(child: Text('Route not found: ${state.error}')),
     ),
   );
 });
+
+// ── Transitions ───────────────────────────────────────────────────────────────
+
+Widget _slideTransition(
+  BuildContext context,
+  Animation<double> animation,
+  Animation<double> secondaryAnimation,
+  Widget child,
+) {
+  return SlideTransition(
+    position: Tween<Offset>(
+      begin: const Offset(1, 0),
+      end: Offset.zero,
+    ).animate(CurvedAnimation(parent: animation, curve: Curves.easeInOut)),
+    child: child,
+  );
+}
 
 Widget _fadeTransition(
   BuildContext context,

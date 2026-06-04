@@ -32,8 +32,8 @@ class _SplashPageState extends ConsumerState<SplashPage>
   Future<void> _navigate() async {
     await Future.delayed(const Duration(seconds: 2));
     if (!mounted) return;
-    // TODO: check auth state and navigate accordingly
-    context.goNamed(AppRoutes.loginName);
+    // TODO: check if user has seen onboarding (SharedPrefs) and if authenticated
+    context.goNamed(AppRoutes.onboarding1Name);
   }
 
   @override

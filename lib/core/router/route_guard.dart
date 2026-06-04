@@ -3,24 +3,32 @@ import 'package:go_router/go_router.dart';
 
 import 'app_routes.dart';
 
-/// Handles authentication-based redirect logic for GoRouter.
 class RouteGuard {
   RouteGuard(this._ref);
 
   final Ref _ref;
 
-  /// Called by GoRouter on every navigation event.
+  // All onboarding screens + auth screens are public (no login required)
+  static const _publicRoutes = {
+    AppRoutes.splash,
+    AppRoutes.onboarding1,
+    AppRoutes.onboarding2,
+    AppRoutes.onboarding3,
+    AppRoutes.onboarding4,
+    AppRoutes.login,
+    AppRoutes.register,
+  };
+
   Future<String?> redirect(_, GoRouterState state) async {
     // TODO: replace with real auth state from Riverpod provider
     const isAuthenticated = false;
 
-    final isSplash = state.matchedLocation == AppRoutes.splash;
-    final isLogin = state.matchedLocation == AppRoutes.login;
+    final isPublic = _publicRoutes.contains(state.matchedLocation);
 
-    if (!isAuthenticated && !isLogin && !isSplash) {
+    if (!isAuthenticated && !isPublic) {
       return AppRoutes.login;
     }
-    if (isAuthenticated && isLogin) {
+    if (isAuthenticated && state.matchedLocation == AppRoutes.login) {
       return AppRoutes.dashboard;
     }
     return null;
