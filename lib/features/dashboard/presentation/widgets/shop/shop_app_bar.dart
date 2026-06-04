@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:go_router/go_router.dart';
+import '../../../../../core/router/app_routes.dart';
 import '../../../../../core/theme/app_colors.dart';
 import 'shop_app_bar_badge.dart';
 
@@ -37,16 +39,22 @@ class ShopAppBar extends StatelessWidget implements PreferredSizeWidget {
           ),
         ],
       ),
-      actions: const [
+      actions: [
         Padding(
-          padding: EdgeInsets.only(right: 20),
+          padding: const EdgeInsets.only(right: 20),
           child: Row(
             children: [
-              ShopAppBarBadge(
-                  assetPath: 'assets/images/shop-header-1-icon.png', count: '2'),
-              SizedBox(width: 16),
-              ShopAppBarBadge(
-                  assetPath: 'assets/images/shop-header-2-icon.png', count: '2'),
+              GestureDetector(
+                onTap: () => context.pushNamed(AppRoutes.cartName),
+                child: const ShopAppBarBadge(
+                    assetPath: 'assets/images/shop-header-1-icon.png', count: '2'),
+              ),
+              const SizedBox(width: 16),
+              GestureDetector(
+                onTap: () => context.pushNamed(AppRoutes.cartName),
+                child: const ShopAppBarBadge(
+                    assetPath: 'assets/images/shop-header-2-icon.png', count: '2'),
+              ),
             ],
           ),
         ),

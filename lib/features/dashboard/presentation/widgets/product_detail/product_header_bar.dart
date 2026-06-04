@@ -19,7 +19,7 @@ class ProductHeaderBar extends StatelessWidget {
                 const SizedBox(width: 8),
                 _buildHeaderButton(Icons.share_outlined, () {}),
                 const SizedBox(width: 8),
-                _buildHeaderButton(Icons.shopping_cart_outlined, () {}),
+                _buildHeaderButton(Icons.shopping_cart_outlined, () => context.pushNamed('cart')),
               ],
             ),
           ],

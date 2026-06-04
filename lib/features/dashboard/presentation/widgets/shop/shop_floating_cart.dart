@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:go_router/go_router.dart';
+import '../../../../../core/router/app_routes.dart';
 import '../../../../../core/theme/app_colors.dart';
 
 class ShopFloatingCart extends StatelessWidget {
@@ -66,7 +68,7 @@ class ShopFloatingCart extends StatelessWidget {
                 ),
               ),
               ElevatedButton(
-                onPressed: () {},
+                onPressed: () => context.pushNamed(AppRoutes.cartName),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: AppColors.astraBlue,
                   foregroundColor: Colors.white,

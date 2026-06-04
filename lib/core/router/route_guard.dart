@@ -19,6 +19,7 @@ class RouteGuard {
     AppRoutes.register,
     AppRoutes.shop,
     AppRoutes.productDetail,
+    AppRoutes.cart,
   };
 
   Future<String?> redirect(_, GoRouterState state) async {

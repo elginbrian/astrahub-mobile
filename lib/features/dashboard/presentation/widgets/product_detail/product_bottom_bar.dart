@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:go_router/go_router.dart';
 import '../../../../../../core/theme/app_colors.dart';
 
 class ProductBottomBar extends StatelessWidget {
@@ -41,7 +42,7 @@ class ProductBottomBar extends StatelessWidget {
               const SizedBox(width: 12),
               Expanded(
                 child: ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () => context.pushNamed('cart'),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: AppColors.astraBlue,
                     foregroundColor: Colors.white,
