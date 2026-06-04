@@ -28,25 +28,14 @@ class _LoginPageState extends ConsumerState<LoginPage> {
     super.dispose();
   }
 
-  Future<void> _onLogin() async {
-    if (!(_formKey.currentState?.validate() ?? false)) return;
-    await ref.read(loginViewModelProvider.notifier).login(
-          email: _phoneController.text.trim(),
-          password: _passwordController.text,
-        );
+  void _onLogin() {
+    context.goNamed(AppRoutes.shopName);
   }
 
   @override
   Widget build(BuildContext context) {
-    ref.listen(loginViewModelProvider, (_, state) {
-      state.whenOrNull(
-        success: (_) => context.goNamed(AppRoutes.dashboardName),
-        error: (message) => context.showSnackBar(message, isError: true),
-      );
-    });
-
-    final state = ref.watch(loginViewModelProvider);
-    final isLoading = state.maybeWhen(loading: () => true, orElse: () => false);
+    // Hardcoded to false for direct routing
+    final isLoading = false;
 
     return Scaffold(
       backgroundColor: Colors.white,

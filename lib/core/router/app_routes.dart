@@ -8,7 +8,7 @@ abstract class AppRoutes {
   static const onboarding4 = '/onboarding/4';
   static const login = '/login';
   static const register = '/register';
-  static const dashboard = '/dashboard';
+  static const shop = '/shop';
 
   // ── Names ──────────────────────────────────────────────────────────
   static const splashName = 'splash';
@@ -18,5 +18,5 @@ abstract class AppRoutes {
   static const onboarding4Name = 'onboarding4';
   static const loginName = 'login';
   static const registerName = 'register';
-  static const dashboardName = 'dashboard';
+  static const shopName = 'shop';
 }

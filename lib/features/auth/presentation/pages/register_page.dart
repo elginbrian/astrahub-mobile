@@ -47,7 +47,7 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
     await Future.delayed(const Duration(seconds: 2));
     if (mounted) {
       setState(() => _isLoading = false);
-      context.goNamed(AppRoutes.dashboardName);
+      context.goNamed(AppRoutes.shopName);
     }
   }
 

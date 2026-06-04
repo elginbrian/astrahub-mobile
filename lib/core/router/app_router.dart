@@ -5,7 +5,7 @@ import 'package:go_router/go_router.dart';
 import '../../features/auth/presentation/pages/login_page.dart';
 import '../../features/auth/presentation/pages/register_page.dart';
 import '../../features/auth/presentation/pages/splash_page.dart';
-import '../../features/dashboard/presentation/pages/dashboard_page.dart';
+import '../../features/dashboard/presentation/pages/shop_page.dart';
 import '../../features/onboarding/presentation/pages/onboarding_1_page.dart';
 import '../../features/onboarding/presentation/pages/onboarding_2_page.dart';
 import '../../features/onboarding/presentation/pages/onboarding_3_page.dart';
@@ -85,21 +85,15 @@ final appRouterProvider = Provider<GoRouter>((ref) {
           transitionsBuilder: _fadeTransition,
         ),
       ),
-
-      // ── Main App (protected) ─────────────────────────────────────────
-      ShellRoute(
-        builder: (context, state, child) => child,
-        routes: [
-          GoRoute(
-            path: AppRoutes.dashboard,
-            name: AppRoutes.dashboardName,
-            pageBuilder: (context, state) => CustomTransitionPage(
-              key: state.pageKey,
-              child: const DashboardPage(),
-              transitionsBuilder: _fadeTransition,
-            ),
-          ),
-        ],
+      
+      GoRoute(
+        path: AppRoutes.shop,
+        name: AppRoutes.shopName,
+        pageBuilder: (context, state) => CustomTransitionPage(
+          key: state.pageKey,
+          child: const ShopPage(),
+          transitionsBuilder: _fadeTransition,
+        ),
       ),
     ],
     errorBuilder: (context, state) => Scaffold(

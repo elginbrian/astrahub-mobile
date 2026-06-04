@@ -17,6 +17,7 @@ class RouteGuard {
     AppRoutes.onboarding4,
     AppRoutes.login,
     AppRoutes.register,
+    AppRoutes.shop,
   };
 
   Future<String?> redirect(_, GoRouterState state) async {
@@ -29,7 +30,7 @@ class RouteGuard {
       return AppRoutes.login;
     }
     if (isAuthenticated && state.matchedLocation == AppRoutes.login) {
-      return AppRoutes.dashboard;
+      return AppRoutes.shop;
     }
     return null;
   }
