@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../../../../core/theme/app_colors.dart';
+import '../../../../../core/router/app_routes.dart';
 
 /// Sticky bottom bar showing the grand total and the "Bayar Sekarang" CTA.
 class CheckoutBottomBar extends StatelessWidget {
@@ -50,9 +52,7 @@ class CheckoutBottomBar extends StatelessWidget {
               // CTA button
               Expanded(
                 child: ElevatedButton(
-                  onPressed: () {
-                    // TODO: navigate to payment confirmation
-                  },
+                  onPressed: () => context.pushNamed(AppRoutes.paymentSuccessName),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: AppColors.astraBlue,
                     foregroundColor: Colors.white,

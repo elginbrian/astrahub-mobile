@@ -9,6 +9,8 @@ import '../../features/dashboard/presentation/pages/shop_page.dart';
 import '../../features/dashboard/presentation/pages/product_detail_page.dart';
 import '../../features/cart/presentation/pages/cart_page.dart';
 import '../../features/checkout/presentation/pages/checkout_page.dart';
+import '../../features/payment_success/presentation/pages/payment_success_page.dart';
+import '../../features/purchase_status/presentation/pages/purchase_status_page.dart';
 import '../../features/onboarding/presentation/pages/onboarding_1_page.dart';
 import '../../features/onboarding/presentation/pages/onboarding_2_page.dart';
 import '../../features/onboarding/presentation/pages/onboarding_3_page.dart';
@@ -125,6 +127,24 @@ final appRouterProvider = Provider<GoRouter>((ref) {
           transitionsBuilder: _fadeTransition,
         ),
       ),
+      GoRoute(
+        path: AppRoutes.paymentSuccess,
+        name: AppRoutes.paymentSuccessName,
+        pageBuilder: (context, state) => CustomTransitionPage(
+          key: state.pageKey,
+          child: const PaymentSuccessPage(),
+          transitionsBuilder: _scaleFadeTransition,
+        ),
+      ),
+      GoRoute(
+        path: AppRoutes.purchaseStatus,
+        name: AppRoutes.purchaseStatusName,
+        pageBuilder: (context, state) => CustomTransitionPage(
+          key: state.pageKey,
+          child: const PurchaseStatusPage(),
+          transitionsBuilder: _slideTransition,
+        ),
+      ),
     ],
     errorBuilder: (context, state) => Scaffold(
       body: Center(child: Text('Route not found: ${state.error}')),
@@ -156,4 +176,20 @@ Widget _fadeTransition(
   Widget child,
 ) {
   return FadeTransition(opacity: animation, child: child);
+}
+
+Widget _scaleFadeTransition(
+  BuildContext context,
+  Animation<double> animation,
+  Animation<double> secondaryAnimation,
+  Widget child,
+) {
+  return FadeTransition(
+    opacity: animation,
+    child: ScaleTransition(
+      scale: Tween<double>(begin: 0.92, end: 1.0)
+          .animate(CurvedAnimation(parent: animation, curve: Curves.easeOutCubic)),
+      child: child,
+    ),
+  );
 }
