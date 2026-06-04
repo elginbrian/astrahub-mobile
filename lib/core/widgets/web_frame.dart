@@ -17,15 +17,32 @@ class WebFrame extends StatelessWidget {
       return child;
     }
 
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-
     const double logicalWidth = 430;
     const double logicalHeight = 932;
 
-    return Container(
-      color: isDark ? Colors.grey[900] : Colors.grey[200], // Background color outside the frame
-      child: Center(
-        child: Padding(
+    return Stack(
+      children: [
+    
+        Positioned.fill(
+          child: Image.asset(
+            'assets/images/sky-background.png',
+            fit: BoxFit.cover,
+          ),
+        ),
+        Positioned(
+          bottom: 0,
+          right: 0,
+          child: IgnorePointer(
+            child: Image.asset(
+              'assets/images/astra-tower-assets.png',
+              height: MediaQuery.of(context).size.height * 0.9,
+              alignment: Alignment.bottomRight,
+            ),
+          ),
+        ),
+       
+        Center(
+          child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 24.0),
           child: AspectRatio(
             aspectRatio: logicalWidth / logicalHeight,
@@ -39,7 +56,7 @@ class WebFrame extends StatelessWidget {
                     color: Theme.of(context).scaffoldBackgroundColor,
                     borderRadius: BorderRadius.circular(32),
                     border: Border.all(
-                      color: Colors.black87,
+                      color: Colors.grey.shade300,
                       width: 4,
                     ),
                     boxShadow: const [
@@ -56,15 +73,16 @@ class WebFrame extends StatelessWidget {
                       data: MediaQuery.of(context).copyWith(
                         size: const Size(logicalWidth, logicalHeight),
                       ),
-                      child: child, // The actual app content
+                      child: child,
                     ),
                   ),
                 ),
               ),
             ),
           ),
+          ),
         ),
-      ),
+      ],
     );
   }
 }
