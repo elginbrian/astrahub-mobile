@@ -17,9 +17,15 @@ class NetworkFailure extends Failure {
 }
 
 class ServerFailure extends Failure {
-  const ServerFailure([super.message = 'Server error. Please try again.']);
-  const ServerFailure.withCode(this.statusCode, [super.message = 'Server error.']);
-  final int? statusCode = null;
+  const ServerFailure([
+    super.message = 'Server error. Please try again.',
+    this.statusCode,
+  ]);
+
+  final int? statusCode;
+
+  @override
+  List<Object?> get props => [message, statusCode];
 }
 
 class UnauthorizedFailure extends Failure {
