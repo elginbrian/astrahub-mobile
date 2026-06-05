@@ -31,7 +31,7 @@ class AuthApiService {
   }
 
   Future<UserModel> getCurrentUser() async {
-    final response = await _dio.get<Map<String, dynamic>>('/profile');
+    final response = await _dio.get<Map<String, dynamic>>(ApiConstants.profile);
     final data = response.data!['data'] as Map<String, dynamic>;
     
     // Convert 'workshop' object from ProfileResponse to 'workshop_id' for UserModel
