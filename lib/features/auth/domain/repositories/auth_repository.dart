@@ -7,8 +7,18 @@ import '../entities/user_entity.dart';
 /// Implemented in the data layer.
 abstract class AuthRepository {
   Future<Either<Failure, UserEntity>> login({
-    required String email,
+    required String phone,
     required String password,
+    bool rememberMe = false,
+  });
+
+  Future<Either<Failure, UserEntity>> register({
+    required String fullName,
+    required String phone,
+    String? email,
+    required String password,
+    required String passwordConfirmation,
+    required bool agreeTerms,
   });
 
   Future<Either<Failure, void>> logout();

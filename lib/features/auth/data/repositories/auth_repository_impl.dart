@@ -20,21 +20,60 @@ class AuthRepositoryImpl implements AuthRepository {
 
   @override
   Future<Either<Failure, UserEntity>> login({
-    required String email,
+    required String phone,
     required String password,
+    bool rememberMe = false,
   }) async {
     try {
-      final data = await apiService.login({
-        'email': email,
+      final responseMap = await apiService.login({
+        'phone': phone,
         'password': password,
+        'remember_me': true,
       });
 
-      await secureStorage.saveAccessToken(data['access_token'] as String);
-      await secureStorage.saveRefreshToken(data['refresh_token'] as String);
+      final data = responseMap['data'] as Map<String, dynamic>;
 
-      final userModel = UserModel.fromJson(
-        data['user'] as Map<String, dynamic>,
-      );
+      if (rememberMe) {
+        await secureStorage.saveAccessToken(data['token'] as String);
+        // Backend saat ini tidak menggunakan refresh token
+        // await secureStorage.saveRefreshToken(data['refresh_token'] as String);
+      } else {
+        secureStorage.saveSessionToken(data['token'] as String);
+      }
+
+      final userModel = UserModel.fromJson(data);
+      return Right(userModel.toEntity());
+    } on DioException catch (e) {
+      return Left(DioErrorHandler.handle(e));
+    } catch (e) {
+      return Left(ServerFailure(e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, UserEntity>> register({
+    required String fullName,
+    required String phone,
+    String? email,
+    required String password,
+    required String passwordConfirmation,
+    required bool agreeTerms,
+  }) async {
+    try {
+      final responseMap = await apiService.register({
+        'full_name': fullName,
+        'phone': phone,
+        if (email != null && email.isNotEmpty) 'email': email,
+        'password': password,
+        'password_confirmation': passwordConfirmation,
+        'agree_terms': agreeTerms,
+      });
+
+      final data = responseMap['data'] as Map<String, dynamic>;
+
+      await secureStorage.saveAccessToken(data['token'] as String);
+
+      final userModel = UserModel.fromJson(data);
       return Right(userModel.toEntity());
     } on DioException catch (e) {
       return Left(DioErrorHandler.handle(e));

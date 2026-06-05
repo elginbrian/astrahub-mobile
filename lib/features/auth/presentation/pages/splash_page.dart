@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../../core/di/injection.dart';
 import '../../../../core/router/app_routes.dart';
+import '../../../../core/storage/secure_storage.dart';
 import '../../../../core/theme/app_colors.dart';
 
 class SplashPage extends ConsumerStatefulWidget {
@@ -32,7 +34,15 @@ class _SplashPageState extends ConsumerState<SplashPage>
   Future<void> _navigate() async {
     await Future.delayed(const Duration(seconds: 2));
     if (!mounted) return;
-    context.goNamed(AppRoutes.onboarding1Name);
+
+    final secureStorage = getIt<SecureStorage>();
+    final token = await secureStorage.getAccessToken();
+
+    if (token != null && token.isNotEmpty) {
+      context.goNamed(AppRoutes.mainName);
+    } else {
+      context.goNamed(AppRoutes.onboarding1Name);
+    }
   }
 
   @override
