@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../../../../core/router/app_routes.dart';
 import '../../../../core/theme/app_colors.dart';
 
 class HomeRecentActivities extends StatelessWidget {
@@ -23,12 +25,15 @@ class HomeRecentActivities extends StatelessWidget {
                   color: const Color(0xFF111827),
                 ),
               ),
-              Text(
-                'Lihat Semua',
-                style: GoogleFonts.plusJakartaSans(
-                  fontSize: 12,
-                  fontWeight: FontWeight.w600,
-                  color: AppColors.astraBlue,
+              GestureDetector(
+                onTap: () => context.pushNamed(AppRoutes.notificationName),
+                child: Text(
+                  'Lihat Semua',
+                  style: GoogleFonts.plusJakartaSans(
+                    fontSize: 12,
+                    fontWeight: FontWeight.w600,
+                    color: AppColors.astraBlue,
+                  ),
                 ),
               ),
             ],
