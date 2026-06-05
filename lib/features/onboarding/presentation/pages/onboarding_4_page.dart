@@ -23,6 +23,7 @@ class Onboarding4Page extends ConsumerWidget {
             const SizedBox(height: 36),
             SizedBox(
               height: 260,
+              width: double.infinity,
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 24),
                 child: Image.asset(
