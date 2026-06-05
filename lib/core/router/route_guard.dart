@@ -27,6 +27,7 @@ class RouteGuard {
     AppRoutes.newService,
     AppRoutes.serviceValidation,
     AppRoutes.servicePaymentSuccess,
+    AppRoutes.notification,
   };
 
   Future<String?> redirect(_, GoRouterState state) async {

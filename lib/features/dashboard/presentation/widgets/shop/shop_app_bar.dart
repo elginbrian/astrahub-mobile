@@ -51,7 +51,7 @@ class ShopAppBar extends StatelessWidget implements PreferredSizeWidget {
               ),
               const SizedBox(width: 16),
               GestureDetector(
-                onTap: () => context.pushNamed(AppRoutes.cartName),
+                onTap: () => context.pushNamed(AppRoutes.purchaseStatusName),
                 child: const ShopAppBarBadge(
                     assetPath: 'assets/images/shop-header-2-icon.png', count: '2'),
               ),

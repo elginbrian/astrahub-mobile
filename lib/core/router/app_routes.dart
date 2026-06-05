@@ -18,6 +18,7 @@ abstract class AppRoutes {
   static const newService = '/new-service';
   static const serviceValidation = '/service-validation';
   static const servicePaymentSuccess = '/service-payment-success';
+  static const notification = '/notification';
 
   // ── Names ──────────────────────────────────────────────────────────
   static const splashName = 'splash';
@@ -37,4 +38,5 @@ abstract class AppRoutes {
   static const newServiceName = 'newService';
   static const serviceValidationName = 'serviceValidation';
   static const servicePaymentSuccessName = 'servicePaymentSuccess';
+  static const notificationName = 'notification';
 }

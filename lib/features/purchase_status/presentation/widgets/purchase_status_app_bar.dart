@@ -34,14 +34,8 @@ class PurchaseStatusAppBar extends StatelessWidget implements PreferredSizeWidge
       titleSpacing: 0,
       title: Padding(
         padding: const EdgeInsets.only(top: 8, right: 4),
-        child: Container(
+        child: SizedBox(
           height: 40,
-          margin: const EdgeInsets.only(right: 4),
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(10),
-            border: Border.all(color: const Color(0xFFE5E7EB)),
-          ),
           child: TextField(
             readOnly: true,
             style: GoogleFonts.plusJakartaSans(
@@ -49,7 +43,6 @@ class PurchaseStatusAppBar extends StatelessWidget implements PreferredSizeWidge
               color: const Color(0xFF111827),
             ),
             decoration: InputDecoration(
-              border: InputBorder.none,
               filled: true,
               fillColor: Colors.white,
               contentPadding: const EdgeInsets.symmetric(vertical: 10),
@@ -58,6 +51,18 @@ class PurchaseStatusAppBar extends StatelessWidget implements PreferredSizeWidge
               hintStyle: GoogleFonts.plusJakartaSans(
                 fontSize: 13,
                 color: const Color(0xFF9CA3AF),
+              ),
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(10),
+                borderSide: const BorderSide(color: Color(0xFFE5E7EB)),
+              ),
+              enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(10),
+                borderSide: const BorderSide(color: Color(0xFFE5E7EB)),
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(10),
+                borderSide: const BorderSide(color: Color(0xFFE5E7EB)),
               ),
             ),
           ),
