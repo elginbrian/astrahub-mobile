@@ -1,6 +1,6 @@
 abstract class ApiConstants {
   // ── Base URL ─────────────────────────────────────────────────────
-  static const String baseUrl = 'https://api.astrahub.com/v1';
+  static const String baseUrl = 'https://astrahub-backend.elginbrian.com/api/v1';
 
   // ── Timeouts ─────────────────────────────────────────────────────
   static const int connectTimeoutSeconds = 30;

@@ -18,13 +18,28 @@ class AuthApiService {
     return response.data!;
   }
 
+  Future<Map<String, dynamic>> register(Map<String, dynamic> body) async {
+    final response = await _dio.post<Map<String, dynamic>>(
+      ApiConstants.register,
+      data: body,
+    );
+    return response.data!;
+  }
+
   Future<void> logout() async {
     await _dio.post<void>(ApiConstants.logout);
   }
 
   Future<UserModel> getCurrentUser() async {
-    final response = await _dio.get<Map<String, dynamic>>('/auth/me');
-    return UserModel.fromJson(response.data!);
+    final response = await _dio.get<Map<String, dynamic>>('/profile');
+    final data = response.data!['data'] as Map<String, dynamic>;
+    
+    // Convert 'workshop' object from ProfileResponse to 'workshop_id' for UserModel
+    if (data.containsKey('workshop') && data['workshop'] != null) {
+      data['workshop_id'] = data['workshop']['id'];
+    }
+    
+    return UserModel.fromJson(data);
   }
 
   Future<Map<String, dynamic>> refreshToken(Map<String, dynamic> body) async {
@@ -32,6 +47,6 @@ class AuthApiService {
       ApiConstants.refresh,
       data: body,
     );
-    return response.data!;
+    return response.data!['data'] as Map<String, dynamic>? ?? response.data!;
   }
 }

@@ -7,13 +7,13 @@ part 'user_model.g.dart';
 
 /// Data model with JSON serialization. Maps to [UserEntity].
 @freezed
-class UserModel with _$UserModel {
+abstract class UserModel with _$UserModel {
   const factory UserModel({
-    required String id,
-    required String name,
-    required String email,
-    @JsonKey(name: 'avatar_url') String? avatarUrl,
-    String? role,
+    @JsonKey(name: 'user_id') required String id,
+    @JsonKey(name: 'full_name') required String fullName,
+    required String phone,
+    String? email,
+    @JsonKey(name: 'workshop_id') String? workshopId,
   }) = _UserModel;
 
   factory UserModel.fromJson(Map<String, dynamic> json) =>
@@ -23,9 +23,9 @@ class UserModel with _$UserModel {
 extension UserModelX on UserModel {
   UserEntity toEntity() => UserEntity(
         id: id,
-        name: name,
+        fullName: fullName,
+        phone: phone,
         email: email,
-        avatarUrl: avatarUrl,
-        role: role,
+        workshopId: workshopId,
       );
 }

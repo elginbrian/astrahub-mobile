@@ -8,14 +8,25 @@ abstract class SecureStorage {
   Future<void> saveRefreshToken(String token);
   Future<String?> getRefreshToken();
   Future<void> clearAll();
+  void saveSessionToken(String token);
+  String? getSessionToken();
 }
 
 class SecureStorageImpl implements SecureStorage {
+  String? _sessionToken;
+
   SecureStorageImpl()
       : _storage = const FlutterSecureStorage(
           aOptions: AndroidOptions(encryptedSharedPreferences: true),
           iOptions: IOSOptions(
             accessibility: KeychainAccessibility.first_unlock,
+          ),
+          mOptions: MacOsOptions(
+            accessibility: KeychainAccessibility.first_unlock,
+          ),
+          webOptions: WebOptions(
+            dbName: 'astrahub_db',
+            publicKey: 'astrahub_pub_key',
           ),
         );
 
@@ -38,5 +49,14 @@ class SecureStorageImpl implements SecureStorage {
       _storage.read(key: AppConstants.refreshTokenKey);
 
   @override
-  Future<void> clearAll() async => _storage.deleteAll();
+  Future<void> clearAll() async {
+    _sessionToken = null;
+    await _storage.deleteAll();
+  }
+
+  @override
+  void saveSessionToken(String token) => _sessionToken = token;
+
+  @override
+  String? getSessionToken() => _sessionToken;
 }

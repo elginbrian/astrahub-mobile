@@ -1,17 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../../core/router/app_routes.dart';
 import '../../../../../core/theme/app_colors.dart';
+import '../../viewmodels/login_viewmodel.dart';
+import '../../viewmodels/login_state.dart';
 
-class LoginForm extends StatefulWidget {
+class LoginForm extends ConsumerStatefulWidget {
   const LoginForm({super.key});
 
   @override
-  State<LoginForm> createState() => _LoginFormState();
+  ConsumerState<LoginForm> createState() => _LoginFormState();
 }
 
-class _LoginFormState extends State<LoginForm> {
+class _LoginFormState extends ConsumerState<LoginForm> {
   final _formKey = GlobalKey<FormState>();
   final _phoneController = TextEditingController();
   final _passwordController = TextEditingController();
@@ -27,12 +30,48 @@ class _LoginFormState extends State<LoginForm> {
   }
 
   void _onLogin() {
-    // Bypass validation for development/testing
-    context.goNamed(AppRoutes.mainName);
+    if (!(_formKey.currentState?.validate() ?? false)) return;
+    
+    ref.read(loginViewModelProvider.notifier).login(
+          phone: _phoneController.text,
+          password: _passwordController.text,
+          rememberMe: _rememberMe,
+        );
   }
 
   @override
   Widget build(BuildContext context) {
+    ref.listen<LoginState>(loginViewModelProvider, (previous, next) {
+      next.maybeWhen(
+        success: (user) {
+          context.goNamed(AppRoutes.mainName);
+        },
+        error: (message) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(
+                message,
+                style: const TextStyle(color: Colors.black),
+              ),
+              backgroundColor: Colors.white,
+              elevation: 8,
+              behavior: SnackBarBehavior.floating,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10),
+              ),
+              margin: const EdgeInsets.all(20),
+            ),
+          );
+        },
+        orElse: () {},
+      );
+    });
+
+    final loginState = ref.watch(loginViewModelProvider);
+    final isLoading = loginState.maybeWhen(
+      loading: () => true,
+      orElse: () => false,
+    );
     return Container(
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
@@ -191,16 +230,17 @@ class _LoginFormState extends State<LoginForm> {
               width: double.infinity,
               height: 48,
               child: ElevatedButton(
-                onPressed: _isLoading ? null : _onLogin,
+                onPressed: isLoading ? null : _onLogin,
                 style: ElevatedButton.styleFrom(
                   backgroundColor: AppColors.astraBlue,
+                  disabledBackgroundColor: Colors.grey,
                   foregroundColor: Colors.white,
                   elevation: 0,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10),
                   ),
                 ),
-                child: _isLoading
+                child: isLoading
                     ? const SizedBox(
                         width: 20,
                         height: 20,

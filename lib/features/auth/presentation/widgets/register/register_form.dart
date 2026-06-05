@@ -3,17 +3,20 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../../core/router/app_routes.dart';
 import '../../../../../core/theme/app_colors.dart';
+import '../../viewmodels/register_viewmodel.dart';
+import '../../viewmodels/register_state.dart';
 
-class RegisterForm extends StatefulWidget {
+class RegisterForm extends ConsumerStatefulWidget {
   const RegisterForm({super.key});
 
   @override
-  State<RegisterForm> createState() => _RegisterFormState();
+  ConsumerState<RegisterForm> createState() => _RegisterFormState();
 }
 
-class _RegisterFormState extends State<RegisterForm> {
+class _RegisterFormState extends ConsumerState<RegisterForm> {
   final _formKey = GlobalKey<FormState>();
   final _nameController = TextEditingController();
   final _phoneController = TextEditingController();
@@ -41,19 +44,27 @@ class _RegisterFormState extends State<RegisterForm> {
     if (!_agreedToTerms) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
-          content: Text('Anda harus menyetujui Syarat & Ketentuan'),
-          backgroundColor: Colors.red,
+          content: Text(
+            'Anda harus menyetujui Syarat & Ketentuan',
+            style: TextStyle(color: Colors.black),
+          ),
+          backgroundColor: Colors.white,
+          elevation: 8,
+          behavior: SnackBarBehavior.floating,
+          margin: EdgeInsets.all(20),
         ),
       );
       return;
     }
 
-    setState(() => _isLoading = true);
-    await Future.delayed(const Duration(seconds: 2));
-    if (mounted) {
-      setState(() => _isLoading = false);
-      context.goNamed(AppRoutes.shopName);
-    }
+    ref.read(registerViewModelProvider.notifier).register(
+          fullName: _nameController.text,
+          phone: _phoneController.text,
+          email: _emailController.text,
+          password: _passwordController.text,
+          passwordConfirmation: _confirmPasswordController.text,
+          agreeTerms: _agreedToTerms,
+        );
   }
 
   Widget _buildTextField({
@@ -119,6 +130,38 @@ class _RegisterFormState extends State<RegisterForm> {
 
   @override
   Widget build(BuildContext context) {
+    ref.listen<RegisterState>(registerViewModelProvider, (previous, next) {
+      next.maybeWhen(
+        success: (user) {
+          context.goNamed(AppRoutes.mainName);
+        },
+        error: (message) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(
+                message,
+                style: const TextStyle(color: Colors.black),
+              ),
+              backgroundColor: Colors.white,
+              elevation: 8,
+              behavior: SnackBarBehavior.floating,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10),
+              ),
+              margin: const EdgeInsets.all(20),
+            ),
+          );
+        },
+        orElse: () {},
+      );
+    });
+
+    final registerState = ref.watch(registerViewModelProvider);
+    final isLoading = registerState.maybeWhen(
+      loading: () => true,
+      orElse: () => false,
+    );
+
     return Form(
       key: _formKey,
       child: Column(
@@ -246,16 +289,17 @@ class _RegisterFormState extends State<RegisterForm> {
             width: double.infinity,
             height: 48,
             child: ElevatedButton(
-              onPressed: _isLoading ? null : _onRegister,
+              onPressed: isLoading ? null : _onRegister,
               style: ElevatedButton.styleFrom(
                 backgroundColor: AppColors.astraBlue,
+                disabledBackgroundColor: Colors.grey,
                 foregroundColor: Colors.white,
                 elevation: 0,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10),
                 ),
               ),
-              child: _isLoading
+              child: isLoading
                   ? const SizedBox(
                       width: 20,
                       height: 20,

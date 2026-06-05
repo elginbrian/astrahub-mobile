@@ -1,6 +1,11 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
+import '../../../../core/di/injection.dart';
+import '../../../../core/network/dio_client.dart';
+import '../../../../core/storage/secure_storage.dart';
+import '../../data/datasources/auth_api_service.dart';
+import '../../data/repositories/auth_repository_impl.dart';
 import '../../domain/usecases/login_usecase.dart';
 import 'login_state.dart';
 
@@ -11,14 +16,15 @@ class LoginViewModel extends _$LoginViewModel {
   LoginState build() => const LoginState.initial();
 
   Future<void> login({
-    required String email,
+    required String phone,
     required String password,
+    bool rememberMe = false,
   }) async {
     state = const LoginState.loading();
 
     final useCase = ref.read(loginUseCaseProvider);
     final result = await useCase(
-      LoginParams(email: email, password: password),
+      LoginParams(phone: phone, password: password, rememberMe: rememberMe),
     );
 
     result.fold(
@@ -29,5 +35,10 @@ class LoginViewModel extends _$LoginViewModel {
 }
 
 final loginUseCaseProvider = Provider<LoginUseCase>((ref) {
-  throw UnimplementedError('Register AuthRepository in injection.dart');
+  final apiService = AuthApiService(getIt<DioClient>().instance);
+  final repository = AuthRepositoryImpl(
+    apiService: apiService,
+    secureStorage: getIt<SecureStorage>(),
+  );
+  return LoginUseCase(repository);
 });
