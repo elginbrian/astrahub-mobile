@@ -6,6 +6,10 @@ import '../../../../core/di/injection.dart';
 import '../../../../core/router/app_routes.dart';
 import '../../../../core/storage/secure_storage.dart';
 import '../../../../core/theme/app_colors.dart';
+import '../../../../core/network/dio_client.dart';
+import '../../../../core/error/failures.dart';
+import '../../data/datasources/auth_api_service.dart';
+import '../../data/repositories/auth_repository_impl.dart';
 
 class SplashPage extends ConsumerStatefulWidget {
   const SplashPage({super.key});
@@ -39,7 +43,23 @@ class _SplashPageState extends ConsumerState<SplashPage>
     final token = await secureStorage.getAccessToken();
 
     if (token != null && token.isNotEmpty) {
-      context.goNamed(AppRoutes.mainName);
+      final authRepository = AuthRepositoryImpl(
+        apiService: AuthApiService(getIt<DioClient>().instance),
+        secureStorage: secureStorage,
+      );
+      
+      final result = await authRepository.getCurrentUser();
+      if (!mounted) return;
+      
+      result.fold(
+        (failure) {
+          secureStorage.clearAll();
+          context.goNamed(AppRoutes.onboarding1Name);
+        },
+        (user) {
+          context.goNamed(AppRoutes.mainName);
+        },
+      );
     } else {
       context.goNamed(AppRoutes.onboarding1Name);
     }

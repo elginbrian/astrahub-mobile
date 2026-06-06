@@ -32,12 +32,24 @@ class ReportInsightCard extends StatelessWidget {
             ],
           ),
           const SizedBox(height: 8),
-          Text(
-            'Pendapatan QRIS meningkat 18% dibanding minggu lalu. Saldo AstraPay masih cukup untuk pembelian stok berikutnya.',
-            style: GoogleFonts.plusJakartaSans(
-              fontSize: 13,
-              color: const Color(0xFF374151),
-              height: 1.5,
+          RichText(
+            text: TextSpan(
+              style: GoogleFonts.plusJakartaSans(
+                fontSize: 13,
+                color: const Color(0xFF374151),
+                height: 1.5,
+              ),
+              children: const [
+                TextSpan(text: 'Pendapatan QRIS meningkat '),
+                TextSpan(
+                  text: '18%',
+                  style: TextStyle(
+                    color: Color(0xFF22C55E),
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                TextSpan(text: ' dibanding minggu lalu. Saldo AstraPay masih cukup untuk pembelian stok berikutnya.'),
+              ],
             ),
           ),
         ],

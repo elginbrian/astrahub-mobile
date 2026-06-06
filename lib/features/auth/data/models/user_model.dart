@@ -14,6 +14,7 @@ abstract class UserModel with _$UserModel {
     required String phone,
     String? email,
     @JsonKey(name: 'workshop_id') String? workshopId,
+    @JsonKey(name: 'workshop_name') String? workshopName,
   }) = _UserModel;
 
   factory UserModel.fromJson(Map<String, dynamic> json) =>
@@ -27,5 +28,6 @@ extension UserModelX on UserModel {
         phone: phone,
         email: email,
         workshopId: workshopId,
+        workshopName: workshopName,
       );
 }

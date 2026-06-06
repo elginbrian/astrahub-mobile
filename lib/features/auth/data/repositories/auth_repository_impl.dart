@@ -5,6 +5,7 @@ import '../../../../core/error/dio_error_handler.dart';
 import '../../../../core/error/failures.dart';
 import '../../../../core/storage/secure_storage.dart';
 import '../../domain/entities/user_entity.dart';
+import '../../domain/entities/google_login_result_entity.dart';
 import '../../domain/repositories/auth_repository.dart';
 import '../datasources/auth_api_service.dart';
 import '../models/user_model.dart';
@@ -35,8 +36,9 @@ class AuthRepositoryImpl implements AuthRepository {
 
       if (rememberMe) {
         await secureStorage.saveAccessToken(data['token'] as String);
-        // Backend saat ini tidak menggunakan refresh token
-        // await secureStorage.saveRefreshToken(data['refresh_token'] as String);
+        if (data['refresh_token'] != null) {
+          await secureStorage.saveRefreshToken(data['refresh_token'] as String);
+        }
       } else {
         secureStorage.saveSessionToken(data['token'] as String);
       }
@@ -56,8 +58,6 @@ class AuthRepositoryImpl implements AuthRepository {
     required String phone,
     String? email,
     required String password,
-    required String passwordConfirmation,
-    required bool agreeTerms,
   }) async {
     try {
       final responseMap = await apiService.register({
@@ -65,13 +65,14 @@ class AuthRepositoryImpl implements AuthRepository {
         'phone': phone,
         if (email != null && email.isNotEmpty) 'email': email,
         'password': password,
-        'password_confirmation': passwordConfirmation,
-        'agree_terms': agreeTerms,
       });
 
       final data = responseMap['data'] as Map<String, dynamic>;
 
       await secureStorage.saveAccessToken(data['token'] as String);
+      if (data['refresh_token'] != null) {
+        await secureStorage.saveRefreshToken(data['refresh_token'] as String);
+      }
 
       final userModel = UserModel.fromJson(data);
       return Right(userModel.toEntity());
@@ -85,7 +86,12 @@ class AuthRepositoryImpl implements AuthRepository {
   @override
   Future<Either<Failure, void>> logout() async {
     try {
-      await apiService.logout();
+      final refreshToken = await secureStorage.getRefreshToken();
+      if (refreshToken != null) {
+        await apiService.logout(body: {'refresh_token': refreshToken});
+      } else {
+        await apiService.logout();
+      }
       await secureStorage.clearAll();
       return const Right(null);
     } on DioException catch (e) {
@@ -114,6 +120,72 @@ class AuthRepositoryImpl implements AuthRepository {
       return Right(newToken);
     } on DioException catch (e) {
       return Left(DioErrorHandler.handle(e));
+    }
+  }
+
+  @override
+  Future<Either<Failure, GoogleLoginResultEntity>> googleLogin(String idToken) async {
+    try {
+      final responseMap = await apiService.googleLogin({
+        'id_token': idToken,
+      });
+      
+      final data = responseMap['data'] as Map<String, dynamic>;
+      final needsRegistration = data['needs_registration'] == true;
+
+      if (needsRegistration) {
+        return Right(GoogleLoginResultEntity(
+          needsRegistration: true,
+          email: data['email'] as String?,
+          fullName: data['full_name'] as String?,
+        ));
+      }
+
+      await secureStorage.saveAccessToken(data['token'] as String);
+      if (data['refresh_token'] != null) {
+        await secureStorage.saveRefreshToken(data['refresh_token'] as String);
+      }
+      secureStorage.saveSessionToken(data['token'] as String);
+
+      final userModel = UserModel.fromJson(data);
+      return Right(GoogleLoginResultEntity(
+        needsRegistration: false,
+        user: userModel.toEntity(),
+      ));
+    } on DioException catch (e) {
+      return Left(DioErrorHandler.handle(e));
+    } catch (e) {
+      return Left(ServerFailure(e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, UserEntity>> googleRegister({
+    required String idToken,
+    required String phone,
+    required String fullName,
+  }) async {
+    try {
+      final responseMap = await apiService.googleRegister({
+        'id_token': idToken,
+        'phone': phone,
+        'full_name': fullName,
+      });
+
+      final data = responseMap['data'] as Map<String, dynamic>;
+
+      await secureStorage.saveAccessToken(data['token'] as String);
+      if (data['refresh_token'] != null) {
+        await secureStorage.saveRefreshToken(data['refresh_token'] as String);
+      }
+      secureStorage.saveSessionToken(data['token'] as String);
+
+      final userModel = UserModel.fromJson(data);
+      return Right(userModel.toEntity());
+    } on DioException catch (e) {
+      return Left(DioErrorHandler.handle(e));
+    } catch (e) {
+      return Left(ServerFailure(e.toString()));
     }
   }
 }

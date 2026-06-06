@@ -35,30 +35,41 @@ class CashierPage extends StatelessWidget {
               bottom: 20,
               left: 20,
               right: 20,
-              child: ElevatedButton(
-                onPressed: () => context.pushNamed(AppRoutes.newServiceName),
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: AppColors.astraBlue,
-                  foregroundColor: Colors.white,
-                  padding: const EdgeInsets.symmetric(vertical: 16),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  elevation: 0,
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const Icon(Icons.add, size: 20),
-                    const SizedBox(width: 8),
-                    Text(
-                      'Servis Baru',
-                      style: GoogleFonts.plusJakartaSans(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w600,
-                      ),
+              child: Container(
+                decoration: BoxDecoration(
+                  boxShadow: [
+                    BoxShadow(
+                      color: AppColors.astraBlue.withOpacity(0.3),
+                      blurRadius: 15,
+                      offset: const Offset(0, 5),
                     ),
                   ],
+                ),
+                child: ElevatedButton(
+                  onPressed: () => context.pushNamed(AppRoutes.newServiceName),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: AppColors.astraBlue,
+                    foregroundColor: Colors.white,
+                    padding: const EdgeInsets.symmetric(vertical: 16),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    elevation: 0,
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Icon(Icons.add, size: 20),
+                      const SizedBox(width: 8),
+                      Text(
+                        'Servis Baru',
+                        style: GoogleFonts.plusJakartaSans(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),

@@ -23,10 +23,13 @@ import '../../features/notification/presentation/pages/notification_page.dart';
 import 'app_routes.dart';
 import 'route_guard.dart';
 
+final globalNavigatorKey = GlobalKey<NavigatorState>();
+
 final appRouterProvider = Provider<GoRouter>((ref) {
   final guard = RouteGuard(ref);
 
   return GoRouter(
+    navigatorKey: globalNavigatorKey,
     initialLocation: AppRoutes.splash,
     debugLogDiagnostics: true,
     redirect: guard.redirect,

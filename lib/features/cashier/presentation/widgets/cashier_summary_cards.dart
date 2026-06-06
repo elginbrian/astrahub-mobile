@@ -1,12 +1,31 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
 import '../../../../core/theme/app_colors.dart';
+import '../viewmodels/cashier_viewmodel.dart';
 
-class CashierSummaryCards extends StatelessWidget {
+class CashierSummaryCards extends ConsumerWidget {
   const CashierSummaryCards({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final state = ref.watch(cashierViewModelProvider);
+    final currencyFormatter = NumberFormat.currency(
+      locale: 'id_ID',
+      symbol: 'Rp ',
+      decimalDigits: 0,
+    );
+
+    int totalRevenue = 0;
+    int completedCount = 0;
+    for (var service in state.todayServices) {
+      if (service.paymentStatus == 'paid' || service.status == 'selesai') {
+        totalRevenue += service.total;
+        completedCount++;
+      }
+    }
+
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20),
       child: Row(
@@ -15,7 +34,7 @@ class CashierSummaryCards extends StatelessWidget {
             child: _buildCard(
               icon: Icons.trending_up,
               title: 'Pendapatan Hari Ini',
-              value: 'Rp 427.000',
+              value: currencyFormatter.format(totalRevenue),
             ),
           ),
           const SizedBox(width: 16),
@@ -23,7 +42,7 @@ class CashierSummaryCards extends StatelessWidget {
             child: _buildCard(
               icon: Icons.build_outlined,
               title: 'Servis Selesai',
-              value: '7',
+              value: completedCount.toString(),
             ),
           ),
         ],

@@ -16,9 +16,11 @@ class DioErrorHandler {
         final statusCode = e.response?.statusCode;
         if (statusCode == 401) return const UnauthorizedFailure();
         if (statusCode == 404) return const NotFoundFailure();
-        return ServerFailure(
-          e.response?.data?['message']?.toString() ?? 'Server error ($statusCode).',
-        );
+        String message = 'Server error ($statusCode).';
+        if (e.response?.data is Map<String, dynamic>) {
+          message = e.response?.data['message']?.toString() ?? message;
+        }
+        return ServerFailure(message);
       default:
         return const ServerFailure();
     }

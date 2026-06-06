@@ -2,6 +2,7 @@ import 'package:dartz/dartz.dart';
 
 import '../../../../core/error/failures.dart';
 import '../entities/user_entity.dart';
+import '../entities/google_login_result_entity.dart';
 
 /// Contract defined in the domain layer.
 /// Implemented in the data layer.
@@ -17,8 +18,14 @@ abstract class AuthRepository {
     required String phone,
     String? email,
     required String password,
-    required String passwordConfirmation,
-    required bool agreeTerms,
+  });
+
+  Future<Either<Failure, GoogleLoginResultEntity>> googleLogin(String idToken);
+
+  Future<Either<Failure, UserEntity>> googleRegister({
+    required String idToken,
+    required String phone,
+    required String fullName,
   });
 
   Future<Either<Failure, void>> logout();
