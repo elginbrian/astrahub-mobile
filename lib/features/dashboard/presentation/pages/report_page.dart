@@ -15,6 +15,7 @@ class ReportPage extends StatelessWidget {
     return const Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
+        bottom: false,
         child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -29,7 +30,7 @@ class ReportPage extends StatelessWidget {
               ReportInsightCard(),
               SizedBox(height: 24),
               ReportTransactionList(),
-              SizedBox(height: 24),
+              SizedBox(height: 120), // Padding for navbar
             ],
           ),
         ),
