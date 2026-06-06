@@ -10,12 +10,23 @@ class CashierServiceList extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final state = ref.watch(cashierViewModelProvider);
+    // Backend integration temporarily disconnected
+    // final state = ref.watch(cashierViewModelProvider);
     final currencyFormatter = NumberFormat.currency(
       locale: 'id_ID',
       symbol: 'Rp ',
       decimalDigits: 0,
     );
+
+    // Dummy data
+    final dummyServices = [
+      {'title': 'Servis Berkala & Ganti Oli', 'vehicle': 'Honda Beat • B 1234 ABC', 'time': '10:30', 'price': 150000, 'status': 'selesai'},
+      {'title': 'Ganti Kampas Rem', 'vehicle': 'Yamaha NMAX • B 5678 DEF', 'time': '11:45', 'price': 85000, 'status': 'proses'},
+      {'title': 'Servis CVT', 'vehicle': 'Honda Vario • B 9012 GHI', 'time': '13:00', 'price': 250000, 'status': 'menunggu'},
+      {'title': 'Ganti Aki', 'vehicle': 'Honda Scoopy • B 3456 JKL', 'time': '13:30', 'price': 300000, 'status': 'menunggu'},
+      {'title': 'Ganti Ban Belakang', 'vehicle': 'Yamaha Aerox • B 7890 MNO', 'time': '14:15', 'price': 350000, 'status': 'menunggu'},
+      {'title': 'Servis Injeksi', 'vehicle': 'Honda PCX • B 1122 PQR', 'time': '15:00', 'price': 200000, 'status': 'menunggu'},
+    ];
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -31,120 +42,15 @@ class CashierServiceList extends ConsumerWidget {
             ),
           ),
           const SizedBox(height: 16),
-          if (state.isLoading)
-            ...List.generate(
-              3,
-              (index) => Container(
-                margin: const EdgeInsets.only(bottom: 12),
-                padding: const EdgeInsets.all(16),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(12),
-                  border: Border.all(color: const Color(0xFFE5E7EB)),
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Container(
-                          width: 150,
-                          height: 16,
-                          decoration: BoxDecoration(
-                            color: Colors.grey[200],
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                        ),
-                        Container(
-                          width: 60,
-                          height: 24,
-                          decoration: BoxDecoration(
-                            color: Colors.grey[200],
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 12),
-                    Container(
-                      width: 200,
-                      height: 14,
-                      decoration: BoxDecoration(
-                        color: Colors.grey[200],
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                    ),
-                    const SizedBox(height: 8),
-                    Container(
-                      width: 100,
-                      height: 14,
-                      decoration: BoxDecoration(
-                        color: Colors.grey[200],
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            )
-          else if (state.error != null)
-            Container(
-              width: double.infinity,
-              padding: const EdgeInsets.all(16),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(12),
-                border: Border.all(color: Colors.red.shade200),
-              ),
-              child: Center(
-                child: Text(
-                  state.error!,
-                  style: GoogleFonts.plusJakartaSans(
-                    color: Colors.red,
-                  ),
-                ),
-              ),
-            )
-          else if (state.todayServices.isEmpty)
-            Container(
-              width: double.infinity,
-              padding: const EdgeInsets.symmetric(vertical: 32, horizontal: 16),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(12),
-                border: Border.all(color: const Color(0xFFE5E7EB)),
-              ),
-              child: Column(
-                children: [
-                  Icon(
-                    Icons.inbox_outlined,
-                    size: 48,
-                    color: Colors.grey[400],
-                  ),
-                  const SizedBox(height: 16),
-                  Text(
-                    'Belum ada servis hari ini',
-                    style: GoogleFonts.plusJakartaSans(
-                      fontSize: 14,
-                      color: const Color(0xFF6B7280),
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                ],
-              ),
-            )
-          else
-            ...state.todayServices.map((s) {
-              final date = DateTime.tryParse(s.createdAt)?.toLocal() ?? DateTime.now();
-              return CashierServiceCard(
-                title: 'Servis', // the backend only gives status/plate, wait backend has no title for summary? 
-                vehicle: '${s.vehicleType} • ${s.plateNumber}',
-                time: '${date.hour.toString().padLeft(2, '0')}:${date.minute.toString().padLeft(2, '0')}',
-                price: currencyFormatter.format(s.total),
-                status: s.status,
-              );
-            }),
+          ...dummyServices.map((s) {
+            return CashierServiceCard(
+              title: s['title'] as String,
+              vehicle: s['vehicle'] as String,
+              time: s['time'] as String,
+              price: currencyFormatter.format(s['price']),
+              status: s['status'] as String,
+            );
+          }),
           const SizedBox(height: 100),
         ],
       ),

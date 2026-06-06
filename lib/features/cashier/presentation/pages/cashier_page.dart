@@ -32,7 +32,7 @@ class CashierPage extends StatelessWidget {
               ),
             ),
             Positioned(
-              bottom: 20,
+              bottom: 42, 
               left: 20,
               right: 20,
               child: Container(

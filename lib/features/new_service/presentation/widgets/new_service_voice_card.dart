@@ -19,7 +19,7 @@ class NewServiceVoiceCard extends StatelessWidget {
         width: double.infinity,
         padding: const EdgeInsets.symmetric(vertical: 32, horizontal: 24),
         decoration: BoxDecoration(
-          color: AppColors.astraYellow400,
+          color: AppColors.astraYellow,
           borderRadius: BorderRadius.circular(16),
         ),
         child: Column(
@@ -28,8 +28,8 @@ class NewServiceVoiceCard extends StatelessWidget {
             Container(
               width: 56,
               height: 56,
-              decoration: const BoxDecoration(
-                color: Colors.white,
+              decoration: BoxDecoration(
+                color: Colors.white.withOpacity(0.7),
                 shape: BoxShape.circle,
               ),
               child: const Icon(

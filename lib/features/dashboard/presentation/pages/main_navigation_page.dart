@@ -1,3 +1,4 @@
+import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -82,13 +83,15 @@ class _MainNavigationPageState extends State<MainNavigationPage> {
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: BottomAppBar(
         color: Colors.white,
-        elevation: 0,
+        elevation: 24,
+        shadowColor: Colors.black.withOpacity(0.6),
+        surfaceTintColor: Colors.transparent,
         shape: const CircularNotchedRectangle(),
         notchMargin: 12,
         clipBehavior: Clip.antiAlias,
         child: SizedBox(
-          height: 60,
-          child: Row(
+            height: 60,
+            child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               _buildNavItem(0, 'Home', 'home-inactive-assets.png', 'home-active-assets.png'),

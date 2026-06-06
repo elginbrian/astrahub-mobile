@@ -10,21 +10,16 @@ class CashierSummaryCards extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final state = ref.watch(cashierViewModelProvider);
+    // final state = ref.watch(cashierViewModelProvider);
     final currencyFormatter = NumberFormat.currency(
       locale: 'id_ID',
       symbol: 'Rp ',
       decimalDigits: 0,
     );
 
-    int totalRevenue = 0;
-    int completedCount = 0;
-    for (var service in state.todayServices) {
-      if (service.paymentStatus == 'paid' || service.status == 'selesai') {
-        totalRevenue += service.total;
-        completedCount++;
-      }
-    }
+    // Dummy data
+    int totalRevenue = 2450000;
+    int completedCount = 8;
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20),

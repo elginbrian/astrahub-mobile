@@ -34,33 +34,27 @@ class HomeLowStockList extends StatelessWidget {
             ],
           ),
           const SizedBox(height: 12),
-          Container(
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(12),
-              border: Border.all(color: const Color(0xFFE5E7EB)),
-            ),
-            child: Column(
-              children: [
-                _buildItem('Oli Astra SPX', '3 Kaleng', const Color(0xFFFEE2E2), const Color(0xFFEF4444)),
-                const Divider(height: 1, color: Color(0xFFE5E7EB)),
-                _buildItem('Kampas Rem Honda', '8 Pcs', const Color(0xFFFEF08A), const Color(0xFF854D0E), dotColor: const Color(0xFFCA8A04)),
-              ],
-            ),
-          ),
+          _buildItem('Oli Astra SPX', '3 Kaleng', const Color(0xFFFEE2E2), const Color(0xFFEF4444)),
+          const SizedBox(height: 8),
+          _buildItem('Kampas Rem Honda', '8 Pcs', const Color(0xFFFEF08A), const Color(0xFF854D0E), dotColor: const Color(0xFFCA8A04)),
         ],
       ),
     );
   }
 
   Widget _buildItem(String name, String stock, Color badgeBg, Color badgeText, {Color? dotColor}) {
-    return Padding(
+    return Container(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(8),
+        border: Border.all(color: const Color(0xFFE5E7EB)),
+      ),
       child: Row(
         children: [
           Container(
-            width: 6,
-            height: 6,
+            width: 8,
+            height: 8,
             decoration: BoxDecoration(
               color: dotColor ?? badgeText,
               shape: BoxShape.circle,
