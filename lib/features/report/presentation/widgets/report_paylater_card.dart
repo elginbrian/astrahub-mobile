@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../../../../core/theme/app_colors.dart';
+
 class ReportPayLaterCard extends StatelessWidget {
   const ReportPayLaterCard({super.key});
 
@@ -78,7 +80,7 @@ class ReportPayLaterCard extends StatelessWidget {
                     Container(
                       padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
                       decoration: BoxDecoration(
-                        color: const Color(0xFFFCD34D),
+                        color: AppColors.astraYellow400,
                         borderRadius: BorderRadius.circular(4),
                       ),
                       child: Text(
@@ -117,7 +119,7 @@ class ReportPayLaterCard extends StatelessWidget {
             child: LinearProgressIndicator(
               value: 0.375,
               backgroundColor: Colors.white24,
-              valueColor: const AlwaysStoppedAnimation<Color>(Color(0xFFFCD34D)),
+              valueColor: const AlwaysStoppedAnimation<Color>(AppColors.astraYellow400),
               minHeight: 6,
             ),
           ),
@@ -138,7 +140,7 @@ class ReportPayLaterCard extends StatelessWidget {
                 'Rp 12.500.000',
                 style: GoogleFonts.plusJakartaSans(
                   fontSize: 12,
-                  color: const Color(0xFFFCD34D),
+                  color: AppColors.astraYellow400,
                   fontWeight: FontWeight.w600,
                 ),
               ),

@@ -42,7 +42,7 @@ class HomeRecentActivities extends StatelessWidget {
           _buildActivityCard(
             icon: Icons.check_circle,
             iconColor: AppColors.astraBlue,
-            iconBgColor: const Color(0xFFEFF6FF),
+            iconBgColor: AppColors.astraBlue50,
             title: 'Servis Honda Beat selesai',
             subtitle: 'Pengerjaan: Ganti Oli & CVT',
             time: '10:30',

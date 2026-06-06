@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:dotted_border/dotted_border.dart';
 
 import '../../../../core/theme/app_colors.dart';
+import '../widgets/workshop/workshop_progress_bar.dart';
+import '../widgets/workshop/workshop_form_fields.dart';
+import '../widgets/workshop/workshop_upload_button.dart';
+import '../widgets/workshop/workshop_info_sections.dart';
 
 class WorkshopActivationPage extends StatefulWidget {
   const WorkshopActivationPage({super.key});
@@ -49,7 +52,7 @@ class _WorkshopActivationPageState extends State<WorkshopActivationPage> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                _buildProgressBar(),
+                const WorkshopProgressBar(),
                 const SizedBox(height: 24),
                 Text(
                   'Lengkapi Data Bengkel',
@@ -69,79 +72,93 @@ class _WorkshopActivationPageState extends State<WorkshopActivationPage> {
                   ),
                 ),
                 const SizedBox(height: 24),
-                _buildTextField('Nama Bengkel', 'Bengkel Maju Jaya'),
+                const WorkshopTextField(
+                  label: 'Nama Bengkel',
+                  hint: 'Bengkel Maju Jaya',
+                ),
                 const SizedBox(height: 16),
-                _buildTextField('Nama Pemilik', 'Rudi Hartono'),
+                const WorkshopTextField(
+                  label: 'Nama Pemilik',
+                  hint: 'Rudi Hartono',
+                ),
                 const SizedBox(height: 16),
-                _buildTextField('Nomor Telepon Bengkel', '+62 812xxxxxx', keyboardType: TextInputType.phone),
+                const WorkshopTextField(
+                  label: 'Nomor Telepon Bengkel',
+                  hint: '+62 812xxxxxx',
+                  keyboardType: TextInputType.phone,
+                ),
                 const SizedBox(height: 16),
-                _buildTextField('Alamat Lengkap Bengkel', 'Jl. Raya Otista No. 12...', maxLines: 3),
+                const WorkshopTextField(
+                  label: 'Alamat Lengkap Bengkel',
+                  hint: 'Jl. Raya Otista No. 12...',
+                  maxLines: 3,
+                ),
                 const SizedBox(height: 16),
                 Row(
                   children: [
                     Expanded(
-                      child: _buildDropdown(
-                        'Provinsi',
-                        'Pilih Provinsi',
-                        ['DKI Jakarta', 'Jawa Barat', 'Banten'],
-                        _selectedProvinsi,
-                        (val) => setState(() => _selectedProvinsi = val),
+                      child: WorkshopDropdown(
+                        label: 'Provinsi',
+                        hint: 'Pilih Provinsi',
+                        items: const ['DKI Jakarta', 'Jawa Barat', 'Banten'],
+                        value: _selectedProvinsi,
+                        onChanged: (val) => setState(() => _selectedProvinsi = val),
                       ),
                     ),
                     const SizedBox(width: 12),
                     Expanded(
-                      child: _buildDropdown(
-                        'Kota/Kabupaten',
-                        'Pilih Kota',
-                        ['Jakarta Selatan', 'Jakarta Timur', 'Bandung'],
-                        _selectedKota,
-                        (val) => setState(() => _selectedKota = val),
+                      child: WorkshopDropdown(
+                        label: 'Kota/Kabupaten',
+                        hint: 'Pilih Kota',
+                        items: const ['Jakarta Selatan', 'Jakarta Timur', 'Bandung'],
+                        value: _selectedKota,
+                        onChanged: (val) => setState(() => _selectedKota = val),
                       ),
                     ),
                   ],
                 ),
                 const SizedBox(height: 16),
-                _buildDropdown(
-                  'Jenis Bengkel',
-                  'Bengkel Motor Umum',
-                  ['Bengkel Motor Umum', 'Bengkel Mobil', 'Bengkel Resmi'],
-                  _selectedJenis,
-                  (val) => setState(() => _selectedJenis = val),
+                WorkshopDropdown(
+                  label: 'Jenis Bengkel',
+                  hint: 'Bengkel Motor Umum',
+                  items: const ['Bengkel Motor Umum', 'Bengkel Mobil', 'Bengkel Resmi'],
+                  value: _selectedJenis,
+                  onChanged: (val) => setState(() => _selectedJenis = val),
                 ),
                 const SizedBox(height: 16),
-                _buildDropdown(
-                  'Jumlah Mekanik',
-                  '1-2 Orang',
-                  ['1-2 Orang', '3-5 Orang', '> 5 Orang'],
-                  _selectedMekanik,
-                  (val) => setState(() => _selectedMekanik = val),
+                WorkshopDropdown(
+                  label: 'Jumlah Mekanik',
+                  hint: '1-2 Orang',
+                  items: const ['1-2 Orang', '3-5 Orang', '> 5 Orang'],
+                  value: _selectedMekanik,
+                  onChanged: (val) => setState(() => _selectedMekanik = val),
                 ),
                 const SizedBox(height: 20),
-                Row(
+                const Row(
                   children: [
                     Expanded(
-                      child: _buildUploadButton(
+                      child: WorkshopUploadButton(
                         icon: Icons.add_a_photo_outlined,
                         label: 'Foto Bengkel',
                         iconColor: AppColors.astraBlue,
                       ),
                     ),
-                    const SizedBox(width: 12),
+                    SizedBox(width: 12),
                     Expanded(
-                      child: _buildUploadButton(
+                      child: WorkshopUploadButton(
                         icon: Icons.image_outlined,
                         label: 'Logo (Opsional)',
-                        iconColor: const Color(0xFF6B7280),
+                        iconColor: Color(0xFF6B7280),
                       ),
                     ),
                   ],
                 ),
                 const SizedBox(height: 24),
-                _buildAstraPayInfo(),
+                const WorkshopAstrapayInfo(),
                 const SizedBox(height: 16),
-                _buildInfoBanner(),
+                const WorkshopInfoBanner(),
                 const SizedBox(height: 24),
-                _buildKeuntungan(),
+                const WorkshopBenefits(),
                 const SizedBox(height: 32),
                 SizedBox(
                   width: double.infinity,
@@ -175,299 +192,6 @@ class _WorkshopActivationPageState extends State<WorkshopActivationPage> {
           ),
         ),
       ),
-    );
-  }
-
-  Widget _buildProgressBar() {
-    return Column(
-      children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(
-              'Langkah 2 dari 2',
-              style: GoogleFonts.plusJakartaSans(
-                fontSize: 12,
-                color: const Color(0xFF4B5563),
-              ),
-            ),
-            Text(
-              '100%',
-              style: GoogleFonts.plusJakartaSans(
-                fontSize: 12,
-                fontWeight: FontWeight.bold,
-                color: AppColors.astraBlue,
-              ),
-            ),
-          ],
-        ),
-        const SizedBox(height: 8),
-        ClipRRect(
-          borderRadius: BorderRadius.circular(4),
-          child: const LinearProgressIndicator(
-            value: 1.0,
-            backgroundColor: Color(0xFFE5E7EB),
-            valueColor: AlwaysStoppedAnimation<Color>(AppColors.astraBlue),
-            minHeight: 4,
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildTextField(String label, String hint, {int maxLines = 1, TextInputType keyboardType = TextInputType.text}) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          label,
-          style: GoogleFonts.plusJakartaSans(
-            fontSize: 11,
-            fontWeight: FontWeight.w600,
-            color: const Color(0xFF374151),
-          ),
-        ),
-        const SizedBox(height: 6),
-        TextFormField(
-          maxLines: maxLines,
-          keyboardType: keyboardType,
-          style: GoogleFonts.plusJakartaSans(
-            fontSize: 14,
-            color: const Color(0xFF111827),
-          ),
-          decoration: InputDecoration(
-            hintText: hint,
-            hintStyle: GoogleFonts.plusJakartaSans(
-              fontSize: 14,
-              color: const Color(0xFF9CA3AF),
-            ),
-            filled: true,
-            fillColor: Colors.white,
-            contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(8),
-              borderSide: const BorderSide(color: Color(0xFFD1D5DB)),
-            ),
-            enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(8),
-              borderSide: const BorderSide(color: Color(0xFFD1D5DB)),
-            ),
-            focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(8),
-              borderSide: const BorderSide(color: AppColors.astraBlue),
-            ),
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildDropdown(String label, String hint, List<String> items, String? value, ValueChanged<String?> onChanged) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          label,
-          style: GoogleFonts.plusJakartaSans(
-            fontSize: 11,
-            fontWeight: FontWeight.w600,
-            color: const Color(0xFF374151),
-          ),
-        ),
-        const SizedBox(height: 6),
-        DropdownButtonFormField<String>(
-          value: value,
-          icon: const Icon(Icons.keyboard_arrow_down, color: Color(0xFF6B7280)),
-          dropdownColor: Colors.white,
-          decoration: InputDecoration(
-            filled: true,
-            fillColor: Colors.white,
-            hintText: hint,
-            hintStyle: GoogleFonts.plusJakartaSans(
-              fontSize: 14,
-              color: const Color(0xFF9CA3AF),
-            ),
-            contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(8),
-              borderSide: const BorderSide(color: Color(0xFFD1D5DB)),
-            ),
-            enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(8),
-              borderSide: const BorderSide(color: Color(0xFFD1D5DB)),
-            ),
-            focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(8),
-              borderSide: const BorderSide(color: AppColors.astraBlue),
-            ),
-          ),
-          items: items.map((item) {
-            return DropdownMenuItem(
-              value: item,
-              child: Text(
-                item,
-                style: GoogleFonts.plusJakartaSans(fontSize: 14),
-              ),
-            );
-          }).toList(),
-          onChanged: onChanged,
-        ),
-      ],
-    );
-  }
-
-  Widget _buildUploadButton({required IconData icon, required String label, required Color iconColor}) {
-    return DottedBorder(
-      options: const RoundedRectDottedBorderOptions(
-        color: Color(0xFFD1D5DB),
-        strokeWidth: 1.5,
-        dashPattern: [6, 4],
-        radius: Radius.circular(8),
-        padding: EdgeInsets.zero,
-      ),
-      child: Container(
-        width: double.infinity,
-        padding: const EdgeInsets.symmetric(vertical: 20),
-        decoration: BoxDecoration(
-          color: const Color(0xFFF9FAFB),
-          borderRadius: BorderRadius.circular(8),
-        ),
-        child: Column(
-        children: [
-          Icon(icon, color: iconColor, size: 24),
-          const SizedBox(height: 8),
-          Text(
-            label,
-            style: GoogleFonts.plusJakartaSans(
-              fontSize: 12,
-              fontWeight: FontWeight.w600,
-              color: const Color(0xFF111827),
-            ),
-          ),
-        ],
-      ),
-    ));
-  }
-
-  Widget _buildAstraPayInfo() {
-    return Container(
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: const Color(0xFFF3F4F6),
-        borderRadius: BorderRadius.circular(12),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            'Nomor AstraPay',
-            style: GoogleFonts.plusJakartaSans(
-              fontSize: 11,
-              fontWeight: FontWeight.w600,
-              color: const Color(0xFF374151),
-            ),
-          ),
-          const SizedBox(height: 8),
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
-            width: double.infinity,
-            decoration: BoxDecoration(
-              color: const Color(0xFFE5E7EB),
-              borderRadius: BorderRadius.circular(8),
-              border: Border.all(color: const Color(0xFFD1D5DB)),
-            ),
-            child: Text(
-              'Akan dibuat otomatis melalui verifikasi data',
-              style: GoogleFonts.plusJakartaSans(
-                fontSize: 13,
-                color: const Color(0xFF6B7280),
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildInfoBanner() {
-    return Container(
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: const Color(0xFFEFF6FF),
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: const Color(0xFFBFDBFE)),
-      ),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const Icon(Icons.info, color: AppColors.astraBlue, size: 20),
-          const SizedBox(width: 12),
-          Expanded(
-            child: Text(
-              'Setelah verifikasi, bengkel Anda dapat mengakses ekosistem AstraPay dan kemudahan PayLater B2B FIFGROUP.',
-              style: GoogleFonts.plusJakartaSans(
-                fontSize: 13,
-                color: const Color(0xFF1E3A8A),
-                height: 1.5,
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildKeuntungan() {
-    return Container(
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: const Color(0xFFF9FAFB),
-        borderRadius: BorderRadius.circular(12),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            'Keuntungan Bergabung:',
-            style: GoogleFonts.plusJakartaSans(
-              fontSize: 13,
-              fontWeight: FontWeight.w600,
-              color: const Color(0xFF111827),
-            ),
-          ),
-          const SizedBox(height: 12),
-          _buildCheckItem('Catat Servis Digital & Database Pelanggan'),
-          const SizedBox(height: 8),
-          _buildCheckItem('Terima Pembayaran QRIS AstraPay'),
-          const SizedBox(height: 8),
-          _buildCheckItem('Pesan Suku Cadang Astra via Apps'),
-          const SizedBox(height: 8),
-          _buildCheckItem('Akses Modal Kerja PayLater FIFGROUP'),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildCheckItem(String text) {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        const Padding(
-          padding: EdgeInsets.only(top: 2),
-          child: Icon(Icons.check_circle, color: AppColors.astraBlue, size: 16),
-        ),
-        const SizedBox(width: 8),
-        Expanded(
-          child: Text(
-            text,
-            style: GoogleFonts.plusJakartaSans(
-              fontSize: 12,
-              color: const Color(0xFF4B5563),
-              height: 1.5,
-            ),
-          ),
-        ),
-      ],
     );
   }
 }

@@ -61,13 +61,13 @@ class _MainNavigationPageState extends State<MainNavigationPage> {
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
                 colors: [
-                  Color(0xFF003399),
-                  Color(0xFF001A4D),
+                  AppColors.astraBlue800,
+                  AppColors.astraBlue950,
                 ],
               ),
               boxShadow: [
                 BoxShadow(
-                  color: const Color(0xFF003399).withOpacity(0.3),
+                  color: AppColors.astraBlue800.withOpacity(0.3),
                   blurRadius: 12,
                   offset: const Offset(0, 4),
                 ),
@@ -105,7 +105,7 @@ class _MainNavigationPageState extends State<MainNavigationPage> {
 
   Widget _buildNavItem(int index, String label, String inactiveIcon, String activeIcon) {
     final isSelected = _currentIndex == index;
-    final color = isSelected ? const Color(0xFF0044CC) : const Color(0xFF6B7280);
+    final color = isSelected ? AppColors.astraBlue : const Color(0xFF6B7280);
     
     return Expanded(
       child: GestureDetector(

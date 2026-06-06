@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../../../../core/theme/app_colors.dart';
+
 class ServiceInfoCard extends StatelessWidget {
   const ServiceInfoCard({super.key});
 
@@ -31,14 +33,14 @@ class ServiceInfoCard extends StatelessWidget {
                 onTap: () {},
                 child: Row(
                   children: [
-                    const Icon(Icons.edit_outlined, size: 14, color: Color(0xFF3B5BDB)),
+                    const Icon(Icons.edit_outlined, size: 14, color: AppColors.astraBlue600),
                     const SizedBox(width: 4),
                     Text(
                       'Ubah',
                       style: GoogleFonts.plusJakartaSans(
                         fontSize: 13,
                         fontWeight: FontWeight.w600,
-                        color: const Color(0xFF3B5BDB),
+                        color: AppColors.astraBlue600,
                       ),
                     ),
                   ],

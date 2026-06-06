@@ -22,7 +22,7 @@ class CashierServiceCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final isDone = status == 'Selesai';
     final statusColor = isDone ? const Color(0xFF10B981) : const Color(0xFFD97706);
-    final statusBgColor = isDone ? const Color(0xFFD1FAE5) : const Color(0xFFFEF3C7);
+    final statusBgColor = isDone ? const Color(0xFFD1FAE5) : AppColors.astraYellow100;
 
     return Container(
       margin: const EdgeInsets.only(bottom: 12),

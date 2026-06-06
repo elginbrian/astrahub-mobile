@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../../../../core/theme/app_colors.dart';
+
 class ReportInsightCard extends StatelessWidget {
   const ReportInsightCard({super.key});
 
@@ -10,7 +12,7 @@ class ReportInsightCard extends StatelessWidget {
       margin: const EdgeInsets.symmetric(horizontal: 20),
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: const Color(0xFFEFF6FF),
+        color: AppColors.astraBlue50,
         borderRadius: BorderRadius.circular(12),
         border: Border.all(color: const Color(0xFFBFDBFE)),
       ),
@@ -19,7 +21,7 @@ class ReportInsightCard extends StatelessWidget {
         children: [
           Row(
             children: [
-              const Icon(Icons.auto_awesome, color: Color(0xFF3B5BDB), size: 18),
+              const Icon(Icons.auto_awesome, color: AppColors.astraBlue600, size: 18),
               const SizedBox(width: 8),
               Text(
                 'Insight Keuangan',

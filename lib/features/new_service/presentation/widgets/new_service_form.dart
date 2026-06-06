@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../../../../core/theme/app_colors.dart';
+
 import 'new_service_voice_card.dart';
 
 class NewServiceForm extends StatefulWidget {
@@ -72,7 +74,7 @@ class _NewServiceFormState extends State<NewServiceForm> {
       ),
       focusedBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(10),
-        borderSide: const BorderSide(color: Color(0xFF3B5BDB)),
+        borderSide: const BorderSide(color: AppColors.astraBlue600),
       ),
     );
   }
@@ -139,7 +141,7 @@ class _NewServiceFormState extends State<NewServiceForm> {
             ),
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(10),
-              borderSide: const BorderSide(color: Color(0xFF3B5BDB)),
+              borderSide: const BorderSide(color: AppColors.astraBlue600),
             ),
           ),
           items: _serviceOptions.map((service) {
@@ -183,7 +185,7 @@ class _NewServiceFormState extends State<NewServiceForm> {
             ),
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(10),
-              borderSide: const BorderSide(color: Color(0xFF3B5BDB)),
+              borderSide: const BorderSide(color: AppColors.astraBlue600),
             ),
           ),
         ),
