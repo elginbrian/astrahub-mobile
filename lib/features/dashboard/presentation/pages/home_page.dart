@@ -35,17 +35,10 @@ class HomePage extends StatelessWidget {
               HomeRecentActivities(),
               SizedBox(height: 24),
               HomePromoBanner(),
-              SizedBox(height: 80), // Padding for FAB
+              SizedBox(height: 24),
             ],
           ),
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {},
-        backgroundColor: AppColors.astraBlue,
-        elevation: 4,
-        shape: const CircleBorder(),
-        child: const Icon(Icons.add, color: Colors.white, size: 28),
       ),
     );
   }

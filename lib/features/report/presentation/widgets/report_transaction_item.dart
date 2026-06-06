@@ -63,7 +63,7 @@ class ReportTransactionItem extends StatelessWidget {
             amount,
             style: GoogleFonts.plusJakartaSans(
               fontSize: 13,
-              fontWeight: FontWeight.bold,
+              fontWeight: FontWeight.w500,
               color: isIncome ? const Color(0xFF10B981) : const Color(0xFFEF4444),
             ),
           ),

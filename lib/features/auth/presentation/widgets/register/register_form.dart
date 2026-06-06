@@ -8,6 +8,7 @@ import '../../../../../core/router/app_routes.dart';
 import '../../../../../core/theme/app_colors.dart';
 import '../../viewmodels/register_viewmodel.dart';
 import '../../viewmodels/register_state.dart';
+import '../../providers/auth_state_provider.dart';
 
 class RegisterForm extends ConsumerStatefulWidget {
   const RegisterForm({super.key});
@@ -131,7 +132,7 @@ class _RegisterFormState extends ConsumerState<RegisterForm> {
     ref.listen<RegisterState>(registerViewModelProvider, (previous, next) {
       next.maybeWhen(
         success: (user) {
-          context.goNamed(AppRoutes.mainName);
+          ref.read(authStateProvider.notifier).login(user);
         },
         error: (message) {
           ScaffoldMessenger.of(context).showSnackBar(

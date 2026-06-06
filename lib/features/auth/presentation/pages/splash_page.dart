@@ -36,33 +36,22 @@ class _SplashPageState extends ConsumerState<SplashPage>
   }
 
   Future<void> _navigate() async {
-    await Future.delayed(const Duration(seconds: 2));
+    // Wait for the animation
+    await Future.delayed(const Duration(milliseconds: 1500));
+    
+    // Check if component is still mounted and AuthState is resolved
     if (!mounted) return;
 
-    final secureStorage = getIt<SecureStorage>();
-    final token = await secureStorage.getAccessToken();
-
-    if (token != null && token.isNotEmpty) {
-      final authRepository = AuthRepositoryImpl(
-        apiService: AuthApiService(getIt<DioClient>().instance),
-        secureStorage: secureStorage,
-      );
-      
-      final result = await authRepository.getCurrentUser();
-      if (!mounted) return;
-      
-      result.fold(
-        (failure) {
-          secureStorage.clearAll();
-          context.goNamed(AppRoutes.onboarding1Name);
-        },
-        (user) {
-          context.goNamed(AppRoutes.mainName);
-        },
-      );
-    } else {
-      context.goNamed(AppRoutes.onboarding1Name);
-    }
+    // The GoRouter's redirect logic inside RouteGuard will automatically
+    // route the user to login or main once authState resolves.
+    // If it's already resolved by the time we get here, GoRouter might not
+    // re-trigger redirect if location doesn't change. We can force it by going
+    // to a dummy splash action or we just let it be. But actually,
+    // if AuthNotifier resolves while we are on splash, RouteGuard's redirect
+    // will be invoked because refreshListenable notifies the router!
+    
+    // We don't need manual context.goNamed() anymore because RouteGuard
+    // forces redirect when AuthState changes from initial to authenticated/unauthenticated.
   }
 
   @override

@@ -38,6 +38,7 @@ class ReportTransactionList extends StatelessWidget {
           const SizedBox(height: 12),
           // Transaction items container
           Container(
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(16),
