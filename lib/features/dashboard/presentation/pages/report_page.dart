@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../report/presentation/widgets/report_action_buttons.dart';
+
 import '../../../report/presentation/widgets/report_header.dart';
 import '../../../report/presentation/widgets/report_insight_card.dart';
 import '../../../report/presentation/widgets/report_paylater_card.dart';
@@ -25,8 +25,6 @@ class ReportPage extends StatelessWidget {
               ReportPayLaterCard(),
               SizedBox(height: 16),
               ReportQuickStats(),
-              SizedBox(height: 20),
-              ReportActionButtons(),
               SizedBox(height: 20),
               ReportInsightCard(),
               SizedBox(height: 24),

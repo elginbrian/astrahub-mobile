@@ -71,9 +71,25 @@ class HomeHeader extends ConsumerWidget {
               error: (_, __) => const Text('Gagal memuat profil'),
             ),
           ),
-          IconButton(
-            onPressed: () => context.pushNamed(AppRoutes.notificationName),
-            icon: const Icon(Icons.notifications_none, color: AppColors.astraBlue),
+          Stack(
+            children: [
+              IconButton(
+                onPressed: () => context.pushNamed(AppRoutes.notificationName),
+                icon: const Icon(Icons.notifications_none, color: AppColors.astraBlue),
+              ),
+              Positioned(
+                right: 12,
+                top: 12,
+                child: Container(
+                  width: 8,
+                  height: 8,
+                  decoration: const BoxDecoration(
+                    color: Colors.red,
+                    shape: BoxShape.circle,
+                  ),
+                ),
+              ),
+            ],
           ),
         ],
       ),

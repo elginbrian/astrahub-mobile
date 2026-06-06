@@ -7,6 +7,7 @@ import '../../../home/presentation/widgets/home_low_stock_list.dart';
 import '../../../home/presentation/widgets/home_promo_banner.dart';
 import '../../../home/presentation/widgets/home_quick_stats.dart';
 import '../../../home/presentation/widgets/home_recent_activities.dart';
+import '../../../home/presentation/widgets/home_action_menu.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -26,6 +27,8 @@ class HomePage extends StatelessWidget {
               HomeAlertBanner(),
               SizedBox(height: 20),
               HomeQuickStats(),
+              SizedBox(height: 24),
+              HomeActionMenu(),
               SizedBox(height: 24),
               HomeLowStockList(),
               SizedBox(height: 24),
