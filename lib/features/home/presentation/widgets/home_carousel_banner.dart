@@ -11,7 +11,9 @@ class HomeCarouselBanner extends StatefulWidget {
 }
 
 class _HomeCarouselBannerState extends State<HomeCarouselBanner> {
-  final PageController _pageController = PageController(initialPage: 10000, viewportFraction: 0.9);
+  late PageController _pageController;
+  double _currentFraction = 0.90;
+  bool _isInit = false;
   int _currentIndex = 0;
   Timer? _timer;
 
@@ -25,6 +27,28 @@ class _HomeCarouselBannerState extends State<HomeCarouselBanner> {
   void initState() {
     super.initState();
     _startAutoPlay();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    final screenWidth = MediaQuery.of(context).size.width;
+    
+    double targetFraction = 0.90;
+    if (screenWidth > 500) {
+      targetFraction = 450.0 / screenWidth;
+    }
+    
+    if (!_isInit) {
+      _currentFraction = targetFraction;
+      _pageController = PageController(initialPage: 10000, viewportFraction: _currentFraction);
+      _isInit = true;
+    } else if ((_currentFraction - targetFraction).abs() > 0.01) {
+      _currentFraction = targetFraction;
+      final int page = _pageController.hasClients ? _pageController.page?.round() ?? 10000 : 10000;
+      _pageController.dispose();
+      _pageController = PageController(initialPage: page, viewportFraction: _currentFraction);
+    }
   }
 
   void _startAutoPlay() {
@@ -48,7 +72,8 @@ class _HomeCarouselBannerState extends State<HomeCarouselBanner> {
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
-    final bannerHeight = screenWidth * 0.36;
+    final effectiveWidth = screenWidth > 500 ? 500.0 : screenWidth;
+    final bannerHeight = (effectiveWidth * 0.36).clamp(100.0, 200.0);
 
     return Column(
       children: [
