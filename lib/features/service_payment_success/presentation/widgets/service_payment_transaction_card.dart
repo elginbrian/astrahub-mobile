@@ -33,7 +33,7 @@ class ServicePaymentTransactionCard extends StatelessWidget {
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
                 decoration: BoxDecoration(
-                  color: const Color(0xFFFCD34D),
+                  color: AppColors.astraYellow400,
                   borderRadius: BorderRadius.circular(6),
                 ),
                 child: Text(

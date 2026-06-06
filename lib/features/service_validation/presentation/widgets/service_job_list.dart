@@ -23,8 +23,8 @@ class ServiceJobList extends StatelessWidget {
         const SizedBox(height: 12),
         ServiceJobItem(
           icon: Icons.build,
-          iconBgColor: const Color(0xFFEFF6FF),
-          iconColor: const Color(0xFF3B82F6),
+          iconBgColor: AppColors.astraBlue50,
+          iconColor: AppColors.astraBlue500,
           name: 'Servis Rutin',
           category: 'Labor / Jasa',
           price: 'Rp 50.000',
@@ -33,8 +33,8 @@ class ServiceJobList extends StatelessWidget {
         const SizedBox(height: 8),
         ServiceJobItem(
           icon: Icons.opacity,
-          iconBgColor: const Color(0xFFEFF6FF),
-          iconColor: const Color(0xFF3B82F6),
+          iconBgColor: AppColors.astraBlue50,
+          iconColor: AppColors.astraBlue500,
           name: 'Oli Astra SPX 2 0.8L',
           category: 'Suku Cadang',
           price: 'Rp 55.000',
@@ -43,8 +43,8 @@ class ServiceJobList extends StatelessWidget {
         const SizedBox(height: 8),
         ServiceJobItem(
           icon: Icons.rotate_left,
-          iconBgColor: const Color(0xFFEFF6FF),
-          iconColor: const Color(0xFF3B82F6),
+          iconBgColor: AppColors.astraBlue50,
+          iconColor: AppColors.astraBlue500,
           name: 'Kampas Rem Depan',
           category: 'Suku Cadang',
           price: 'Rp 35.000',

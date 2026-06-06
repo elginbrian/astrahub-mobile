@@ -11,6 +11,7 @@ import '../../features/dashboard/presentation/pages/product_detail_page.dart';
 import '../../features/cart/presentation/pages/cart_page.dart';
 import '../../features/checkout/presentation/pages/checkout_page.dart';
 import '../../features/payment_success/presentation/pages/payment_success_page.dart';
+import '../../features/profile/presentation/pages/workshop_activation_page.dart';
 import '../../features/purchase_status/presentation/pages/purchase_status_page.dart';
 import '../../features/onboarding/presentation/pages/onboarding_1_page.dart';
 import '../../features/onboarding/presentation/pages/onboarding_2_page.dart';
@@ -20,6 +21,7 @@ import '../../features/new_service/presentation/pages/new_service_page.dart';
 import '../../features/service_validation/presentation/pages/service_validation_page.dart';
 import '../../features/service_payment_success/presentation/pages/service_payment_success_page.dart';
 import '../../features/notification/presentation/pages/notification_page.dart';
+import '../../features/auth/presentation/providers/auth_state_provider.dart';
 import 'app_routes.dart';
 import 'route_guard.dart';
 
@@ -32,6 +34,7 @@ final appRouterProvider = Provider<GoRouter>((ref) {
     navigatorKey: globalNavigatorKey,
     initialLocation: AppRoutes.splash,
     debugLogDiagnostics: true,
+    refreshListenable: ref.read(authStateProvider.notifier),
     redirect: guard.redirect,
     routes: [
       // ── Splash ──────────────────────────────────────────────────────
@@ -197,6 +200,15 @@ final appRouterProvider = Provider<GoRouter>((ref) {
         pageBuilder: (context, state) => CustomTransitionPage(
           key: state.pageKey,
           child: const NotificationPage(),
+          transitionsBuilder: _slideTransition,
+        ),
+      ),
+      GoRoute(
+        path: AppRoutes.workshopActivation,
+        name: AppRoutes.workshopActivationName,
+        pageBuilder: (context, state) => CustomTransitionPage(
+          key: state.pageKey,
+          child: const WorkshopActivationPage(),
           transitionsBuilder: _slideTransition,
         ),
       ),

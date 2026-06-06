@@ -6,6 +6,7 @@ import '../../../../../core/router/app_routes.dart';
 import '../../../../../core/theme/app_colors.dart';
 import '../../viewmodels/login_viewmodel.dart';
 import '../../viewmodels/login_state.dart';
+import '../../providers/auth_state_provider.dart';
 
 class LoginForm extends ConsumerStatefulWidget {
   const LoginForm({super.key});
@@ -48,7 +49,7 @@ class _LoginFormState extends ConsumerState<LoginForm> {
     ref.listen<LoginState>(loginViewModelProvider, (previous, next) {
       next.maybeWhen(
         success: (user) {
-          context.goNamed(AppRoutes.mainName);
+          ref.read(authStateProvider.notifier).login(user);
         },
         error: (message) {
           ScaffoldMessenger.of(context).showSnackBar(

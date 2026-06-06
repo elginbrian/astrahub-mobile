@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
+
+import '../../../../core/router/app_routes.dart';
 
 class HomePromoBanner extends StatelessWidget {
   const HomePromoBanner({super.key});
@@ -67,7 +70,7 @@ class HomePromoBanner extends StatelessWidget {
                     ),
                     const SizedBox(height: 16),
                     ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () => context.pushNamed(AppRoutes.workshopActivationName),
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.white,
                         foregroundColor: const Color(0xFF0F41BE),

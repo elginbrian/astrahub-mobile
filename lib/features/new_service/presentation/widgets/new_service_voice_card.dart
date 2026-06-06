@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../../../../core/theme/app_colors.dart';
+
 class NewServiceVoiceCard extends StatelessWidget {
   const NewServiceVoiceCard({super.key});
 
@@ -17,7 +19,7 @@ class NewServiceVoiceCard extends StatelessWidget {
         width: double.infinity,
         padding: const EdgeInsets.symmetric(vertical: 32, horizontal: 24),
         decoration: BoxDecoration(
-          color: const Color(0xFFFCD34D),
+          color: AppColors.astraYellow400,
           borderRadius: BorderRadius.circular(16),
         ),
         child: Column(

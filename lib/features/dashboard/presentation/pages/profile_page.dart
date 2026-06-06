@@ -2,13 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../../../core/di/injection.dart';
-import '../../../../core/network/dio_client.dart';
-import '../../../../core/router/app_routes.dart';
-import '../../../../core/storage/secure_storage.dart';
 import '../../../../core/theme/app_colors.dart';
-import '../../../auth/data/datasources/auth_api_service.dart';
-import '../../../auth/data/repositories/auth_repository_impl.dart';
+import '../../../auth/presentation/providers/auth_state_provider.dart';
 
 class ProfilePage extends ConsumerWidget {
   const ProfilePage({super.key});
@@ -34,17 +29,7 @@ class ProfilePage extends ConsumerWidget {
             const SizedBox(height: 24),
             ElevatedButton.icon(
               onPressed: () async {
-                // Logout logic
-                final apiService = AuthApiService(getIt<DioClient>().instance);
-                final repository = AuthRepositoryImpl(
-                  apiService: apiService,
-                  secureStorage: getIt<SecureStorage>(),
-                );
-                await repository.logout();
-                
-                if (context.mounted) {
-                  context.goNamed(AppRoutes.onboarding1Name);
-                }
+                await ref.read(authStateProvider.notifier).logout();
               },
               icon: const Icon(Icons.logout),
               label: const Text('Logout'),

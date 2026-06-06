@@ -17,6 +17,7 @@ class HomePage extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.white,
       body: const SafeArea(
+        bottom: false,
         child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -35,17 +36,10 @@ class HomePage extends StatelessWidget {
               HomeRecentActivities(),
               SizedBox(height: 24),
               HomePromoBanner(),
-              SizedBox(height: 80), // Padding for FAB
+              SizedBox(height: 120), // Padding for navbar
             ],
           ),
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {},
-        backgroundColor: AppColors.astraBlue,
-        elevation: 4,
-        shape: const CircleBorder(),
-        child: const Icon(Icons.add, color: Colors.white, size: 28),
       ),
     );
   }

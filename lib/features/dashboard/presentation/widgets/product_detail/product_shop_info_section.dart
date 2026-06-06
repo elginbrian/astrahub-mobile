@@ -77,7 +77,7 @@ class ProductShopInfoSection extends StatelessWidget {
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
             decoration: BoxDecoration(
-              color: const Color(0xFFFEF3C7), // Light amber
+              color: AppColors.astraYellow100, // Light amber
               borderRadius: BorderRadius.circular(8),
             ),
             child: Row(

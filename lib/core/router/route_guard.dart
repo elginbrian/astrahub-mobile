@@ -1,6 +1,8 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../features/auth/presentation/providers/auth_state_provider.dart';
 import 'app_routes.dart';
 
 class RouteGuard {
@@ -8,7 +10,7 @@ class RouteGuard {
 
   final Ref _ref;
 
-  // All onboarding screens + auth screens are public (no login required)
+  // Routes that do NOT require authentication
   static const _publicRoutes = {
     AppRoutes.splash,
     AppRoutes.onboarding1,
@@ -17,31 +19,54 @@ class RouteGuard {
     AppRoutes.onboarding4,
     AppRoutes.login,
     AppRoutes.register,
-    AppRoutes.main,
-    AppRoutes.shop,
-    AppRoutes.productDetail,
-    AppRoutes.cart,
-    AppRoutes.checkout,
-    AppRoutes.paymentSuccess,
-    AppRoutes.purchaseStatus,
-    AppRoutes.newService,
-    AppRoutes.serviceValidation,
-    AppRoutes.servicePaymentSuccess,
-    AppRoutes.notification,
   };
 
-  Future<String?> redirect(_, GoRouterState state) async {
-    // TODO: replace with real auth state from Riverpod provider
-    const isAuthenticated = false;
+  String? redirect(BuildContext context, GoRouterState state) {
+    final authState = _ref.read(authStateProvider);
+    final status = authState.status;
 
-    final isPublic = _publicRoutes.contains(state.matchedLocation);
+    // While initializing, keep on splash screen
+    if (status == AuthStateStatus.initial) {
+      if (state.matchedLocation != AppRoutes.splash) {
+        return AppRoutes.splash;
+      }
+      return null;
+    }
 
-    if (!isAuthenticated && !isPublic) {
-      return AppRoutes.login;
+    // If we are on the splash screen but no longer initializing, redirect
+    if (state.matchedLocation == AppRoutes.splash) {
+      if (status == AuthStateStatus.authenticated) {
+        return AppRoutes.main;
+      } else {
+        return AppRoutes.onboarding1;
+      }
     }
-    if (isAuthenticated && state.matchedLocation == AppRoutes.login) {
-      return AppRoutes.main;
+
+    final isPublicRoute = _publicRoutes.contains(state.matchedLocation);
+
+    // If unauthenticated, redirect to login unless on a public route
+    if (status == AuthStateStatus.unauthenticated) {
+      if (!isPublicRoute) {
+        return AppRoutes.login;
+      }
+      return null;
     }
+
+    // If authenticated, prevent access to auth/public pages
+    if (status == AuthStateStatus.authenticated) {
+      if (isPublicRoute || state.matchedLocation == AppRoutes.login || state.matchedLocation == AppRoutes.register) {
+        return AppRoutes.main;
+      }
+
+      // Specific guard for workshop activation
+      if (state.matchedLocation == AppRoutes.workshopActivation) {
+        final hasWorkshop = authState.user?.workshopId != null;
+        if (hasWorkshop) {
+          return AppRoutes.main;
+        }
+      }
+    }
+
     return null;
   }
 }

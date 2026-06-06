@@ -20,7 +20,7 @@ class ShopPage extends StatelessWidget {
         children: [
           Positioned.fill(
             child: ListView(
-              padding: const EdgeInsets.only(top: 20, bottom: 120),
+              padding: const EdgeInsets.only(top: 20, bottom: 220),
               children: [
                 const ShopSearchBar(),
                 const SizedBox(height: 16),
@@ -47,7 +47,7 @@ class ShopPage extends StatelessWidget {
           const Positioned(
             left: 24,
             right: 24,
-            bottom: 0,
+            bottom: 18, // Moved up to account for navbar (60 + padding)
             child: ShopFloatingCart(),
           ),
         ],

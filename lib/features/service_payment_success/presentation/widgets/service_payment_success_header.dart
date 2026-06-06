@@ -16,7 +16,7 @@ class ServicePaymentSuccessHeader extends StatelessWidget {
           width: 88,
           height: 88,
           decoration: const BoxDecoration(
-            color: Color(0xFFE0E7FF),
+            color: AppColors.astraBlue100,
             shape: BoxShape.circle,
           ),
           child: Center(
