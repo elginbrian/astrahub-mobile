@@ -23,8 +23,8 @@ class HomeHeader extends ConsumerWidget {
         children: [
           const CircleAvatar(
             radius: 22,
-            backgroundColor: Color(0xFFE5E7EB),
-            child: Icon(Icons.person, color: Color(0xFF9CA3AF), size: 24),
+            backgroundColor: Colors.white24,
+            child: Icon(Icons.person, color: Colors.white, size: 24),
           ),
           const SizedBox(width: 12),
           Expanded(
@@ -35,7 +35,7 @@ class HomeHeader extends ConsumerWidget {
                   'Selamat pagi, $firstName',
                   style: GoogleFonts.plusJakartaSans(
                     fontSize: 12,
-                    color: const Color(0xFF6B7280),
+                    color: Colors.white70,
                   ),
                 ),
                 Text(
@@ -43,7 +43,7 @@ class HomeHeader extends ConsumerWidget {
                   style: GoogleFonts.plusJakartaSans(
                     fontSize: 16,
                     fontWeight: FontWeight.bold,
-                    color: const Color(0xFF111827),
+                    color: Colors.white,
                   ),
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
@@ -55,7 +55,7 @@ class HomeHeader extends ConsumerWidget {
             children: [
               IconButton(
                 onPressed: () => context.pushNamed(AppRoutes.notificationName),
-                icon: const Icon(Icons.notifications_none, color: AppColors.astraBlue),
+                icon: const Icon(Icons.notifications_none, color: Colors.white),
               ),
               Positioned(
                 right: 12,
