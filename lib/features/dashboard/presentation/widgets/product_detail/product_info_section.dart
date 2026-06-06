@@ -61,7 +61,7 @@ class ProductInfoSection extends StatelessWidget {
             children: [
               _buildBadge('Diskon 12% (50rb)', AppColors.error.withOpacity(0.1), AppColors.error),
               _buildBadge('Belanja Rp500rb, Diskon 5%', AppColors.error.withOpacity(0.1), AppColors.error),
-              _buildBadge('Bonus 250rb', const Color(0xFFFEF08A), const Color(0xFFB45309)),
+              _buildBadge('Bonus 250rb', AppColors.astraYellow200, AppColors.astraYellow700),
             ],
           ),
           const SizedBox(height: 16),

@@ -57,7 +57,7 @@ class WorkshopInfoBanner extends StatelessWidget {
       decoration: BoxDecoration(
         color: AppColors.astraBlue50,
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: const Color(0xFFBFDBFE)),
+        border: Border.all(color: AppColors.astraBlue200),
       ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -69,7 +69,7 @@ class WorkshopInfoBanner extends StatelessWidget {
               'Setelah verifikasi, bengkel Anda dapat mengakses ekosistem AstraPay dan kemudahan PayLater B2B FIFGROUP.',
               style: GoogleFonts.plusJakartaSans(
                 fontSize: 13,
-                color: const Color(0xFF1E3A8A),
+                color: AppColors.astraBlue900,
                 height: 1.5,
               ),
             ),

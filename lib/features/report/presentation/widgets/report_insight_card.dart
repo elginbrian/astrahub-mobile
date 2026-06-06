@@ -14,7 +14,7 @@ class ReportInsightCard extends StatelessWidget {
       decoration: BoxDecoration(
         color: AppColors.astraBlue50,
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: const Color(0xFFBFDBFE)),
+        border: Border.all(color: AppColors.astraBlue200),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -28,7 +28,7 @@ class ReportInsightCard extends StatelessWidget {
                 style: GoogleFonts.plusJakartaSans(
                   fontSize: 14,
                   fontWeight: FontWeight.bold,
-                  color: const Color(0xFF1E3A8A),
+                  color: AppColors.astraBlue900,
                 ),
               ),
             ],

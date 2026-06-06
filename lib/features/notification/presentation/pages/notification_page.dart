@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../../../core/theme/app_colors.dart';
+
 import '../widgets/notification_app_bar.dart';
 import '../widgets/notification_date_group.dart';
 import '../widgets/notification_item.dart';
@@ -32,7 +34,7 @@ class NotificationPage extends StatelessWidget {
                   ),
                   const NotificationItem(
                     icon: Icons.qr_code_2,
-                    iconColor: Color(0xFF1D4ED8),
+                    iconColor: AppColors.astraBlue700,
                     iconBgColor: Color(0xFFDBEAFE),
                     title: 'Pembayaran QRIS Berhasil',
                     subtitle: 'Pelanggan: Andi • Ref: #ASTR-8821',

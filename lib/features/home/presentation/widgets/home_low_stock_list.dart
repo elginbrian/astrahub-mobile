@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
+
+import '../../../../core/router/app_routes.dart';
 
 import '../../../../core/theme/app_colors.dart';
 
@@ -23,12 +26,17 @@ class HomeLowStockList extends StatelessWidget {
                   color: const Color(0xFF111827),
                 ),
               ),
-              Text(
-                'Lihat Semua',
-                style: GoogleFonts.plusJakartaSans(
-                  fontSize: 12,
-                  fontWeight: FontWeight.w600,
-                  color: AppColors.astraBlue,
+              GestureDetector(
+                onTap: () {
+                  context.push(AppRoutes.stock);
+                },
+                child: Text(
+                  'Lihat Semua',
+                  style: GoogleFonts.plusJakartaSans(
+                    fontSize: 12,
+                    fontWeight: FontWeight.w600,
+                    color: AppColors.astraBlue,
+                  ),
                 ),
               ),
             ],
@@ -36,7 +44,7 @@ class HomeLowStockList extends StatelessWidget {
           const SizedBox(height: 12),
           _buildItem('Oli Astra SPX', '3 Kaleng', const Color(0xFFFEE2E2), const Color(0xFFEF4444)),
           const SizedBox(height: 8),
-          _buildItem('Kampas Rem Honda', '8 Pcs', const Color(0xFFFEF08A), const Color(0xFF854D0E), dotColor: const Color(0xFFCA8A04)),
+          _buildItem('Kampas Rem Honda', '8 Pcs', AppColors.astraYellow200, AppColors.astraYellow800, dotColor: AppColors.astraYellow600),
         ],
       ),
     );

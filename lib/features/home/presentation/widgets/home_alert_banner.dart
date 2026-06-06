@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../../../../core/theme/app_colors.dart';
+
 class HomeAlertBanner extends StatelessWidget {
   const HomeAlertBanner({super.key});
 
@@ -18,10 +20,10 @@ class HomeAlertBanner extends StatelessWidget {
           Container(
             padding: const EdgeInsets.all(6),
             decoration: const BoxDecoration(
-              color: Color(0xFFFEF08A),
+              color: AppColors.astraYellow200,
               shape: BoxShape.circle,
             ),
-            child: const Icon(Icons.warning_amber_rounded, size: 20, color: Color(0xFF854D0E)),
+            child: const Icon(Icons.warning_amber_rounded, size: 20, color: AppColors.astraYellow800),
           ),
           const SizedBox(width: 12),
           Expanded(
@@ -34,7 +36,7 @@ class HomeAlertBanner extends StatelessWidget {
               ),
             ),
           ),
-          const Icon(Icons.chevron_right, color: Color(0xFF854D0E)),
+          const Icon(Icons.chevron_right, color: AppColors.astraYellow800),
         ],
       ),
     );
