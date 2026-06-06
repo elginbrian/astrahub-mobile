@@ -9,6 +9,10 @@ import '../../domain/entities/service_summary_entity.dart';
 import '../../domain/entities/service_type_entity.dart';
 import '../../domain/repositories/cashier_repository.dart';
 import '../datasources/cashier_api_service.dart';
+import '../models/receipt_model.dart';
+import '../models/service_detail_model.dart';
+import '../models/service_summary_model.dart';
+import '../models/service_type_model.dart';
 
 class CashierRepositoryImpl implements CashierRepository {
   CashierRepositoryImpl({required this.apiService});

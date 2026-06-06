@@ -19,7 +19,7 @@ class _LoginFormState extends ConsumerState<LoginForm> {
   final _phoneController = TextEditingController();
   final _passwordController = TextEditingController();
   bool _obscurePassword = true;
-  bool _rememberMe = false;
+  bool _rememberMe = true;
   final bool _isLoading = false;
 
   @override
@@ -37,6 +37,10 @@ class _LoginFormState extends ConsumerState<LoginForm> {
           password: _passwordController.text,
           rememberMe: _rememberMe,
         );
+  }
+
+  void _onGoogleLogin() {
+    ref.read(loginViewModelProvider.notifier).loginWithGoogle();
   }
 
   @override
@@ -281,7 +285,7 @@ class _LoginFormState extends ConsumerState<LoginForm> {
               width: double.infinity,
               height: 48,
               child: OutlinedButton(
-                onPressed: () {},
+                onPressed: isLoading ? null : _onGoogleLogin,
                 style: OutlinedButton.styleFrom(
                   foregroundColor: const Color(0xFF111827),
                   side: const BorderSide(color: Color(0xFFD1D5DB)),

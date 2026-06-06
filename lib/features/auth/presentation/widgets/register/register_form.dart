@@ -62,8 +62,6 @@ class _RegisterFormState extends ConsumerState<RegisterForm> {
           phone: _phoneController.text,
           email: _emailController.text,
           password: _passwordController.text,
-          passwordConfirmation: _confirmPasswordController.text,
-          agreeTerms: _agreedToTerms,
         );
   }
 

@@ -1,6 +1,6 @@
 abstract class ApiConstants {
   // ── Base URL ─────────────────────────────────────────────────────
-  static const String baseUrl = 'https://astrahub-backend.elginbrian.com/api/v1';
+  static const String baseUrl = 'https://astrahub-backend.elginbrian.com/v1';
 
   // ── Timeouts ─────────────────────────────────────────────────────
   static const int connectTimeoutSeconds = 30;
@@ -11,6 +11,8 @@ abstract class ApiConstants {
   static const String logout = '/auth/logout';
   static const String refresh = '/auth/refresh';
   static const String register = '/auth/register';
+  static const String googleLogin = '/auth/google/login';
+  static const String googleRegister = '/auth/google/register';
 
   // ── Profile Endpoints ──────────────────────────────────────────────
   static const String profile = '/profile';

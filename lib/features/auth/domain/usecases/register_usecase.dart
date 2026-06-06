@@ -11,15 +11,12 @@ class RegisterUseCase implements UseCase<UserEntity, RegisterParams> {
 
   final AuthRepository _repository;
 
-  @override
   Future<Either<Failure, UserEntity>> call(RegisterParams params) {
     return _repository.register(
       fullName: params.fullName,
       phone: params.phone,
       email: params.email,
       password: params.password,
-      passwordConfirmation: params.passwordConfirmation,
-      agreeTerms: params.agreeTerms,
     );
   }
 }
@@ -30,16 +27,12 @@ class RegisterParams extends Equatable {
     required this.phone,
     this.email,
     required this.password,
-    required this.passwordConfirmation,
-    required this.agreeTerms,
   });
 
   final String fullName;
   final String phone;
   final String? email;
   final String password;
-  final String passwordConfirmation;
-  final bool agreeTerms;
 
   @override
   List<Object?> get props => [
@@ -47,7 +40,5 @@ class RegisterParams extends Equatable {
         phone,
         email,
         password,
-        passwordConfirmation,
-        agreeTerms,
       ];
 }

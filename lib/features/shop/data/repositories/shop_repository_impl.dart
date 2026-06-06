@@ -11,6 +11,12 @@ import '../../domain/entities/shipping_address_entity.dart';
 import '../../domain/entities/wishlist_entity.dart';
 import '../../domain/repositories/shop_repository.dart';
 import '../datasources/shop_api_service.dart';
+import '../models/cart_model.dart';
+import '../models/checkout_model.dart';
+import '../models/order_model.dart';
+import '../models/product_model.dart';
+import '../models/shipping_address_model.dart';
+import '../models/wishlist_model.dart';
 
 class ShopRepositoryImpl implements ShopRepository {
   ShopRepositoryImpl({required this.apiService});

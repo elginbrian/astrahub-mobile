@@ -10,6 +10,11 @@ import '../../domain/entities/stock_report_entity.dart';
 import '../../domain/entities/top_services_entity.dart';
 import '../../domain/repositories/report_repository.dart';
 import '../datasources/report_api_service.dart';
+import '../models/insight_model.dart';
+import '../models/report_summary_model.dart';
+import '../models/report_transaction_model.dart';
+import '../models/stock_report_model.dart';
+import '../models/top_services_model.dart';
 
 class ReportRepositoryImpl implements ReportRepository {
   ReportRepositoryImpl({required this.apiService});

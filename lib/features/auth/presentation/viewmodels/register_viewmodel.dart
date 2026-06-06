@@ -21,8 +21,6 @@ class RegisterViewModel extends _$RegisterViewModel {
     required String phone,
     String? email,
     required String password,
-    required String passwordConfirmation,
-    required bool agreeTerms,
   }) async {
     state = const RegisterState.loading();
 
@@ -33,8 +31,6 @@ class RegisterViewModel extends _$RegisterViewModel {
         phone: phone,
         email: email,
         password: password,
-        passwordConfirmation: passwordConfirmation,
-        agreeTerms: agreeTerms,
       ),
     );
 
