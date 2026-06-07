@@ -42,15 +42,15 @@ class StockProductCard extends StatelessWidget {
         children: [
           // Product Image
           ClipRRect(
-            borderRadius: BorderRadius.circular(12),
+            borderRadius: BorderRadius.circular(8),
             child: Container(
-              width: 80,
-              height: 80,
+              width: 90,
+              height: 65,
               color: const Color(0xFFF3F4F6),
               child: Image.asset(
                 imageUrl,
-                width: 80,
-                height: 80,
+                width: 90,
+                height: 65,
                 fit: BoxFit.cover,
                 errorBuilder: (context, error, stackTrace) => const Icon(
                   Icons.image_outlined,
@@ -89,68 +89,32 @@ class StockProductCard extends StatelessWidget {
                     ),
                   ],
                 ),
-                const SizedBox(height: 2),
+                const SizedBox(height: 8),
                 Text(
-                  brand,
+                  price,
                   style: GoogleFonts.plusJakartaSans(
-                    fontSize: 13,
-                    color: const Color(0xFF6B7280),
+                    fontSize: 14,
+                    fontWeight: FontWeight.bold,
+                    color: AppColors.astraBlue,
                   ),
                 ),
-                const SizedBox(height: 12),
+                const SizedBox(height: 4),
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          price,
-                          style: GoogleFonts.plusJakartaSans(
-                            fontSize: 14,
-                            fontWeight: FontWeight.bold,
-                            color: AppColors.astraBlue,
-                          ),
-                        ),
-                        const SizedBox(height: 4),
-                        Row(
-                          children: [
-                            Container(
-                              width: 8,
-                              height: 8,
-                              decoration: BoxDecoration(
-                                color: stockColor,
-                                shape: BoxShape.circle,
-                              ),
-                            ),
-                            const SizedBox(width: 6),
-                            Text(
-                              'Stok: $stock',
-                              style: GoogleFonts.plusJakartaSans(
-                                fontSize: 12,
-                                color: stockColor, // using stockColor or grey as per design
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
+                    Container(
+                      width: 6,
+                      height: 6,
+                      decoration: BoxDecoration(
+                        color: stockColor,
+                        shape: BoxShape.circle,
+                      ),
                     ),
-                    // Add Button
-                    InkWell(
-                      onTap: () {},
-                      borderRadius: BorderRadius.circular(20),
-                      child: Container(
-                        padding: const EdgeInsets.all(8),
-                        decoration: BoxDecoration(
-                          color: AppColors.astraBlue50,
-                          shape: BoxShape.circle,
-                        ),
-                        child: const Icon(
-                          Icons.add,
-                          color: AppColors.astraBlue,
-                          size: 20,
-                        ),
+                    const SizedBox(width: 6),
+                    Text(
+                      'Stok: $stock',
+                      style: GoogleFonts.plusJakartaSans(
+                        fontSize: 12,
+                        color: stockColor,
                       ),
                     ),
                   ],

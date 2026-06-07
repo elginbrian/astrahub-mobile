@@ -116,8 +116,6 @@ class _OnboardingButton extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Icon(Icons.radio_button_unchecked, size: 20),
-            const SizedBox(width: 12),
             Text(
               label,
               style: GoogleFonts.plusJakartaSans(
@@ -125,8 +123,8 @@ class _OnboardingButton extends StatelessWidget {
                 fontWeight: FontWeight.w600,
               ),
             ),
-            const SizedBox(width: 12),
-            const Icon(Icons.radio_button_unchecked, size: 20),
+            const SizedBox(width: 8),
+            const Icon(Icons.arrow_forward, size: 20),
           ],
         ),
       ),

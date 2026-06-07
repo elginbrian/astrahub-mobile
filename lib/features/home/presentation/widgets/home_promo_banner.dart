@@ -70,7 +70,7 @@ class HomePromoBanner extends StatelessWidget {
                     ),
                     const SizedBox(height: 16),
                     ElevatedButton(
-                      onPressed: () => context.pushNamed(AppRoutes.workshopActivationName),
+                      onPressed: () => context.pushNamed(AppRoutes.personalDataActivationName),
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.white,
                         foregroundColor: const Color(0xFF0F41BE),

@@ -20,6 +20,7 @@ abstract class AppRoutes {
   static const servicePaymentSuccess = '/service-payment-success';
   static const notification = '/notification';
   static const workshopActivation = '/workshop-activation';
+  static const personalDataActivation = '/personal-data-activation';
   static const stock = '/stock';
 
   // ── Names ──────────────────────────────────────────────────────────
@@ -42,5 +43,6 @@ abstract class AppRoutes {
   static const servicePaymentSuccessName = 'servicePaymentSuccess';
   static const notificationName = 'notification';
   static const workshopActivationName = 'workshopActivation';
+  static const personalDataActivationName = 'personalDataActivation';
   static const stockName = 'stock';
 }

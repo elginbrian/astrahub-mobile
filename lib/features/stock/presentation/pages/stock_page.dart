@@ -21,7 +21,7 @@ class StockPage extends StatelessWidget {
           onPressed: () => context.pop(),
         ),
         title: Text(
-          'Detail Servis',
+          'Stok Bengkel',
           style: GoogleFonts.plusJakartaSans(
             fontSize: 16,
             fontWeight: FontWeight.bold,
@@ -39,30 +39,11 @@ class StockPage extends StatelessWidget {
           children: [
             Padding(
               padding: const EdgeInsets.all(20),
-              child: Column(
+              child: Row(
                 children: [
-                  const StockSearchBar(),
-                  const SizedBox(height: 24),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        'Daftar Produk',
-                        style: GoogleFonts.plusJakartaSans(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                          color: const Color(0xFF111827),
-                        ),
-                      ),
-                      Row(
-                        children: [
-                          Icon(Icons.filter_list, color: const Color(0xFF4B5563), size: 24),
-                          const SizedBox(width: 12),
-                          Icon(Icons.sort, color: const Color(0xFF4B5563), size: 24),
-                        ],
-                      ),
-                    ],
-                  ),
+                  const Expanded(child: StockSearchBar()),
+                  const SizedBox(width: 16),
+                  const Icon(Icons.filter_list, color: Color(0xFF4B5563), size: 24),
                 ],
               ),
             ),
@@ -95,6 +76,119 @@ class StockPage extends StatelessWidget {
                   ),
                   SizedBox(height: 24),
                 ],
+              ),
+            ),
+          ],
+        ),
+      ),
+      floatingActionButton: SizedBox(
+        height: 64,
+        width: 64,
+        child: FloatingActionButton(
+          onPressed: () => _showAddStockBottomSheet(context),
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          highlightElevation: 0,
+          focusElevation: 0,
+          hoverElevation: 0,
+          shape: const CircleBorder(),
+          child: Container(
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              gradient: const LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                colors: [
+                  AppColors.astraBlue800,
+                  AppColors.astraBlue950,
+                ],
+              ),
+              boxShadow: [
+                BoxShadow(
+                  color: AppColors.astraBlue800.withOpacity(0.3),
+                  blurRadius: 12,
+                  offset: const Offset(0, 4),
+                ),
+              ],
+            ),
+            child: const Center(
+              child: Icon(Icons.add, color: Colors.white, size: 32),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  void _showAddStockBottomSheet(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: Colors.transparent,
+      builder: (context) => Container(
+        padding: const EdgeInsets.fromLTRB(24, 12, 24, 32),
+        decoration: const BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Container(
+              width: 60,
+              height: 4,
+              decoration: BoxDecoration(
+                color: const Color(0xFF9CA3AF),
+                borderRadius: BorderRadius.circular(4),
+              ),
+            ),
+            const SizedBox(height: 24),
+            _buildBottomSheetButton(
+              icon: Icons.add_circle_outline,
+              label: 'Tambah manual',
+              onTap: () {
+                context.pop();
+              },
+            ),
+            const SizedBox(height: 12),
+            _buildBottomSheetButton(
+              icon: Icons.create_new_folder_outlined,
+              label: 'Tambah dari Pesanan',
+              onTap: () {
+                context.pop();
+              },
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildBottomSheetButton({
+    required IconData icon,
+    required String label,
+    required VoidCallback onTap,
+  }) {
+    return InkWell(
+      onTap: onTap,
+      borderRadius: BorderRadius.circular(16),
+      child: Container(
+        padding: const EdgeInsets.symmetric(vertical: 16),
+        width: double.infinity,
+        decoration: BoxDecoration(
+          color: AppColors.astraBlue50,
+          borderRadius: BorderRadius.circular(16),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(icon, color: AppColors.astraBlue, size: 20),
+            const SizedBox(width: 8),
+            Text(
+              label,
+              style: GoogleFonts.plusJakartaSans(
+                fontSize: 14,
+                fontWeight: FontWeight.w600,
+                color: AppColors.astraBlue,
               ),
             ),
           ],

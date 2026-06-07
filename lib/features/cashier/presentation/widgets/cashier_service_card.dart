@@ -20,7 +20,12 @@ class CashierServiceCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isDone = status == 'Selesai';
+    final formattedStatus = status.split(' ').map((word) {
+      if (word.isEmpty) return word;
+      return '${word[0].toUpperCase()}${word.substring(1).toLowerCase()}';
+    }).join(' ');
+    
+    final isDone = formattedStatus.toLowerCase() == 'selesai';
     final statusColor = isDone ? const Color(0xFF10B981) : AppColors.warning;
     final statusBgColor = isDone ? const Color(0xFFD1FAE5) : AppColors.astraYellow100;
 
@@ -57,7 +62,7 @@ class CashierServiceCard extends StatelessWidget {
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: Text(
-                  status,
+                  formattedStatus,
                   style: GoogleFonts.plusJakartaSans(
                     fontSize: 10,
                     fontWeight: FontWeight.w500,

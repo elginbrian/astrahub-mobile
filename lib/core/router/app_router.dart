@@ -12,6 +12,7 @@ import '../../features/cart/presentation/pages/cart_page.dart';
 import '../../features/checkout/presentation/pages/checkout_page.dart';
 import '../../features/payment_success/presentation/pages/payment_success_page.dart';
 import '../../features/profile/presentation/pages/workshop_activation_page.dart';
+import '../../features/profile/presentation/pages/personal_data_activation_page.dart';
 import '../../features/purchase_status/presentation/pages/purchase_status_page.dart';
 import '../../features/onboarding/presentation/pages/onboarding_1_page.dart';
 import '../../features/onboarding/presentation/pages/onboarding_2_page.dart';
@@ -210,6 +211,15 @@ final appRouterProvider = Provider<GoRouter>((ref) {
         pageBuilder: (context, state) => CustomTransitionPage(
           key: state.pageKey,
           child: const WorkshopActivationPage(),
+          transitionsBuilder: _slideTransition,
+        ),
+      ),
+      GoRoute(
+        path: AppRoutes.personalDataActivation,
+        name: AppRoutes.personalDataActivationName,
+        pageBuilder: (context, state) => CustomTransitionPage(
+          key: state.pageKey,
+          child: const PersonalDataActivationPage(),
           transitionsBuilder: _slideTransition,
         ),
       ),

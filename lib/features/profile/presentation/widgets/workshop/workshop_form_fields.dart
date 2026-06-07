@@ -102,6 +102,10 @@ class WorkshopDropdown extends StatelessWidget {
           value: value,
           icon: const Icon(Icons.keyboard_arrow_down, color: Color(0xFF6B7280)),
           dropdownColor: Colors.white,
+          style: GoogleFonts.plusJakartaSans(
+            fontSize: 14,
+            color: const Color(0xFF111827),
+          ),
           decoration: InputDecoration(
             filled: true,
             fillColor: Colors.white,
@@ -129,7 +133,10 @@ class WorkshopDropdown extends StatelessWidget {
               value: item,
               child: Text(
                 item,
-                style: GoogleFonts.plusJakartaSans(fontSize: 14),
+                style: GoogleFonts.plusJakartaSans(
+                  fontSize: 14,
+                  color: const Color(0xFF111827),
+                ),
               ),
             );
           }).toList(),

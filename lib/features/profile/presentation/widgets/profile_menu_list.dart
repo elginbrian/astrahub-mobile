@@ -33,7 +33,7 @@ class ProfileMenuList extends StatelessWidget {
             icon: Icons.business_center_outlined,
             title: 'Data Usaha',
             onTap: () {
-              context.push(AppRoutes.workshopActivation);
+              context.push(AppRoutes.personalDataActivation);
             },
           ),
           const Divider(height: 1, color: Color(0xFFE5E7EB)),
