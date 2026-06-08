@@ -1,13 +1,14 @@
 import 'package:dartz/dartz.dart';
 
 import '../../../../core/error/failures.dart';
+import '../entities/dashboard_entity.dart';
 import '../entities/receipt_entity.dart';
 import '../entities/service_detail_entity.dart';
 import '../entities/service_summary_entity.dart';
 import '../entities/service_type_entity.dart';
 
 abstract class CashierRepository {
-  Future<Either<Failure, List<ServiceSummaryEntity>>> getTodayServices({String? date});
+  Future<Either<Failure, DashboardEntity>> getDashboard({String? date});
   
   Future<Either<Failure, List<ServiceSummaryEntity>>> getHistory();
   

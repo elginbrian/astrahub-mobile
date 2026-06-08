@@ -10,23 +10,12 @@ class CashierServiceList extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // Backend integration temporarily disconnected
-    // final state = ref.watch(cashierViewModelProvider);
+    final state = ref.watch(cashierViewModelProvider);
     final currencyFormatter = NumberFormat.currency(
       locale: 'id_ID',
       symbol: 'Rp ',
       decimalDigits: 0,
     );
-
-    // Dummy data
-    final dummyServices = [
-      {'title': 'Servis Berkala & Ganti Oli', 'vehicle': 'Honda Beat • B 1234 ABC', 'time': '10:30', 'price': 150000, 'status': 'selesai'},
-      {'title': 'Ganti Kampas Rem', 'vehicle': 'Yamaha NMAX • B 5678 DEF', 'time': '11:45', 'price': 85000, 'status': 'proses'},
-      {'title': 'Servis CVT', 'vehicle': 'Honda Vario • B 9012 GHI', 'time': '13:00', 'price': 250000, 'status': 'menunggu'},
-      {'title': 'Ganti Aki', 'vehicle': 'Honda Scoopy • B 3456 JKL', 'time': '13:30', 'price': 300000, 'status': 'menunggu'},
-      {'title': 'Ganti Ban Belakang', 'vehicle': 'Yamaha Aerox • B 7890 MNO', 'time': '14:15', 'price': 350000, 'status': 'menunggu'},
-      {'title': 'Servis Injeksi', 'vehicle': 'Honda PCX • B 1122 PQR', 'time': '15:00', 'price': 200000, 'status': 'menunggu'},
-    ];
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -42,15 +31,68 @@ class CashierServiceList extends ConsumerWidget {
             ),
           ),
           const SizedBox(height: 16),
-          ...dummyServices.map((s) {
-            return CashierServiceCard(
-              title: s['title'] as String,
-              vehicle: s['vehicle'] as String,
-              time: s['time'] as String,
-              price: currencyFormatter.format(s['price']),
-              status: s['status'] as String,
-            );
-          }),
+          if (state.isLoading)
+            const Center(child: CircularProgressIndicator())
+          else if (state.todayServices.isEmpty) ...[
+            Container(
+              width: double.infinity,
+              padding: const EdgeInsets.symmetric(vertical: 40, horizontal: 20),
+              decoration: BoxDecoration(
+                color: Colors.grey.shade50,
+                borderRadius: BorderRadius.circular(16),
+                border: Border.all(color: Colors.grey.shade200),
+              ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(Icons.inbox_outlined, size: 48, color: Colors.grey.shade400),
+                  const SizedBox(height: 16),
+                  Text(
+                    'Belum ada servis hari ini',
+                    style: GoogleFonts.plusJakartaSans(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w600,
+                      color: Colors.grey.shade600,
+                    ),
+                  ),
+                  const SizedBox(height: 4),
+                  Text(
+                    'Semua transaksi servis bengkel akan muncul di sini',
+                    style: GoogleFonts.plusJakartaSans(
+                      fontSize: 12,
+                      color: Colors.grey.shade500,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(height: 12),
+          ] else
+            ...state.todayServices.map((s) {
+              DateTime? date;
+              try {
+                date = DateTime.parse(s.createdAt).toLocal();
+              } catch (_) {}
+              final timeString = date != null ? DateFormat('HH:mm').format(date) : '-';
+              
+              String displayStatus = s.status;
+              if (displayStatus.toLowerCase() == 'done') {
+                displayStatus = 'Selesai';
+              } else if (displayStatus.toLowerCase() == 'progress') {
+                displayStatus = 'Proses';
+              } else if (displayStatus.toLowerCase() == 'waiting') {
+                displayStatus = 'Menunggu';
+              }
+
+              return CashierServiceCard(
+                title: s.customerName,
+                vehicle: '${s.vehicleType} • ${s.plateNumber}',
+                time: timeString,
+                price: currencyFormatter.format(s.total),
+                status: displayStatus,
+              );
+            }),
           const SizedBox(height: 100),
         ],
       ),

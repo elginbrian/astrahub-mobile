@@ -20,7 +20,7 @@ class CashierViewModel extends _$CashierViewModel {
 
   Future<void> loadTodayServices() async {
     state = state.copyWith(isLoading: true, error: null);
-    final result = await _repository.getTodayServices();
+    final result = await _repository.getDashboard();
     
     result.fold(
       (failure) {
@@ -29,10 +29,16 @@ class CashierViewModel extends _$CashierViewModel {
           error: failure.message,
         );
       },
-      (services) {
+      (dashboard) {
         state = state.copyWith(
           isLoading: false,
-          todayServices: services,
+          todayServices: dashboard.recentServices,
+          revenue: dashboard.revenue,
+          completedServices: dashboard.completedServices,
+          stockTotal: dashboard.stockTotal,
+          stockAman: dashboard.stockAman,
+          stockHampirHabis: dashboard.stockHampirHabis,
+          stockTidakAman: dashboard.stockTidakAman,
         );
       },
     );

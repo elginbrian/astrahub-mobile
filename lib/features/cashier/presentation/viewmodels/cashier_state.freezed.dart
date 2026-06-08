@@ -14,7 +14,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$CashierState {
 
- bool get isLoading; List<ServiceSummaryEntity> get todayServices; List<ServiceSummaryEntity> get historyServices; String? get error;
+ bool get isLoading; List<ServiceSummaryEntity> get todayServices; List<ServiceSummaryEntity> get historyServices; int get revenue; int get completedServices; int get stockTotal; int get stockAman; int get stockHampirHabis; int get stockTidakAman; String? get error;
 /// Create a copy of CashierState
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -25,16 +25,16 @@ $CashierStateCopyWith<CashierState> get copyWith => _$CashierStateCopyWithImpl<C
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is CashierState&&(identical(other.isLoading, isLoading) || other.isLoading == isLoading)&&const DeepCollectionEquality().equals(other.todayServices, todayServices)&&const DeepCollectionEquality().equals(other.historyServices, historyServices)&&(identical(other.error, error) || other.error == error));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is CashierState&&(identical(other.isLoading, isLoading) || other.isLoading == isLoading)&&const DeepCollectionEquality().equals(other.todayServices, todayServices)&&const DeepCollectionEquality().equals(other.historyServices, historyServices)&&(identical(other.revenue, revenue) || other.revenue == revenue)&&(identical(other.completedServices, completedServices) || other.completedServices == completedServices)&&(identical(other.stockTotal, stockTotal) || other.stockTotal == stockTotal)&&(identical(other.stockAman, stockAman) || other.stockAman == stockAman)&&(identical(other.stockHampirHabis, stockHampirHabis) || other.stockHampirHabis == stockHampirHabis)&&(identical(other.stockTidakAman, stockTidakAman) || other.stockTidakAman == stockTidakAman)&&(identical(other.error, error) || other.error == error));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,isLoading,const DeepCollectionEquality().hash(todayServices),const DeepCollectionEquality().hash(historyServices),error);
+int get hashCode => Object.hash(runtimeType,isLoading,const DeepCollectionEquality().hash(todayServices),const DeepCollectionEquality().hash(historyServices),revenue,completedServices,stockTotal,stockAman,stockHampirHabis,stockTidakAman,error);
 
 @override
 String toString() {
-  return 'CashierState(isLoading: $isLoading, todayServices: $todayServices, historyServices: $historyServices, error: $error)';
+  return 'CashierState(isLoading: $isLoading, todayServices: $todayServices, historyServices: $historyServices, revenue: $revenue, completedServices: $completedServices, stockTotal: $stockTotal, stockAman: $stockAman, stockHampirHabis: $stockHampirHabis, stockTidakAman: $stockTidakAman, error: $error)';
 }
 
 
@@ -45,7 +45,7 @@ abstract mixin class $CashierStateCopyWith<$Res>  {
   factory $CashierStateCopyWith(CashierState value, $Res Function(CashierState) _then) = _$CashierStateCopyWithImpl;
 @useResult
 $Res call({
- bool isLoading, List<ServiceSummaryEntity> todayServices, List<ServiceSummaryEntity> historyServices, String? error
+ bool isLoading, List<ServiceSummaryEntity> todayServices, List<ServiceSummaryEntity> historyServices, int revenue, int completedServices, int stockTotal, int stockAman, int stockHampirHabis, int stockTidakAman, String? error
 });
 
 
@@ -62,12 +62,18 @@ class _$CashierStateCopyWithImpl<$Res>
 
 /// Create a copy of CashierState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? isLoading = null,Object? todayServices = null,Object? historyServices = null,Object? error = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? isLoading = null,Object? todayServices = null,Object? historyServices = null,Object? revenue = null,Object? completedServices = null,Object? stockTotal = null,Object? stockAman = null,Object? stockHampirHabis = null,Object? stockTidakAman = null,Object? error = freezed,}) {
   return _then(_self.copyWith(
 isLoading: null == isLoading ? _self.isLoading : isLoading // ignore: cast_nullable_to_non_nullable
 as bool,todayServices: null == todayServices ? _self.todayServices : todayServices // ignore: cast_nullable_to_non_nullable
 as List<ServiceSummaryEntity>,historyServices: null == historyServices ? _self.historyServices : historyServices // ignore: cast_nullable_to_non_nullable
-as List<ServiceSummaryEntity>,error: freezed == error ? _self.error : error // ignore: cast_nullable_to_non_nullable
+as List<ServiceSummaryEntity>,revenue: null == revenue ? _self.revenue : revenue // ignore: cast_nullable_to_non_nullable
+as int,completedServices: null == completedServices ? _self.completedServices : completedServices // ignore: cast_nullable_to_non_nullable
+as int,stockTotal: null == stockTotal ? _self.stockTotal : stockTotal // ignore: cast_nullable_to_non_nullable
+as int,stockAman: null == stockAman ? _self.stockAman : stockAman // ignore: cast_nullable_to_non_nullable
+as int,stockHampirHabis: null == stockHampirHabis ? _self.stockHampirHabis : stockHampirHabis // ignore: cast_nullable_to_non_nullable
+as int,stockTidakAman: null == stockTidakAman ? _self.stockTidakAman : stockTidakAman // ignore: cast_nullable_to_non_nullable
+as int,error: freezed == error ? _self.error : error // ignore: cast_nullable_to_non_nullable
 as String?,
   ));
 }
@@ -153,10 +159,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( bool isLoading,  List<ServiceSummaryEntity> todayServices,  List<ServiceSummaryEntity> historyServices,  String? error)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( bool isLoading,  List<ServiceSummaryEntity> todayServices,  List<ServiceSummaryEntity> historyServices,  int revenue,  int completedServices,  int stockTotal,  int stockAman,  int stockHampirHabis,  int stockTidakAman,  String? error)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _CashierState() when $default != null:
-return $default(_that.isLoading,_that.todayServices,_that.historyServices,_that.error);case _:
+return $default(_that.isLoading,_that.todayServices,_that.historyServices,_that.revenue,_that.completedServices,_that.stockTotal,_that.stockAman,_that.stockHampirHabis,_that.stockTidakAman,_that.error);case _:
   return orElse();
 
 }
@@ -174,10 +180,10 @@ return $default(_that.isLoading,_that.todayServices,_that.historyServices,_that.
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( bool isLoading,  List<ServiceSummaryEntity> todayServices,  List<ServiceSummaryEntity> historyServices,  String? error)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( bool isLoading,  List<ServiceSummaryEntity> todayServices,  List<ServiceSummaryEntity> historyServices,  int revenue,  int completedServices,  int stockTotal,  int stockAman,  int stockHampirHabis,  int stockTidakAman,  String? error)  $default,) {final _that = this;
 switch (_that) {
 case _CashierState():
-return $default(_that.isLoading,_that.todayServices,_that.historyServices,_that.error);case _:
+return $default(_that.isLoading,_that.todayServices,_that.historyServices,_that.revenue,_that.completedServices,_that.stockTotal,_that.stockAman,_that.stockHampirHabis,_that.stockTidakAman,_that.error);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -194,10 +200,10 @@ return $default(_that.isLoading,_that.todayServices,_that.historyServices,_that.
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( bool isLoading,  List<ServiceSummaryEntity> todayServices,  List<ServiceSummaryEntity> historyServices,  String? error)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( bool isLoading,  List<ServiceSummaryEntity> todayServices,  List<ServiceSummaryEntity> historyServices,  int revenue,  int completedServices,  int stockTotal,  int stockAman,  int stockHampirHabis,  int stockTidakAman,  String? error)?  $default,) {final _that = this;
 switch (_that) {
 case _CashierState() when $default != null:
-return $default(_that.isLoading,_that.todayServices,_that.historyServices,_that.error);case _:
+return $default(_that.isLoading,_that.todayServices,_that.historyServices,_that.revenue,_that.completedServices,_that.stockTotal,_that.stockAman,_that.stockHampirHabis,_that.stockTidakAman,_that.error);case _:
   return null;
 
 }
@@ -209,7 +215,7 @@ return $default(_that.isLoading,_that.todayServices,_that.historyServices,_that.
 
 
 class _CashierState implements CashierState {
-  const _CashierState({this.isLoading = false, final  List<ServiceSummaryEntity> todayServices = const [], final  List<ServiceSummaryEntity> historyServices = const [], this.error}): _todayServices = todayServices,_historyServices = historyServices;
+  const _CashierState({this.isLoading = false, final  List<ServiceSummaryEntity> todayServices = const [], final  List<ServiceSummaryEntity> historyServices = const [], this.revenue = 0, this.completedServices = 0, this.stockTotal = 0, this.stockAman = 0, this.stockHampirHabis = 0, this.stockTidakAman = 0, this.error}): _todayServices = todayServices,_historyServices = historyServices;
   
 
 @override@JsonKey() final  bool isLoading;
@@ -227,6 +233,12 @@ class _CashierState implements CashierState {
   return EqualUnmodifiableListView(_historyServices);
 }
 
+@override@JsonKey() final  int revenue;
+@override@JsonKey() final  int completedServices;
+@override@JsonKey() final  int stockTotal;
+@override@JsonKey() final  int stockAman;
+@override@JsonKey() final  int stockHampirHabis;
+@override@JsonKey() final  int stockTidakAman;
 @override final  String? error;
 
 /// Create a copy of CashierState
@@ -239,16 +251,16 @@ _$CashierStateCopyWith<_CashierState> get copyWith => __$CashierStateCopyWithImp
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _CashierState&&(identical(other.isLoading, isLoading) || other.isLoading == isLoading)&&const DeepCollectionEquality().equals(other._todayServices, _todayServices)&&const DeepCollectionEquality().equals(other._historyServices, _historyServices)&&(identical(other.error, error) || other.error == error));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _CashierState&&(identical(other.isLoading, isLoading) || other.isLoading == isLoading)&&const DeepCollectionEquality().equals(other._todayServices, _todayServices)&&const DeepCollectionEquality().equals(other._historyServices, _historyServices)&&(identical(other.revenue, revenue) || other.revenue == revenue)&&(identical(other.completedServices, completedServices) || other.completedServices == completedServices)&&(identical(other.stockTotal, stockTotal) || other.stockTotal == stockTotal)&&(identical(other.stockAman, stockAman) || other.stockAman == stockAman)&&(identical(other.stockHampirHabis, stockHampirHabis) || other.stockHampirHabis == stockHampirHabis)&&(identical(other.stockTidakAman, stockTidakAman) || other.stockTidakAman == stockTidakAman)&&(identical(other.error, error) || other.error == error));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,isLoading,const DeepCollectionEquality().hash(_todayServices),const DeepCollectionEquality().hash(_historyServices),error);
+int get hashCode => Object.hash(runtimeType,isLoading,const DeepCollectionEquality().hash(_todayServices),const DeepCollectionEquality().hash(_historyServices),revenue,completedServices,stockTotal,stockAman,stockHampirHabis,stockTidakAman,error);
 
 @override
 String toString() {
-  return 'CashierState(isLoading: $isLoading, todayServices: $todayServices, historyServices: $historyServices, error: $error)';
+  return 'CashierState(isLoading: $isLoading, todayServices: $todayServices, historyServices: $historyServices, revenue: $revenue, completedServices: $completedServices, stockTotal: $stockTotal, stockAman: $stockAman, stockHampirHabis: $stockHampirHabis, stockTidakAman: $stockTidakAman, error: $error)';
 }
 
 
@@ -259,7 +271,7 @@ abstract mixin class _$CashierStateCopyWith<$Res> implements $CashierStateCopyWi
   factory _$CashierStateCopyWith(_CashierState value, $Res Function(_CashierState) _then) = __$CashierStateCopyWithImpl;
 @override @useResult
 $Res call({
- bool isLoading, List<ServiceSummaryEntity> todayServices, List<ServiceSummaryEntity> historyServices, String? error
+ bool isLoading, List<ServiceSummaryEntity> todayServices, List<ServiceSummaryEntity> historyServices, int revenue, int completedServices, int stockTotal, int stockAman, int stockHampirHabis, int stockTidakAman, String? error
 });
 
 
@@ -276,12 +288,18 @@ class __$CashierStateCopyWithImpl<$Res>
 
 /// Create a copy of CashierState
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? isLoading = null,Object? todayServices = null,Object? historyServices = null,Object? error = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? isLoading = null,Object? todayServices = null,Object? historyServices = null,Object? revenue = null,Object? completedServices = null,Object? stockTotal = null,Object? stockAman = null,Object? stockHampirHabis = null,Object? stockTidakAman = null,Object? error = freezed,}) {
   return _then(_CashierState(
 isLoading: null == isLoading ? _self.isLoading : isLoading // ignore: cast_nullable_to_non_nullable
 as bool,todayServices: null == todayServices ? _self._todayServices : todayServices // ignore: cast_nullable_to_non_nullable
 as List<ServiceSummaryEntity>,historyServices: null == historyServices ? _self._historyServices : historyServices // ignore: cast_nullable_to_non_nullable
-as List<ServiceSummaryEntity>,error: freezed == error ? _self.error : error // ignore: cast_nullable_to_non_nullable
+as List<ServiceSummaryEntity>,revenue: null == revenue ? _self.revenue : revenue // ignore: cast_nullable_to_non_nullable
+as int,completedServices: null == completedServices ? _self.completedServices : completedServices // ignore: cast_nullable_to_non_nullable
+as int,stockTotal: null == stockTotal ? _self.stockTotal : stockTotal // ignore: cast_nullable_to_non_nullable
+as int,stockAman: null == stockAman ? _self.stockAman : stockAman // ignore: cast_nullable_to_non_nullable
+as int,stockHampirHabis: null == stockHampirHabis ? _self.stockHampirHabis : stockHampirHabis // ignore: cast_nullable_to_non_nullable
+as int,stockTidakAman: null == stockTidakAman ? _self.stockTidakAman : stockTidakAman // ignore: cast_nullable_to_non_nullable
+as int,error: freezed == error ? _self.error : error // ignore: cast_nullable_to_non_nullable
 as String?,
   ));
 }

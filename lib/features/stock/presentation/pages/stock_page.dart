@@ -1,16 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:intl/intl.dart';
 
 import '../../../../core/theme/app_colors.dart';
+import '../viewmodels/stock_viewmodel.dart';
 import '../widgets/stock_search_bar.dart';
 import '../widgets/stock_product_card.dart';
 
-class StockPage extends StatelessWidget {
+class StockPage extends ConsumerWidget {
   const StockPage({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final state = ref.watch(stockViewModelProvider);
+    final currencyFormatter = NumberFormat.currency(
+      locale: 'id_ID',
+      symbol: 'Rp ',
+      decimalDigits: 0,
+    );
+
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -48,35 +58,57 @@ class StockPage extends StatelessWidget {
               ),
             ),
             Expanded(
-              child: ListView(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
-                children: const [
-                  StockProductCard(
-                    imageUrl: 'assets/images/mock-product-image.jpeg',
-                    title: 'Oli AHM SPX2 0.8L',
-                    brand: 'Astra Otoparts',
-                    price: 'Rp 65.000',
-                    stock: 2,
-                  ),
-                  SizedBox(height: 16),
-                  StockProductCard(
-                    imageUrl: 'assets/images/mock-product-image.jpeg',
-                    title: 'Ban Luar Federal 80/90-14',
-                    brand: 'Federal Tire',
-                    price: 'Rp 210.000',
-                    stock: 12,
-                  ),
-                  SizedBox(height: 16),
-                  StockProductCard(
-                    imageUrl: 'assets/images/mock-product-image.jpeg',
-                    title: 'Shell Advance AX7 10W-40',
-                    brand: 'Shell Indonesia',
-                    price: 'Rp 58.000',
-                    stock: 5,
-                  ),
-                  SizedBox(height: 24),
-                ],
-              ),
+              child: state.isLoading 
+                ? const Center(child: CircularProgressIndicator()) 
+                : state.stocks.isEmpty 
+                  ? Center(
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 20),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Icon(Icons.inventory_2_outlined, size: 48, color: Colors.grey.shade400),
+                            const SizedBox(height: 16),
+                            Text(
+                              'Belum ada data stok',
+                              style: GoogleFonts.plusJakartaSans(
+                                fontSize: 14,
+                                fontWeight: FontWeight.w600,
+                                color: Colors.grey.shade600,
+                              ),
+                            ),
+                            const SizedBox(height: 4),
+                            Text(
+                              'Tambahkan produk agar dapat digunakan di Kasir',
+                              textAlign: TextAlign.center,
+                              style: GoogleFonts.plusJakartaSans(
+                                fontSize: 12,
+                                color: Colors.grey.shade500,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    )
+                  : ListView.separated(
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
+                      itemCount: state.stocks.length + 1,
+                      separatorBuilder: (context, index) => const SizedBox(height: 16),
+                      itemBuilder: (context, index) {
+                        if (index == state.stocks.length) {
+                          return const SizedBox(height: 24);
+                        }
+                        final stock = state.stocks[index];
+                        return StockProductCard(
+                          imageUrl: 'assets/images/mock-product-image.jpeg',
+                          title: stock.name,
+                          brand: 'Otomotif',
+                          price: currencyFormatter.format(stock.price),
+                          stock: stock.quantity,
+                        );
+                      },
+                    ),
             ),
           ],
         ),

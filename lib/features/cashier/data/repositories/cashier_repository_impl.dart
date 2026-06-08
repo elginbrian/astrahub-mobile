@@ -3,12 +3,14 @@ import 'package:dio/dio.dart';
 
 import '../../../../core/error/dio_error_handler.dart';
 import '../../../../core/error/failures.dart';
+import '../../domain/entities/dashboard_entity.dart';
 import '../../domain/entities/receipt_entity.dart';
 import '../../domain/entities/service_detail_entity.dart';
 import '../../domain/entities/service_summary_entity.dart';
 import '../../domain/entities/service_type_entity.dart';
 import '../../domain/repositories/cashier_repository.dart';
 import '../datasources/cashier_api_service.dart';
+import '../models/dashboard_model.dart';
 import '../models/receipt_model.dart';
 import '../models/service_detail_model.dart';
 import '../models/service_summary_model.dart';
@@ -20,16 +22,19 @@ class CashierRepositoryImpl implements CashierRepository {
   final CashierApiService apiService;
 
   @override
-  Future<Either<Failure, List<ServiceSummaryEntity>>> getTodayServices({String? date}) async {
+  Future<Either<Failure, DashboardEntity>> getDashboard({String? date}) async {
     try {
-      final models = await apiService.getTodayServices(date: date);
-      return Right(models.map((e) => e.toEntity()).toList());
+      final model = await apiService.getDashboard(date: date);
+      return Right(model.toEntity());
     } on DioException catch (e) {
-      return Left(DioErrorHandler.handle(e));
+      return Left(ServerFailure(
+          e.response?.data['message'] ?? 'Gagal memuat dashboard kasir'));
     } catch (e) {
       return Left(ServerFailure(e.toString()));
     }
   }
+
+
 
   @override
   Future<Either<Failure, List<ServiceSummaryEntity>>> getHistory() async {

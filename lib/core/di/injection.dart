@@ -17,6 +17,9 @@ import '../../features/report/domain/repositories/report_repository.dart';
 import '../../features/profile/data/datasources/profile_api_service.dart';
 import '../../features/profile/data/repositories/profile_repository_impl.dart';
 import '../../features/profile/domain/repositories/profile_repository.dart';
+import '../../features/stock/data/datasources/stock_api_service.dart';
+import '../../features/stock/data/repositories/stock_repository_impl.dart';
+import '../../features/stock/domain/repositories/stock_repository.dart';
 
 final getIt = GetIt.instance;
 
@@ -78,5 +81,14 @@ Future<void> setupDependencies() async {
   
   getIt.registerLazySingleton<ReportRepository>(
     () => ReportRepositoryImpl(apiService: getIt<ReportApiService>()),
+  );
+
+  // Stock Feature
+  getIt.registerLazySingleton<StockApiService>(
+    () => StockApiService(getIt<DioClient>().instance),
+  );
+  
+  getIt.registerLazySingleton<StockRepository>(
+    () => StockRepositoryImpl(apiService: getIt<StockApiService>()),
   );
 }

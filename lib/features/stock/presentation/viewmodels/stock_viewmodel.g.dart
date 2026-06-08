@@ -1,26 +1,26 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'cashier_viewmodel.dart';
+part of 'stock_viewmodel.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
-String _$cashierViewModelHash() => r'b03dd42c5f53b485993bff079a9b5b5453aa5a0a';
+String _$stockViewModelHash() => r'e65a85dfb2ad16a62ba0093f6b9df89be6fee1ba';
 
-/// See also [CashierViewModel].
-@ProviderFor(CashierViewModel)
-final cashierViewModelProvider =
-    AutoDisposeNotifierProvider<CashierViewModel, CashierState>.internal(
-      CashierViewModel.new,
-      name: r'cashierViewModelProvider',
+/// See also [StockViewModel].
+@ProviderFor(StockViewModel)
+final stockViewModelProvider =
+    AutoDisposeNotifierProvider<StockViewModel, StockState>.internal(
+      StockViewModel.new,
+      name: r'stockViewModelProvider',
       debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
           ? null
-          : _$cashierViewModelHash,
+          : _$stockViewModelHash,
       dependencies: null,
       allTransitiveDependencies: null,
     );
 
-typedef _$CashierViewModel = AutoDisposeNotifier<CashierState>;
+typedef _$StockViewModel = AutoDisposeNotifier<StockState>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

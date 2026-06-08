@@ -21,10 +21,12 @@ abstract class ApiConstants {
   static const String profileTransactions = '/profile/transactions';
 
   // ── Cashier (Kasir) Endpoints ─────────────────────────────────────
+  static const String cashierDashboard = '/kasir/dashboard';
   static const String cashierServices = '/kasir/services';
   static const String cashierServicesVoice = '/kasir/services/voice';
   static const String cashierHistory = '/kasir/history';
-  static const String cashierServiceTypes = '/kasir/service-types';
+  static const String cashierPayment = '/kasir/services/pay';
+  static const String cashierWorkItems = '/kasir/work-items';
 
   // ── Shop (E-Commerce) Endpoints ───────────────────────────────────
   static const String shopProducts = '/shop/products';
@@ -43,6 +45,9 @@ abstract class ApiConstants {
   static const String reportTopServices = '/laporan/top-services';
   static const String reportTransactions = '/laporan/transactions';
   static const String reportInsight = '/laporan/insight';
+
+  // ── Stock Endpoints ───────────────────────────────────────────────
+  static const String stok = '/stok';
 
   // ── Headers ───────────────────────────────────────────────────────
   static const String authorizationHeader = 'Authorization';
