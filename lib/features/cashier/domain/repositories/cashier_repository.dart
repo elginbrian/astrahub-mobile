@@ -30,6 +30,14 @@ abstract class CashierRepository {
   
   Future<Either<Failure, ServiceDetailEntity>> getServiceDetail(String serviceId);
   
+  Future<Either<Failure, ServiceDetailEntity>> updateService(
+    String serviceId, {
+    required String customerName,
+    required String vehicleType,
+    required String plateNumber,
+    String? notes,
+  });
+  
   Future<Either<Failure, ServiceDetailEntity>> addServiceItem(
     String serviceId, {
     required String itemType,

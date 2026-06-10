@@ -55,6 +55,16 @@ class CashierApiService {
     return ServiceDetailModel.fromJson(data);
   }
 
+  Future<ServiceDetailModel> updateService(
+      String serviceId, Map<String, dynamic> body) async {
+    final response = await _dio.put<Map<String, dynamic>>(
+      '${ApiConstants.cashierServices}/$serviceId',
+      data: body,
+    );
+    final data = response.data!['data'] as Map<String, dynamic>;
+    return ServiceDetailModel.fromJson(data);
+  }
+
   Future<ServiceDetailModel> addServiceItem(
       String serviceId, Map<String, dynamic> body) async {
     final response = await _dio.post<Map<String, dynamic>>(
@@ -63,6 +73,14 @@ class CashierApiService {
     );
     final data = response.data!['data'] as Map<String, dynamic>;
     return ServiceDetailModel.fromJson(data);
+  }
+
+  Future<int> createWorkItem(Map<String, dynamic> body) async {
+    final response = await _dio.post<Map<String, dynamic>>(
+      ApiConstants.cashierWorkItems,
+      data: body,
+    );
+    return response.data!['data']['id'] as int;
   }
 
   Future<void> deleteServiceItem(String serviceId, String itemId) async {

@@ -6,6 +6,9 @@ import 'package:intl/intl.dart';
 
 import '../../../../core/theme/app_colors.dart';
 import '../viewmodels/stock_viewmodel.dart';
+import '../../domain/entities/stock_entity.dart';
+import '../viewmodels/stock_state.dart';
+import '../widgets/stock_form_sheet.dart';
 import '../widgets/stock_search_bar.dart';
 import '../widgets/stock_product_card.dart';
 
@@ -20,6 +23,7 @@ class StockPage extends ConsumerWidget {
       symbol: 'Rp ',
       decimalDigits: 0,
     );
+    final displayStocks = state.filteredAndSortedStocks;
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -53,62 +57,108 @@ class StockPage extends ConsumerWidget {
                 children: [
                   const Expanded(child: StockSearchBar()),
                   const SizedBox(width: 16),
-                  const Icon(Icons.filter_list, color: Color(0xFF4B5563), size: 24),
+                  PopupMenuButton<StockSortType>(
+                    icon: const Icon(Icons.filter_list, color: Color(0xFF4B5563), size: 24),
+                    color: Colors.white,
+                    surfaceTintColor: Colors.white,
+                    initialValue: state.sortType,
+                    onSelected: (value) {
+                      ref.read(stockViewModelProvider.notifier).setSortType(value);
+                    },
+                    itemBuilder: (context) => [
+                      PopupMenuItem(
+                        value: StockSortType.nameAsc,
+                        child: Text('Nama (A-Z)', style: GoogleFonts.plusJakartaSans()),
+                      ),
+                      PopupMenuItem(
+                        value: StockSortType.nameDesc,
+                        child: Text('Nama (Z-A)', style: GoogleFonts.plusJakartaSans()),
+                      ),
+                      PopupMenuItem(
+                        value: StockSortType.stockAsc,
+                        child: Text('Stok (Paling Sedikit)', style: GoogleFonts.plusJakartaSans()),
+                      ),
+                      PopupMenuItem(
+                        value: StockSortType.stockDesc,
+                        child: Text('Stok (Paling Banyak)', style: GoogleFonts.plusJakartaSans()),
+                      ),
+                    ],
+                  ),
                 ],
               ),
             ),
             Expanded(
-              child: state.isLoading 
-                ? const Center(child: CircularProgressIndicator()) 
-                : state.stocks.isEmpty 
-                  ? Center(
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 20),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Icon(Icons.inventory_2_outlined, size: 48, color: Colors.grey.shade400),
-                            const SizedBox(height: 16),
-                            Text(
-                              'Belum ada data stok',
-                              style: GoogleFonts.plusJakartaSans(
-                                fontSize: 14,
-                                fontWeight: FontWeight.w600,
-                                color: Colors.grey.shade600,
-                              ),
+              child: RefreshIndicator(
+                onRefresh: () => ref.read(stockViewModelProvider.notifier).loadStocks(),
+                color: AppColors.astraBlue,
+                child: state.isLoading 
+                  ? const Center(child: CircularProgressIndicator()) 
+                  : displayStocks.isEmpty 
+                    ? ListView(
+                        physics: const AlwaysScrollableScrollPhysics(),
+                        children: [
+                          SizedBox(height: MediaQuery.of(context).size.height * 0.25),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 20),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Icon(Icons.inventory_2_outlined, size: 48, color: Colors.grey.shade400),
+                                const SizedBox(height: 16),
+                                Text(
+                                  'Belum ada data stok',
+                                  style: GoogleFonts.plusJakartaSans(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w600,
+                                    color: Colors.grey.shade600,
+                                  ),
+                                ),
+                                const SizedBox(height: 4),
+                                Text(
+                                  'Tambahkan produk agar dapat digunakan di Kasir',
+                                  textAlign: TextAlign.center,
+                                  style: GoogleFonts.plusJakartaSans(
+                                    fontSize: 12,
+                                    color: Colors.grey.shade500,
+                                  ),
+                                ),
+                              ],
                             ),
-                            const SizedBox(height: 4),
-                            Text(
-                              'Tambahkan produk agar dapat digunakan di Kasir',
-                              textAlign: TextAlign.center,
-                              style: GoogleFonts.plusJakartaSans(
-                                fontSize: 12,
-                                color: Colors.grey.shade500,
-                              ),
-                            ),
-                          ],
-                        ),
+                          ),
+                        ],
+                      )
+                    : ListView.separated(
+                        physics: const AlwaysScrollableScrollPhysics(),
+                        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+                        itemCount: displayStocks.length + 1,
+                        separatorBuilder: (context, index) => const SizedBox(height: 16),
+                        itemBuilder: (context, index) {
+                          if (index == displayStocks.length) {
+                            return const SizedBox(height: 24);
+                          }
+                          final stock = displayStocks[index];
+                          return StockProductCard(
+                            imageUrl: 'assets/images/mock-product-image.jpeg',
+                            title: stock.name,
+                            brand: 'Otomotif',
+                            price: currencyFormatter.format(stock.price),
+                            stock: stock.quantity,
+                            onEdit: () {
+                              showModalBottomSheet(
+                                context: context,
+                                isScrollControlled: true,
+                                backgroundColor: Colors.transparent,
+                                builder: (context) => StockFormSheet(initialStock: stock),
+                              );
+                            },
+                            onDelete: () {
+                              _showDeleteConfirmation(context, ref, stock);
+                            },
+                          );
+                        },
                       ),
-                    )
-                  : ListView.separated(
-                      padding: const EdgeInsets.symmetric(horizontal: 20),
-                      itemCount: state.stocks.length + 1,
-                      separatorBuilder: (context, index) => const SizedBox(height: 16),
-                      itemBuilder: (context, index) {
-                        if (index == state.stocks.length) {
-                          return const SizedBox(height: 24);
-                        }
-                        final stock = state.stocks[index];
-                        return StockProductCard(
-                          imageUrl: 'assets/images/mock-product-image.jpeg',
-                          title: stock.name,
-                          brand: 'Otomotif',
-                          price: currencyFormatter.format(stock.price),
-                          stock: stock.quantity,
-                        );
-                      },
-                    ),
+              ),
             ),
           ],
         ),
@@ -179,6 +229,12 @@ class StockPage extends ConsumerWidget {
               label: 'Tambah manual',
               onTap: () {
                 context.pop();
+                showModalBottomSheet(
+                  context: context,
+                  isScrollControlled: true,
+                  backgroundColor: Colors.transparent,
+                  builder: (context) => const StockFormSheet(),
+                );
               },
             ),
             const SizedBox(height: 12),
@@ -190,6 +246,102 @@ class StockPage extends ConsumerWidget {
               },
             ),
           ],
+        ),
+      ),
+    );
+  }
+
+  void _showDeleteConfirmation(BuildContext context, WidgetRef ref, StockEntity stock) {
+    showDialog(
+      context: context,
+      builder: (context) => Dialog(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
+        child: Padding(
+          padding: const EdgeInsets.all(24),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Container(
+                padding: const EdgeInsets.all(16),
+                decoration: BoxDecoration(
+                  color: AppColors.error.withOpacity(0.1),
+                  shape: BoxShape.circle,
+                ),
+                child: const Icon(
+                  Icons.delete_outline,
+                  color: AppColors.error,
+                  size: 32,
+                ),
+              ),
+              const SizedBox(height: 16),
+              Text(
+                'Hapus Barang?',
+                style: GoogleFonts.plusJakartaSans(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 18,
+                  color: const Color(0xFF111827),
+                ),
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 8),
+              Text(
+                'Apakah Anda yakin ingin menghapus "${stock.name}"? Data yang dihapus tidak dapat dikembalikan.',
+                style: GoogleFonts.plusJakartaSans(
+                  color: const Color(0xFF6B7280),
+                  fontSize: 14,
+                ),
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 24),
+              Row(
+                children: [
+                  Expanded(
+                    child: OutlinedButton(
+                      onPressed: () => context.pop(),
+                      style: OutlinedButton.styleFrom(
+                        padding: const EdgeInsets.symmetric(vertical: 14),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        side: const BorderSide(color: Color(0xFFD1D5DB)), // Colors.grey.shade300
+                        foregroundColor: const Color(0xFF374151),
+                      ),
+                      child: Text(
+                        'Batal',
+                        style: GoogleFonts.plusJakartaSans(fontWeight: FontWeight.w600),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: AppColors.error,
+                        foregroundColor: Colors.white,
+                        elevation: 0,
+                        padding: const EdgeInsets.symmetric(vertical: 14),
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                      ),
+                      onPressed: () async {
+                        context.pop(); // Tutup dialog konfirmasi
+                        final success = await ref.read(stockViewModelProvider.notifier).deleteStock(stock.id);
+                        if (success && context.mounted) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text(
+                                'Stok "${stock.name}" berhasil dihapus',
+                              ),
+                            ),
+                          );
+                        }
+                      },
+                      child: Text('Hapus', style: GoogleFonts.plusJakartaSans(fontWeight: FontWeight.w600)),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );

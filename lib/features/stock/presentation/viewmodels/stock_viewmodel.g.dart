@@ -6,7 +6,7 @@ part of 'stock_viewmodel.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$stockViewModelHash() => r'e65a85dfb2ad16a62ba0093f6b9df89be6fee1ba';
+String _$stockViewModelHash() => r'65511a1c534e3c803181de9c204dfa9101c45834';
 
 /// See also [StockViewModel].
 @ProviderFor(StockViewModel)

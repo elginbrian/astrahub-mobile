@@ -1,19 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../core/router/app_routes.dart';
 import '../../../../core/theme/app_colors.dart';
+import '../../../cashier/presentation/viewmodels/service_detail_viewmodel.dart';
 import '../widgets/service_info_card.dart';
 import '../widgets/service_job_list.dart';
 import '../widgets/service_payment_info.dart';
 import '../widgets/service_payment_method.dart';
 
-class ServiceValidationPage extends StatelessWidget {
-  const ServiceValidationPage({super.key});
+class ServiceValidationPage extends ConsumerWidget {
+  final String? serviceId;
+
+  const ServiceValidationPage({super.key, this.serviceId});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    if (serviceId == null) {
+      return const Scaffold(body: Center(child: Text('Service ID not found')));
+    }
+
+    final asyncDetail = ref.watch(serviceDetailViewModelProvider(serviceId!));
+
     return Scaffold(
       backgroundColor: const Color(0xFFF9FAFB),
       appBar: AppBar(
@@ -36,20 +46,27 @@ class ServiceValidationPage extends StatelessWidget {
           child: Divider(height: 1, color: Color(0xFFE5E7EB)),
         ),
       ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.fromLTRB(16, 16, 16, 16),
-        child: const Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            ServiceInfoCard(),
-            SizedBox(height: 24),
-            ServiceJobList(),
-            SizedBox(height: 24),
-            ServicePaymentInfo(),
-            SizedBox(height: 24),
-            ServicePaymentMethod(),
-          ],
-        ),
+      body: asyncDetail.when(
+        data: (detail) {
+          if (detail == null) return const Center(child: Text('Detail not found'));
+          return SingleChildScrollView(
+            padding: const EdgeInsets.fromLTRB(16, 16, 16, 16),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                ServiceInfoCard(detail: detail),
+                const SizedBox(height: 24),
+                ServiceJobList(detail: detail),
+                const SizedBox(height: 24),
+                ServicePaymentInfo(detail: detail),
+                const SizedBox(height: 24),
+                const ServicePaymentMethod(),
+              ],
+            ),
+          );
+        },
+        loading: () => const Center(child: CircularProgressIndicator()),
+        error: (err, stack) => Center(child: Text('Error: $err')),
       ),
       bottomNavigationBar: Container(
         color: Colors.white,

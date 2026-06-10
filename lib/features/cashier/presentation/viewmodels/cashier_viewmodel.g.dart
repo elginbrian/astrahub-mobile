@@ -6,7 +6,7 @@ part of 'cashier_viewmodel.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$cashierViewModelHash() => r'b03dd42c5f53b485993bff079a9b5b5453aa5a0a';
+String _$cashierViewModelHash() => r'b7515c5ae59c22d9c1a55c5c7f6288e2bea3cd52';
 
 /// See also [CashierViewModel].
 @ProviderFor(CashierViewModel)

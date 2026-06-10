@@ -183,7 +183,7 @@ final appRouterProvider = Provider<GoRouter>((ref) {
         name: AppRoutes.serviceValidationName,
         pageBuilder: (context, state) => CustomTransitionPage(
           key: state.pageKey,
-          child: const ServiceValidationPage(),
+          child: ServiceValidationPage(serviceId: state.extra as String?),
           transitionsBuilder: _slideTransition,
         ),
       ),

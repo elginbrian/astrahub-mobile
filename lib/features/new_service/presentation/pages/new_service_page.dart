@@ -12,50 +12,10 @@ class NewServicePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: const Color(0xFFF9FAFB),
-      appBar: const NewServiceAppBar(),
-      body: Stack(
-        children: [
-          const SingleChildScrollView(
-            padding: EdgeInsets.all(20),
-            child: NewServiceForm(),
-          ),
-          Positioned(
-            bottom: 20,
-            left: 20,
-            right: 20,
-            child: ElevatedButton(
-              onPressed: () {
-                context.pushNamed(AppRoutes.serviceValidationName);
-              },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: AppColors.astraBlue,
-                foregroundColor: Colors.white,
-                padding: const EdgeInsets.symmetric(vertical: 16),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                elevation: 0,
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    'Lanjut Buat Nota',
-                    style: GoogleFonts.plusJakartaSans(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                  const SizedBox(width: 8),
-                  const Icon(Icons.arrow_forward, size: 18),
-                ],
-              ),
-            ),
-          ),
-        ],
-      ),
+    return const Scaffold(
+      backgroundColor: Color(0xFFF9FAFB),
+      appBar: NewServiceAppBar(),
+      body: NewServiceForm(),
     );
   }
 }

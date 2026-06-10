@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
+import 'package:go_router/go_router.dart';
+import '../../../../core/router/app_routes.dart';
 import '../viewmodels/cashier_viewmodel.dart';
 import 'cashier_service_card.dart';
 
@@ -91,6 +93,14 @@ class CashierServiceList extends ConsumerWidget {
                 time: timeString,
                 price: currencyFormatter.format(s.total),
                 status: displayStatus,
+                onTap: s.status.toLowerCase() == 'pending' 
+                    ? () {
+                        context.pushNamed(
+                          AppRoutes.serviceValidationName,
+                          extra: s.id,
+                        );
+                      }
+                    : null,
               );
             }),
           const SizedBox(height: 100),

@@ -14,7 +14,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$StockState {
 
- bool get isLoading; List<StockEntity> get stocks; String? get error;
+ bool get isLoading; bool get isSubmitting; List<StockEntity> get stocks; String get searchQuery; StockSortType get sortType; String? get error;
 /// Create a copy of StockState
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -25,16 +25,16 @@ $StockStateCopyWith<StockState> get copyWith => _$StockStateCopyWithImpl<StockSt
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is StockState&&(identical(other.isLoading, isLoading) || other.isLoading == isLoading)&&const DeepCollectionEquality().equals(other.stocks, stocks)&&(identical(other.error, error) || other.error == error));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is StockState&&(identical(other.isLoading, isLoading) || other.isLoading == isLoading)&&(identical(other.isSubmitting, isSubmitting) || other.isSubmitting == isSubmitting)&&const DeepCollectionEquality().equals(other.stocks, stocks)&&(identical(other.searchQuery, searchQuery) || other.searchQuery == searchQuery)&&(identical(other.sortType, sortType) || other.sortType == sortType)&&(identical(other.error, error) || other.error == error));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,isLoading,const DeepCollectionEquality().hash(stocks),error);
+int get hashCode => Object.hash(runtimeType,isLoading,isSubmitting,const DeepCollectionEquality().hash(stocks),searchQuery,sortType,error);
 
 @override
 String toString() {
-  return 'StockState(isLoading: $isLoading, stocks: $stocks, error: $error)';
+  return 'StockState(isLoading: $isLoading, isSubmitting: $isSubmitting, stocks: $stocks, searchQuery: $searchQuery, sortType: $sortType, error: $error)';
 }
 
 
@@ -45,7 +45,7 @@ abstract mixin class $StockStateCopyWith<$Res>  {
   factory $StockStateCopyWith(StockState value, $Res Function(StockState) _then) = _$StockStateCopyWithImpl;
 @useResult
 $Res call({
- bool isLoading, List<StockEntity> stocks, String? error
+ bool isLoading, bool isSubmitting, List<StockEntity> stocks, String searchQuery, StockSortType sortType, String? error
 });
 
 
@@ -62,11 +62,14 @@ class _$StockStateCopyWithImpl<$Res>
 
 /// Create a copy of StockState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? isLoading = null,Object? stocks = null,Object? error = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? isLoading = null,Object? isSubmitting = null,Object? stocks = null,Object? searchQuery = null,Object? sortType = null,Object? error = freezed,}) {
   return _then(_self.copyWith(
 isLoading: null == isLoading ? _self.isLoading : isLoading // ignore: cast_nullable_to_non_nullable
+as bool,isSubmitting: null == isSubmitting ? _self.isSubmitting : isSubmitting // ignore: cast_nullable_to_non_nullable
 as bool,stocks: null == stocks ? _self.stocks : stocks // ignore: cast_nullable_to_non_nullable
-as List<StockEntity>,error: freezed == error ? _self.error : error // ignore: cast_nullable_to_non_nullable
+as List<StockEntity>,searchQuery: null == searchQuery ? _self.searchQuery : searchQuery // ignore: cast_nullable_to_non_nullable
+as String,sortType: null == sortType ? _self.sortType : sortType // ignore: cast_nullable_to_non_nullable
+as StockSortType,error: freezed == error ? _self.error : error // ignore: cast_nullable_to_non_nullable
 as String?,
   ));
 }
@@ -152,10 +155,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( bool isLoading,  List<StockEntity> stocks,  String? error)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( bool isLoading,  bool isSubmitting,  List<StockEntity> stocks,  String searchQuery,  StockSortType sortType,  String? error)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _StockState() when $default != null:
-return $default(_that.isLoading,_that.stocks,_that.error);case _:
+return $default(_that.isLoading,_that.isSubmitting,_that.stocks,_that.searchQuery,_that.sortType,_that.error);case _:
   return orElse();
 
 }
@@ -173,10 +176,10 @@ return $default(_that.isLoading,_that.stocks,_that.error);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( bool isLoading,  List<StockEntity> stocks,  String? error)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( bool isLoading,  bool isSubmitting,  List<StockEntity> stocks,  String searchQuery,  StockSortType sortType,  String? error)  $default,) {final _that = this;
 switch (_that) {
 case _StockState():
-return $default(_that.isLoading,_that.stocks,_that.error);case _:
+return $default(_that.isLoading,_that.isSubmitting,_that.stocks,_that.searchQuery,_that.sortType,_that.error);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -193,10 +196,10 @@ return $default(_that.isLoading,_that.stocks,_that.error);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( bool isLoading,  List<StockEntity> stocks,  String? error)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( bool isLoading,  bool isSubmitting,  List<StockEntity> stocks,  String searchQuery,  StockSortType sortType,  String? error)?  $default,) {final _that = this;
 switch (_that) {
 case _StockState() when $default != null:
-return $default(_that.isLoading,_that.stocks,_that.error);case _:
+return $default(_that.isLoading,_that.isSubmitting,_that.stocks,_that.searchQuery,_that.sortType,_that.error);case _:
   return null;
 
 }
@@ -207,11 +210,12 @@ return $default(_that.isLoading,_that.stocks,_that.error);case _:
 /// @nodoc
 
 
-class _StockState implements StockState {
-  const _StockState({this.isLoading = false, final  List<StockEntity> stocks = const [], this.error}): _stocks = stocks;
+class _StockState extends StockState {
+  const _StockState({this.isLoading = false, this.isSubmitting = false, final  List<StockEntity> stocks = const [], this.searchQuery = '', this.sortType = StockSortType.nameAsc, this.error}): _stocks = stocks,super._();
   
 
 @override@JsonKey() final  bool isLoading;
+@override@JsonKey() final  bool isSubmitting;
  final  List<StockEntity> _stocks;
 @override@JsonKey() List<StockEntity> get stocks {
   if (_stocks is EqualUnmodifiableListView) return _stocks;
@@ -219,6 +223,8 @@ class _StockState implements StockState {
   return EqualUnmodifiableListView(_stocks);
 }
 
+@override@JsonKey() final  String searchQuery;
+@override@JsonKey() final  StockSortType sortType;
 @override final  String? error;
 
 /// Create a copy of StockState
@@ -231,16 +237,16 @@ _$StockStateCopyWith<_StockState> get copyWith => __$StockStateCopyWithImpl<_Sto
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _StockState&&(identical(other.isLoading, isLoading) || other.isLoading == isLoading)&&const DeepCollectionEquality().equals(other._stocks, _stocks)&&(identical(other.error, error) || other.error == error));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _StockState&&(identical(other.isLoading, isLoading) || other.isLoading == isLoading)&&(identical(other.isSubmitting, isSubmitting) || other.isSubmitting == isSubmitting)&&const DeepCollectionEquality().equals(other._stocks, _stocks)&&(identical(other.searchQuery, searchQuery) || other.searchQuery == searchQuery)&&(identical(other.sortType, sortType) || other.sortType == sortType)&&(identical(other.error, error) || other.error == error));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,isLoading,const DeepCollectionEquality().hash(_stocks),error);
+int get hashCode => Object.hash(runtimeType,isLoading,isSubmitting,const DeepCollectionEquality().hash(_stocks),searchQuery,sortType,error);
 
 @override
 String toString() {
-  return 'StockState(isLoading: $isLoading, stocks: $stocks, error: $error)';
+  return 'StockState(isLoading: $isLoading, isSubmitting: $isSubmitting, stocks: $stocks, searchQuery: $searchQuery, sortType: $sortType, error: $error)';
 }
 
 
@@ -251,7 +257,7 @@ abstract mixin class _$StockStateCopyWith<$Res> implements $StockStateCopyWith<$
   factory _$StockStateCopyWith(_StockState value, $Res Function(_StockState) _then) = __$StockStateCopyWithImpl;
 @override @useResult
 $Res call({
- bool isLoading, List<StockEntity> stocks, String? error
+ bool isLoading, bool isSubmitting, List<StockEntity> stocks, String searchQuery, StockSortType sortType, String? error
 });
 
 
@@ -268,11 +274,14 @@ class __$StockStateCopyWithImpl<$Res>
 
 /// Create a copy of StockState
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? isLoading = null,Object? stocks = null,Object? error = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? isLoading = null,Object? isSubmitting = null,Object? stocks = null,Object? searchQuery = null,Object? sortType = null,Object? error = freezed,}) {
   return _then(_StockState(
 isLoading: null == isLoading ? _self.isLoading : isLoading // ignore: cast_nullable_to_non_nullable
+as bool,isSubmitting: null == isSubmitting ? _self.isSubmitting : isSubmitting // ignore: cast_nullable_to_non_nullable
 as bool,stocks: null == stocks ? _self._stocks : stocks // ignore: cast_nullable_to_non_nullable
-as List<StockEntity>,error: freezed == error ? _self.error : error // ignore: cast_nullable_to_non_nullable
+as List<StockEntity>,searchQuery: null == searchQuery ? _self.searchQuery : searchQuery // ignore: cast_nullable_to_non_nullable
+as String,sortType: null == sortType ? _self.sortType : sortType // ignore: cast_nullable_to_non_nullable
+as StockSortType,error: freezed == error ? _self.error : error // ignore: cast_nullable_to_non_nullable
 as String?,
   ));
 }
