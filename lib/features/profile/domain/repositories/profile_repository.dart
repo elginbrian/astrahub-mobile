@@ -16,6 +16,11 @@ abstract class ProfileRepository {
     required String category,
   });
 
+  Future<Either<Failure, ProfileEntity>> updateUserProfile({
+    required String fullName,
+    required String email,
+  });
+
   Future<Either<Failure, BusinessScoreEntity>> getBusinessScore();
   
   Future<Either<Failure, BusinessDataEntity>> getBusinessData();

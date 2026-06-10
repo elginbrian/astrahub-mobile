@@ -15,6 +15,7 @@ abstract class ApiConstants {
   static const String googleRegister = '/auth/google/register';
 
   // ── Profile Endpoints ──────────────────────────────────────────────
+  static const String userProfile = '/user/profile';
   static const String profile = '/profile';
   static const String businessScore = '/profile/business-score';
   static const String businessData = '/profile/business-data';

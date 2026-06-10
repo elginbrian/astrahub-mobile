@@ -3,6 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../../../core/theme/app_colors.dart';
+import '../../../../core/router/app_routes.dart';
+import 'package:go_router/go_router.dart';
 import '../../../auth/presentation/providers/auth_state_provider.dart';
 
 import '../../../profile/presentation/widgets/profile_header.dart';
@@ -31,7 +33,9 @@ class ProfilePage extends ConsumerWidget {
         centerTitle: false,
         actions: [
           TextButton(
-            onPressed: () {},
+            onPressed: () {
+              context.push(AppRoutes.editProfile);
+            },
             child: Text(
               'Edit',
               style: GoogleFonts.plusJakartaSans(

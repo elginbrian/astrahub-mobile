@@ -1,13 +1,39 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../core/theme/app_colors.dart';
+import '../viewmodels/profile_viewmodel.dart';
 
-class ProfileScoreCard extends StatelessWidget {
+class ProfileScoreCard extends ConsumerWidget {
   const ProfileScoreCard({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final state = ref.watch(profileViewModelProvider);
+    final score = state.businessScore;
+
+    if (state.isLoading && score == null) {
+      return Container(
+        padding: const EdgeInsets.all(20),
+        decoration: BoxDecoration(
+          color: AppColors.astraBlue50.withOpacity(0.5),
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(color: AppColors.astraBlue100),
+        ),
+        child: const Center(
+          child: SizedBox(
+            height: 24,
+            width: 24,
+            child: CircularProgressIndicator(strokeWidth: 2),
+          ),
+        ),
+      );
+    }
+
+    if (score == null) {
+      return const SizedBox.shrink();
+    }
     return Container(
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
@@ -29,7 +55,7 @@ class ProfileScoreCard extends StatelessWidget {
             ),
             alignment: Alignment.center,
             child: Text(
-              '89',
+              '${score.score}',
               style: GoogleFonts.plusJakartaSans(
                 fontSize: 24,
                 fontWeight: FontWeight.bold,
@@ -61,7 +87,7 @@ class ProfileScoreCard extends StatelessWidget {
                         borderRadius: BorderRadius.circular(4),
                       ),
                       child: Text(
-                        'Sangat Baik',
+                        score.badge,
                         style: GoogleFonts.plusJakartaSans(
                           fontSize: 10,
                           fontWeight: FontWeight.w600,
@@ -73,7 +99,7 @@ class ProfileScoreCard extends StatelessWidget {
                 ),
                 const SizedBox(height: 6),
                 Text(
-                  '"Pembayaran tepat waktu meningkatkan kepercayaan untuk ekspansi modal."',
+                  '"${score.description}"',
                   style: GoogleFonts.plusJakartaSans(
                     fontSize: 12,
                     fontStyle: FontStyle.italic,

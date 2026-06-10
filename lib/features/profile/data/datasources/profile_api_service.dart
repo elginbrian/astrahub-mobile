@@ -26,6 +26,15 @@ class ProfileApiService {
     return ProfileModel.fromJson(data);
   }
 
+  Future<ProfileModel> updateUserProfile(Map<String, dynamic> body) async {
+    final response = await _dio.put<Map<String, dynamic>>(
+      ApiConstants.userProfile,
+      data: body,
+    );
+    final data = response.data!['data'] as Map<String, dynamic>;
+    return ProfileModel.fromJson(data);
+  }
+
   Future<BusinessScoreModel> getBusinessScore() async {
     final response = await _dio.get<Map<String, dynamic>>(ApiConstants.businessScore);
     final data = response.data!['data'] as Map<String, dynamic>;

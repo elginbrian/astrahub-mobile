@@ -1,13 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../core/theme/app_colors.dart';
+import '../viewmodels/profile_viewmodel.dart';
 
-class ProfileTransactionStatus extends StatelessWidget {
+class ProfileTransactionStatus extends ConsumerWidget {
   const ProfileTransactionStatus({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final state = ref.watch(profileViewModelProvider);
+    final txs = state.transactions;
+
+    final hasDibayar = txs.any((tx) => tx.status.toLowerCase() == 'dibayar' || tx.status.toLowerCase() == 'paid');
+    final hasDiproses = txs.any((tx) => tx.status.toLowerCase() == 'diproses' || tx.status.toLowerCase() == 'processing');
+    final hasDikirim = txs.any((tx) => tx.status.toLowerCase() == 'dikirim' || tx.status.toLowerCase() == 'shipped');
+    final hasSelesai = txs.any((tx) => tx.status.toLowerCase() == 'selesai' || tx.status.toLowerCase() == 'completed');
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
@@ -35,10 +44,10 @@ class ProfileTransactionStatus extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              _buildStatusItem(Icons.account_balance_wallet_outlined, 'Dibayar', false),
-              _buildStatusItem(Icons.assignment_outlined, 'Diproses', true),
-              _buildStatusItem(Icons.local_shipping_outlined, 'Dikirim', false),
-              _buildStatusItem(Icons.check_circle_outline, 'Selesai', false),
+              _buildStatusItem(Icons.account_balance_wallet_outlined, 'Dibayar', hasDibayar),
+              _buildStatusItem(Icons.assignment_outlined, 'Diproses', hasDiproses),
+              _buildStatusItem(Icons.local_shipping_outlined, 'Dikirim', hasDikirim),
+              _buildStatusItem(Icons.check_circle_outline, 'Selesai', hasSelesai),
             ],
           ),
         ],

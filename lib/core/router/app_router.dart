@@ -23,6 +23,7 @@ import '../../features/service_validation/presentation/pages/service_validation_
 import '../../features/service_payment_success/presentation/pages/service_payment_success_page.dart';
 import '../../features/notification/presentation/pages/notification_page.dart';
 import '../../features/stock/presentation/pages/stock_page.dart';
+import '../../features/profile/presentation/pages/edit_profile_page.dart';
 import '../../features/auth/presentation/providers/auth_state_provider.dart';
 import 'app_routes.dart';
 import 'route_guard.dart';
@@ -229,6 +230,15 @@ final appRouterProvider = Provider<GoRouter>((ref) {
         pageBuilder: (context, state) => CustomTransitionPage(
           key: state.pageKey,
           child: const StockPage(),
+          transitionsBuilder: _slideTransition,
+        ),
+      ),
+      GoRoute(
+        path: AppRoutes.editProfile,
+        name: AppRoutes.editProfileName,
+        pageBuilder: (context, state) => CustomTransitionPage(
+          key: state.pageKey,
+          child: const EditProfilePage(),
           transitionsBuilder: _slideTransition,
         ),
       ),

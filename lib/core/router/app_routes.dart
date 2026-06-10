@@ -22,6 +22,7 @@ abstract class AppRoutes {
   static const workshopActivation = '/workshop-activation';
   static const personalDataActivation = '/personal-data-activation';
   static const stock = '/stock';
+  static const editProfile = '/edit-profile';
 
   // ── Names ──────────────────────────────────────────────────────────
   static const splashName = 'splash';
@@ -45,4 +46,5 @@ abstract class AppRoutes {
   static const workshopActivationName = 'workshopActivation';
   static const personalDataActivationName = 'personalDataActivation';
   static const stockName = 'stock';
+  static const editProfileName = 'editProfile';
 }
