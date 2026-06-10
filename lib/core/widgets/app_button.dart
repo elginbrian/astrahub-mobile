@@ -30,19 +30,35 @@ class AppButton extends StatelessWidget {
 
     switch (variant) {
       case AppButtonVariant.primary:
-        style = ElevatedButton.styleFrom(backgroundColor: cs.primary);
-        foreground = cs.onPrimary;
+        style = ElevatedButton.styleFrom(
+          backgroundColor: AppColors.astraBlue,
+          foregroundColor: Colors.white,
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)),
+          padding: const EdgeInsets.symmetric(vertical: 16),
+        );
+        foreground = Colors.white;
       case AppButtonVariant.secondary:
-        style = ElevatedButton.styleFrom(backgroundColor: cs.secondary);
-        foreground = cs.onSecondary;
+        style = ElevatedButton.styleFrom(
+          backgroundColor: AppColors.astraBlue50,
+          foregroundColor: AppColors.astraBlue,
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)),
+          padding: const EdgeInsets.symmetric(vertical: 16),
+        );
+        foreground = AppColors.astraBlue;
       case AppButtonVariant.outline:
         style = OutlinedButton.styleFrom(
-          side: BorderSide(color: cs.primary),
+          side: const BorderSide(color: AppColors.astraBlue),
+          foregroundColor: AppColors.astraBlue,
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)),
+          padding: const EdgeInsets.symmetric(vertical: 16),
         );
-        foreground = cs.primary;
+        foreground = AppColors.astraBlue;
       case AppButtonVariant.ghost:
-        style = TextButton.styleFrom();
-        foreground = cs.primary;
+        style = TextButton.styleFrom(
+          foregroundColor: AppColors.astraBlue,
+          padding: const EdgeInsets.symmetric(vertical: 16),
+        );
+        foreground = AppColors.astraBlue;
     }
 
     final child = isLoading

@@ -3,11 +3,26 @@ import 'package:google_fonts/google_fonts.dart';
 
 import '../../../../core/theme/app_colors.dart';
 
+import 'package:intl/intl.dart';
+
+import '../../../cashier/domain/entities/service_detail_entity.dart';
+
 class ServicePaymentInfo extends StatelessWidget {
-  const ServicePaymentInfo({super.key});
+  final ServiceDetailEntity detail;
+
+  const ServicePaymentInfo({super.key, required this.detail});
 
   @override
   Widget build(BuildContext context) {
+    final currencyFormatter = NumberFormat.currency(
+      locale: 'id_ID',
+      symbol: 'Rp ',
+      decimalDigits: 0,
+    );
+    
+    // For now subtotal is same as total
+    final subtotal = detail.total;
+
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
@@ -27,9 +42,9 @@ class ServicePaymentInfo extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 16),
-          _buildRow('Subtotal', 'Rp 140.000'),
+          _buildRow('Subtotal', currencyFormatter.format(subtotal)),
           const SizedBox(height: 8),
-          _buildRow('Biaya Penanganan', 'Rp 40.000'),
+          _buildRow('Biaya Penanganan', currencyFormatter.format(0)),
           const SizedBox(height: 8),
           _buildRow('Diskon', '- Rp 0', valueColor: const Color(0xFFEF4444)),
           const Padding(
@@ -48,7 +63,7 @@ class ServicePaymentInfo extends StatelessWidget {
                 ),
               ),
               Text(
-                'Rp 180.000',
+                currencyFormatter.format(detail.total),
                 style: GoogleFonts.plusJakartaSans(
                   fontSize: 16,
                   fontWeight: FontWeight.bold,

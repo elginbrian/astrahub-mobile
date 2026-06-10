@@ -57,6 +57,25 @@ class ProfileRepositoryImpl implements ProfileRepository {
   }
 
   @override
+  Future<Either<Failure, ProfileEntity>> updateUserProfile({
+    required String fullName,
+    required String email,
+  }) async {
+    try {
+      final body = {
+        'full_name': fullName,
+        'email': email,
+      };
+      final profileModel = await apiService.updateUserProfile(body);
+      return Right(profileModel.toEntity());
+    } on DioException catch (e) {
+      return Left(DioErrorHandler.handle(e));
+    } catch (e) {
+      return Left(ServerFailure(e.toString()));
+    }
+  }
+
+  @override
   Future<Either<Failure, BusinessScoreEntity>> getBusinessScore() async {
     try {
       final scoreModel = await apiService.getBusinessScore();

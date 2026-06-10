@@ -17,7 +17,12 @@ class StockProductCard extends StatelessWidget {
     required this.brand,
     required this.price,
     required this.stock,
+    this.onEdit,
+    this.onDelete,
   });
+
+  final VoidCallback? onEdit;
+  final VoidCallback? onDelete;
 
   @override
   Widget build(BuildContext context) {
@@ -82,10 +87,43 @@ class StockProductCard extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(width: 8),
-                    const Icon(
-                      Icons.more_vert,
-                      color: Color(0xFF9CA3AF),
-                      size: 20,
+                    PopupMenuButton<String>(
+                      icon: const Icon(Icons.more_vert, color: Color(0xFF9CA3AF), size: 20),
+                      padding: EdgeInsets.zero,
+                      color: Colors.white,
+                      surfaceTintColor: Colors.white,
+                      onSelected: (value) {
+                        if (value == 'edit' && onEdit != null) onEdit!();
+                        if (value == 'delete' && onDelete != null) onDelete!();
+                      },
+                      itemBuilder: (context) => [
+                        PopupMenuItem(
+                          value: 'edit',
+                          child: Row(
+                            children: [
+                              const Icon(Icons.edit_outlined, size: 18, color: Color(0xFF374151)),
+                              const SizedBox(width: 8),
+                              Text(
+                                'Edit Barang',
+                                style: GoogleFonts.plusJakartaSans(fontSize: 14, color: const Color(0xFF111827)),
+                              ),
+                            ],
+                          ),
+                        ),
+                        PopupMenuItem(
+                          value: 'delete',
+                          child: Row(
+                            children: [
+                              const Icon(Icons.delete_outline, size: 18, color: AppColors.error),
+                              const SizedBox(width: 8),
+                              Text(
+                                'Hapus',
+                                style: GoogleFonts.plusJakartaSans(fontSize: 14, color: AppColors.error),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
                     ),
                   ],
                 ),

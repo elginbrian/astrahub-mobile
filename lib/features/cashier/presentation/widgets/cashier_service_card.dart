@@ -8,6 +8,7 @@ class CashierServiceCard extends StatelessWidget {
   final String time;
   final String price;
   final String status;
+  final VoidCallback? onTap;
 
   const CashierServiceCard({
     super.key,
@@ -16,6 +17,7 @@ class CashierServiceCard extends StatelessWidget {
     required this.time,
     required this.price,
     required this.status,
+    this.onTap,
   });
 
   @override
@@ -31,15 +33,21 @@ class CashierServiceCard extends StatelessWidget {
 
     return Container(
       margin: const EdgeInsets.only(bottom: 12),
-      padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(12),
         border: Border.all(color: const Color(0xFFE5E7EB)),
       ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
+      child: Material(
+        color: Colors.transparent,
+        child: InkWell(
+          onTap: onTap,
+          borderRadius: BorderRadius.circular(12),
+          child: Padding(
+            padding: const EdgeInsets.all(16),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -109,6 +117,9 @@ class CashierServiceCard extends StatelessWidget {
           ),
         ],
       ),
-    );
-  }
+     ),
+    ),
+   ),
+  );
+ }
 }

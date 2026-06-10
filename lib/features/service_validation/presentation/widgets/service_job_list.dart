@@ -1,14 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import '../../../../core/theme/app_colors.dart';
-import 'service_job_item.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:intl/intl.dart';
 
-class ServiceJobList extends StatelessWidget {
-  const ServiceJobList({super.key});
+import '../../../../core/theme/app_colors.dart';
+import '../../../cashier/domain/entities/service_detail_entity.dart';
+import '../../../cashier/presentation/viewmodels/service_detail_viewmodel.dart';
+import 'service_job_item.dart';
+import 'stock_selector_sheet.dart';
+
+class ServiceJobList extends ConsumerWidget {
+  final ServiceDetailEntity detail;
+  
+  const ServiceJobList({super.key, required this.detail});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final currencyFormatter = NumberFormat.currency(
+      locale: 'id_ID',
+      symbol: 'Rp ',
+      decimalDigits: 0,
+    );
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -21,38 +35,47 @@ class ServiceJobList extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 12),
-        ServiceJobItem(
-          icon: Icons.build,
-          iconBgColor: AppColors.astraBlue50,
-          iconColor: AppColors.astraBlue500,
-          name: 'Servis Rutin',
-          category: 'Labor / Jasa',
-          price: 'Rp 50.000',
-          onDelete: () {},
-        ),
-        const SizedBox(height: 8),
-        ServiceJobItem(
-          icon: Icons.opacity,
-          iconBgColor: AppColors.astraBlue50,
-          iconColor: AppColors.astraBlue500,
-          name: 'Oli Astra SPX 2 0.8L',
-          category: 'Suku Cadang',
-          price: 'Rp 55.000',
-          onDelete: () {},
-        ),
-        const SizedBox(height: 8),
-        ServiceJobItem(
-          icon: Icons.rotate_left,
-          iconBgColor: AppColors.astraBlue50,
-          iconColor: AppColors.astraBlue500,
-          name: 'Kampas Rem Depan',
-          category: 'Suku Cadang',
-          price: 'Rp 35.000',
-          onDelete: () {},
-        ),
+        if (detail.items.isEmpty)
+          Padding(
+            padding: const EdgeInsets.only(bottom: 12),
+            child: Text(
+              'Belum ada pekerjaan atau suku cadang ditambahkan.',
+              style: GoogleFonts.plusJakartaSans(
+                color: Colors.grey.shade600,
+                fontSize: 13,
+              ),
+            ),
+          )
+        else
+          ...detail.items.map((item) {
+            final isPart = item.itemType == 'part';
+            return Padding(
+              padding: const EdgeInsets.only(bottom: 8),
+              child: ServiceJobItem(
+                icon: isPart ? Icons.inventory_2 : Icons.build,
+                iconBgColor: AppColors.astraBlue50,
+                iconColor: AppColors.astraBlue500,
+                name: item.name,
+                category: isPart ? 'Suku Cadang' : 'Labor / Jasa',
+                price: currencyFormatter.format(item.price),
+                onDelete: () {
+                  ref
+                      .read(serviceDetailViewModelProvider(detail.id).notifier)
+                      .deleteItem(item.id);
+                },
+              ),
+            );
+          }),
         const SizedBox(height: 12),
         OutlinedButton(
-          onPressed: () {},
+          onPressed: () {
+            showModalBottomSheet(
+              context: context,
+              isScrollControlled: true,
+              backgroundColor: Colors.transparent,
+              builder: (ctx) => StockSelectorSheet(serviceId: detail.id),
+            );
+          },
           style: OutlinedButton.styleFrom(
             foregroundColor: AppColors.astraBlue,
             side: const BorderSide(color: Color(0xFFD1D5DB)),
@@ -65,7 +88,7 @@ class ServiceJobList extends StatelessWidget {
               const Icon(Icons.add, size: 18),
               const SizedBox(width: 6),
               Text(
-                'Tambah Pekerjaan',
+                'Tambah Pekerjaan (Stok)',
                 style: GoogleFonts.plusJakartaSans(
                   fontSize: 13,
                   fontWeight: FontWeight.w600,

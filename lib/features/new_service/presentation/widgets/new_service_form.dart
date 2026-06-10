@@ -1,20 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../../../core/theme/app_colors.dart';
-
+import '../../../../core/router/app_routes.dart';
+import '../../../cashier/presentation/viewmodels/cashier_viewmodel.dart';
 import 'new_service_voice_card.dart';
 
-class NewServiceForm extends StatefulWidget {
+class NewServiceForm extends ConsumerStatefulWidget {
   const NewServiceForm({super.key});
 
   @override
-  State<NewServiceForm> createState() => _NewServiceFormState();
+  ConsumerState<NewServiceForm> createState() => _NewServiceFormState();
 }
 
-class _NewServiceFormState extends State<NewServiceForm> {
+class _NewServiceFormState extends ConsumerState<NewServiceForm> {
+  final _formKey = GlobalKey<FormState>();
   final _customerNameController = TextEditingController();
   final _motorTypeController = TextEditingController();
+  final _plateController = TextEditingController();
   final _notesController = TextEditingController();
   String? _selectedService;
 
@@ -30,8 +35,34 @@ class _NewServiceFormState extends State<NewServiceForm> {
   void dispose() {
     _customerNameController.dispose();
     _motorTypeController.dispose();
+    _plateController.dispose();
     _notesController.dispose();
     super.dispose();
+  }
+
+  Future<void> _submit() async {
+    if (!_formKey.currentState!.validate()) return;
+    
+    final viewmodel = ref.read(cashierViewModelProvider.notifier);
+    
+    String combinedNotes = _notesController.text.trim();
+    if (_selectedService != null) {
+      combinedNotes = 'Layanan: $_selectedService\n$combinedNotes';
+    }
+
+    final serviceId = await viewmodel.createService(
+      customerName: _customerNameController.text.trim(),
+      vehicleType: _motorTypeController.text.trim(),
+      plateNumber: _plateController.text.trim(),
+      notes: combinedNotes,
+    );
+
+    if (serviceId != null && mounted) {
+      context.pushNamed(
+        AppRoutes.serviceValidationName,
+        extra: serviceId,
+      );
+    }
   }
 
   Widget _buildLabel(String text) {
@@ -81,13 +112,18 @@ class _NewServiceFormState extends State<NewServiceForm> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
+    final state = ref.watch(cashierViewModelProvider);
+
+    return Form(
+      key: _formKey,
+      child: ListView(
+        padding: const EdgeInsets.all(20),
+        children: [
         // ── Nama Pelanggan ──────────────────────────────────────────────
         _buildLabel('Nama Pelanggan'),
         TextFormField(
           controller: _customerNameController,
+          validator: (v) => v == null || v.isEmpty ? 'Wajib diisi' : null,
           style: GoogleFonts.plusJakartaSans(fontSize: 14, color: const Color(0xFF111827)),
           decoration: _fieldDecoration(
             hint: 'Pak Budi',
@@ -96,15 +132,48 @@ class _NewServiceFormState extends State<NewServiceForm> {
         ),
         const SizedBox(height: 20),
 
-        // ── Tipe Motor & Plat ───────────────────────────────────────────
-        _buildLabel('Tipe Motor & Plat'),
-        TextFormField(
-          controller: _motorTypeController,
-          style: GoogleFonts.plusJakartaSans(fontSize: 14, color: const Color(0xFF111827)),
-          decoration: _fieldDecoration(
-            hint: 'Honda Beat • BM 3421 XY',
-            prefix: const Icon(Icons.two_wheeler_outlined, color: Color(0xFF9CA3AF), size: 20),
-          ),
+        // ── Kendaraan ───────────────────────────────────────────
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Expanded(
+              flex: 3,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  _buildLabel('Tipe Motor'),
+                  TextFormField(
+                    controller: _motorTypeController,
+                    validator: (v) => v == null || v.isEmpty ? 'Wajib' : null,
+                    style: GoogleFonts.plusJakartaSans(fontSize: 14, color: const Color(0xFF111827)),
+                    decoration: _fieldDecoration(
+                      hint: 'Honda Beat',
+                      prefix: const Icon(Icons.two_wheeler_outlined, color: Color(0xFF9CA3AF), size: 20),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(width: 12),
+            Expanded(
+              flex: 2,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  _buildLabel('Plat Nomor'),
+                  TextFormField(
+                    controller: _plateController,
+                    validator: (v) => v == null || v.isEmpty ? 'Wajib' : null,
+                    style: GoogleFonts.plusJakartaSans(fontSize: 14, color: const Color(0xFF111827)),
+                    decoration: _fieldDecoration(
+                      hint: 'B 1234 CD',
+                      prefix: const Icon(Icons.pin_outlined, color: Color(0xFF9CA3AF), size: 20),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
         ),
         const SizedBox(height: 20),
 
@@ -193,8 +262,53 @@ class _NewServiceFormState extends State<NewServiceForm> {
 
         // ── Voice Recording Card ────────────────────────────────────────
         const NewServiceVoiceCard(),
-        const SizedBox(height: 100), // Space for fixed bottom button
+        const SizedBox(height: 32),
+        
+        // ── Submit Button ───────────────────────────────────────────────
+        if (state.error != null) ...[
+          Text(
+            state.error!,
+            style: GoogleFonts.plusJakartaSans(color: AppColors.errorDark, fontSize: 13),
+          ),
+          const SizedBox(height: 8),
+        ],
+        SizedBox(
+          width: double.infinity,
+          height: 52,
+          child: ElevatedButton(
+            onPressed: state.isLoading ? null : _submit,
+            style: ElevatedButton.styleFrom(
+              backgroundColor: AppColors.astraBlue,
+              foregroundColor: Colors.white,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(50),
+              ),
+              elevation: 0,
+            ),
+            child: state.isLoading
+              ? const SizedBox(
+                  width: 24, height: 24,
+                  child: CircularProgressIndicator(color: Colors.white, strokeWidth: 2),
+                )
+              : Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      'Lanjut Buat Nota',
+                      style: GoogleFonts.plusJakartaSans(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                    const SizedBox(width: 8),
+                    const Icon(Icons.arrow_forward, size: 20),
+                  ],
+                ),
+          ),
+        ),
+        const SizedBox(height: 32),
       ],
-    );
+    ),
+   );
   }
 }

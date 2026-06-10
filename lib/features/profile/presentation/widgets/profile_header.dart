@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../core/theme/app_colors.dart';
 import '../../../auth/presentation/providers/auth_state_provider.dart';
+import '../viewmodels/profile_viewmodel.dart';
 
 class ProfileHeader extends ConsumerWidget {
   const ProfileHeader({super.key});
@@ -12,9 +13,21 @@ class ProfileHeader extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final user = ref.watch(authStateProvider).user;
+    final state = ref.watch(profileViewModelProvider);
+    final businessData = state.businessData;
+
     final hasWorkshop = user?.workshopName != null && user!.workshopName!.isNotEmpty;
     final topText = hasWorkshop ? user!.workshopName! : (user?.fullName ?? 'Nama Pengguna');
     final bottomText = hasWorkshop ? (user?.fullName ?? 'Nama Pemilik') : 'Belum ada bengkel';
+    
+    String locationText = 'Belum ada lokasi';
+    if (hasWorkshop && businessData != null && businessData.city != null && businessData.province != null) {
+      locationText = '${businessData.city}, ${businessData.province}';
+    }
+
+    final badgeText = hasWorkshop ? 'Mitra Astra Terverifikasi' : 'Belum terverifikasi';
+    final badgeColor = hasWorkshop ? AppColors.astraBlue : const Color(0xFF9CA3AF);
+    final avatarBorderColor = AppColors.astraBlue;
     return Column(
       children: [
         // Avatar with border and badge
@@ -25,27 +38,27 @@ class ProfileHeader extends ConsumerWidget {
               padding: const EdgeInsets.all(4),
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                border: Border.all(color: AppColors.astraBlue, width: 2),
+                border: Border.all(color: avatarBorderColor, width: 2),
               ),
               child: const CircleAvatar(
                 radius: 40,
-                backgroundImage: AssetImage('assets/images/placeholder-avatar.jpg'), // Ensure an asset exists, or we use a generic icon
                 backgroundColor: Color(0xFFE5E7EB),
                 child: Icon(Icons.person, size: 40, color: Colors.white),
               ),
             ),
-            Container(
-              padding: const EdgeInsets.all(2),
-              decoration: const BoxDecoration(
-                color: Colors.white,
-                shape: BoxShape.circle,
+            if (hasWorkshop)
+              Container(
+                padding: const EdgeInsets.all(2),
+                decoration: const BoxDecoration(
+                  color: Colors.white,
+                  shape: BoxShape.circle,
+                ),
+                child: Icon(
+                  Icons.verified,
+                  color: badgeColor,
+                  size: 24,
+                ),
               ),
-              child: const Icon(
-                Icons.verified,
-                color: AppColors.astraBlue,
-                size: 24,
-              ),
-            ),
           ],
         ),
         const SizedBox(height: 16),
@@ -74,7 +87,7 @@ class ProfileHeader extends ConsumerWidget {
             const Icon(Icons.location_on_outlined, color: Color(0xFF6B7280), size: 16),
             const SizedBox(width: 4),
             Text(
-              'Pekanbaru, Riau',
+              locationText,
               style: GoogleFonts.plusJakartaSans(
                 fontSize: 13,
                 color: const Color(0xFF6B7280),
@@ -87,7 +100,7 @@ class ProfileHeader extends ConsumerWidget {
         Container(
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
           decoration: BoxDecoration(
-            color: AppColors.astraBlue,
+            color: badgeColor,
             borderRadius: BorderRadius.circular(20),
           ),
           child: Row(
@@ -96,7 +109,7 @@ class ProfileHeader extends ConsumerWidget {
               const Icon(Icons.stars, color: Colors.white, size: 16),
               const SizedBox(width: 6),
               Text(
-                'Mitra Astra Terverifikasi',
+                badgeText,
                 style: GoogleFonts.plusJakartaSans(
                   fontSize: 12,
                   fontWeight: FontWeight.w600,

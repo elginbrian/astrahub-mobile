@@ -8,7 +8,7 @@ part 'cashier_viewmodel.g.dart';
 
 @riverpod
 class CashierViewModel extends _$CashierViewModel {
-  late final CashierRepository _repository;
+  late CashierRepository _repository;
 
   @override
   CashierState build() {
@@ -20,7 +20,7 @@ class CashierViewModel extends _$CashierViewModel {
 
   Future<void> loadTodayServices() async {
     state = state.copyWith(isLoading: true, error: null);
-    final result = await _repository.getTodayServices();
+    final result = await _repository.getDashboard();
     
     result.fold(
       (failure) {
@@ -29,10 +29,16 @@ class CashierViewModel extends _$CashierViewModel {
           error: failure.message,
         );
       },
-      (services) {
+      (dashboard) {
         state = state.copyWith(
           isLoading: false,
-          todayServices: services,
+          todayServices: dashboard.recentServices,
+          revenue: dashboard.revenue,
+          completedServices: dashboard.completedServices,
+          stockTotal: dashboard.stockTotal,
+          stockAman: dashboard.stockAman,
+          stockHampirHabis: dashboard.stockHampirHabis,
+          stockTidakAman: dashboard.stockTidakAman,
         );
       },
     );
@@ -54,6 +60,35 @@ class CashierViewModel extends _$CashierViewModel {
           isLoading: false,
           historyServices: services,
         );
+      },
+    );
+  }
+
+  Future<String?> createService({
+    required String customerName,
+    required String vehicleType,
+    required String plateNumber,
+    String? serviceTypeId,
+    String? notes,
+  }) async {
+    state = state.copyWith(isLoading: true, error: null);
+    final result = await _repository.createService(
+      customerName: customerName,
+      vehicleType: vehicleType,
+      plateNumber: plateNumber,
+      serviceTypeId: serviceTypeId,
+      notes: notes,
+    );
+    
+    return result.fold(
+      (failure) {
+        state = state.copyWith(isLoading: false, error: failure.message);
+        return null;
+      },
+      (service) {
+        state = state.copyWith(isLoading: false);
+        loadTodayServices(); // Refresh list
+        return service.id;
       },
     );
   }

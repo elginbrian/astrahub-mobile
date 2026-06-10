@@ -3,8 +3,13 @@ import 'package:google_fonts/google_fonts.dart';
 
 import '../../../../core/theme/app_colors.dart';
 
+import '../../../cashier/domain/entities/service_detail_entity.dart';
+import 'edit_customer_sheet.dart';
+
 class ServiceInfoCard extends StatelessWidget {
-  const ServiceInfoCard({super.key});
+  final ServiceDetailEntity detail;
+  
+  const ServiceInfoCard({super.key, required this.detail});
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +35,14 @@ class ServiceInfoCard extends StatelessWidget {
                 ),
               ),
               GestureDetector(
-                onTap: () {},
+                onTap: () {
+                  showModalBottomSheet(
+                    context: context,
+                    isScrollControlled: true,
+                    backgroundColor: Colors.transparent,
+                    builder: (context) => EditCustomerSheet(detail: detail),
+                  );
+                },
                 child: Row(
                   children: [
                     const Icon(Icons.edit_outlined, size: 14, color: AppColors.astraBlue600),
@@ -49,11 +61,11 @@ class ServiceInfoCard extends StatelessWidget {
             ],
           ),
           const SizedBox(height: 16),
-          _buildInfoRow('Nama Pelanggan', 'Pak Budi'),
+          _buildInfoRow('Nama Pelanggan', detail.customerName),
           const SizedBox(height: 12),
-          _buildInfoRow('Plat Nomor', 'B 1234 ABC'),
+          _buildInfoRow('Plat Nomor', detail.plateNumber),
           const SizedBox(height: 12),
-          _buildInfoRow('Tipe Motor', 'Honda Vario 125'),
+          _buildInfoRow('Tipe Motor', detail.vehicleType),
         ],
       ),
     );

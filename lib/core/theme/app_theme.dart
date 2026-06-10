@@ -72,6 +72,49 @@ abstract class AppTheme {
             side: const BorderSide(color: AppColors.borderLight),
           ),
         ),
+        dialogTheme: DialogThemeData(
+          backgroundColor: AppColors.white,
+          surfaceTintColor: AppColors.white,
+          titleTextStyle: GoogleFonts.plusJakartaSans(
+            fontSize: 18,
+            fontWeight: FontWeight.bold,
+            color: AppColors.black,
+          ),
+          contentTextStyle: GoogleFonts.plusJakartaSans(
+            fontSize: 14,
+            color: AppColors.textPrimaryLight,
+          ),
+        ),
+        bottomSheetTheme: const BottomSheetThemeData(
+          backgroundColor: AppColors.white,
+          surfaceTintColor: AppColors.white,
+        ),
+        snackBarTheme: SnackBarThemeData(
+          backgroundColor: AppColors.white,
+          contentTextStyle: GoogleFonts.plusJakartaSans(
+            color: AppColors.black,
+          ),
+          actionTextColor: AppColors.astraBlue,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(8),
+          ),
+          behavior: SnackBarBehavior.floating,
+        ),
+        popupMenuTheme: PopupMenuThemeData(
+          color: AppColors.white,
+          surfaceTintColor: AppColors.white,
+          textStyle: GoogleFonts.plusJakartaSans(
+            color: AppColors.black,
+          ),
+          labelTextStyle: WidgetStateProperty.all(
+            GoogleFonts.plusJakartaSans(color: AppColors.black),
+          ),
+        ),
+        progressIndicatorTheme: const ProgressIndicatorThemeData(
+          color: AppColors.astraBlue,
+          circularTrackColor: Colors.transparent,
+          refreshBackgroundColor: AppColors.white,
+        ),
       );
 
   static ThemeData get darkTheme => ThemeData(
@@ -132,6 +175,49 @@ abstract class AppTheme {
             borderRadius: BorderRadius.circular(16),
             side: const BorderSide(color: AppColors.borderDark),
           ),
+        ),
+        dialogTheme: DialogThemeData(
+          backgroundColor: AppColors.white,
+          surfaceTintColor: AppColors.white,
+          titleTextStyle: GoogleFonts.plusJakartaSans(
+            fontSize: 18,
+            fontWeight: FontWeight.bold,
+            color: AppColors.black,
+          ),
+          contentTextStyle: GoogleFonts.plusJakartaSans(
+            fontSize: 14,
+            color: AppColors.textPrimaryLight,
+          ),
+        ),
+        bottomSheetTheme: const BottomSheetThemeData(
+          backgroundColor: AppColors.white,
+          surfaceTintColor: AppColors.white,
+        ),
+        snackBarTheme: SnackBarThemeData(
+          backgroundColor: AppColors.white,
+          contentTextStyle: GoogleFonts.plusJakartaSans(
+            color: AppColors.black,
+          ),
+          actionTextColor: AppColors.astraBlue,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(8),
+          ),
+          behavior: SnackBarBehavior.floating,
+        ),
+        popupMenuTheme: PopupMenuThemeData(
+          color: AppColors.white,
+          surfaceTintColor: AppColors.white,
+          textStyle: GoogleFonts.plusJakartaSans(
+            color: AppColors.black,
+          ),
+          labelTextStyle: WidgetStateProperty.all(
+            GoogleFonts.plusJakartaSans(color: AppColors.black),
+          ),
+        ),
+        progressIndicatorTheme: const ProgressIndicatorThemeData(
+          color: AppColors.astraBlue,
+          circularTrackColor: Colors.transparent,
+          refreshBackgroundColor: AppColors.white,
         ),
       );
 }

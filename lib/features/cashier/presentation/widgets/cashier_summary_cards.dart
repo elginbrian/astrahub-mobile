@@ -6,22 +6,22 @@ import 'package:go_router/go_router.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/router/app_routes.dart';
 import '../viewmodels/cashier_viewmodel.dart';
+import '../../../stock/presentation/viewmodels/stock_viewmodel.dart';
 
 class CashierSummaryCards extends ConsumerWidget {
   const CashierSummaryCards({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // final state = ref.watch(cashierViewModelProvider);
+    final state = ref.watch(cashierViewModelProvider);
     final currencyFormatter = NumberFormat.currency(
       locale: 'id_ID',
       symbol: 'Rp ',
       decimalDigits: 0,
     );
 
-    // Dummy data
-    int totalRevenue = 2450000;
-    int completedCount = 8;
+    int totalRevenue = state.revenue;
+    int completedCount = state.completedServices;
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -47,7 +47,7 @@ class CashierSummaryCards extends ConsumerWidget {
             ],
           ),
           const SizedBox(height: 16),
-          _buildStockCard(context),
+          _buildStockCard(context, ref),
         ],
       ),
     );
@@ -87,7 +87,49 @@ class CashierSummaryCards extends ConsumerWidget {
     );
   }
 
-  Widget _buildStockCard(BuildContext context) {
+  Widget _buildStockCard(BuildContext context, WidgetRef ref) {
+    final stockState = ref.watch(stockViewModelProvider);
+    
+    int total = stockState.stocks.length;
+    int aman = 0;
+    int hampirHabis = 0;
+    int tidakAman = 0;
+
+    for (final s in stockState.stocks) {
+      if (s.quantity <= 3) {
+        tidakAman++;
+      } else if (s.quantity <= 10) {
+        hampirHabis++;
+      } else {
+        aman++;
+      }
+    }
+
+    // Hitung persentase kesehatan stok secara berbobot agar bar tidak kosong
+    // Aman = 100% (1.0), Hampir Habis = 50% (0.5), Kritis = 10% (0.1)
+    double healthPercentage = total > 0 
+      ? ((aman * 1.0) + (hampirHabis * 0.5) + (tidakAman * 0.1)) / total 
+      : 0;
+    
+    // Determine color based on health
+    Color healthColor = AppColors.success; 
+    Color healthBg = AppColors.success.withOpacity(0.15);
+    String healthText = 'Aman';
+    
+    if (total == 0) {
+      healthColor = const Color(0xFF9CA3AF); // Gray
+      healthBg = const Color(0xFFF3F4F6);
+      healthText = 'Kosong';
+    } else if (tidakAman > 0) {
+      healthColor = AppColors.errorDark; // Bright red
+      healthBg = AppColors.errorDark.withOpacity(0.15);
+      healthText = 'Kritis';
+    } else if (hampirHabis > 0) {
+      healthColor = AppColors.warning; 
+      healthBg = AppColors.warning.withOpacity(0.15);
+      healthText = 'Hampir Habis';
+    }
+
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
@@ -131,15 +173,15 @@ class CashierSummaryCards extends ConsumerWidget {
                           Container(
                             padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
                             decoration: BoxDecoration(
-                              color: const Color(0xFFD1FAE5),
+                              color: healthBg,
                               borderRadius: BorderRadius.circular(12),
                             ),
                             child: Text(
-                              'Aman',
+                              healthText,
                               style: GoogleFonts.plusJakartaSans(
                                 fontSize: 10,
                                 fontWeight: FontWeight.w600,
-                                color: const Color(0xFF10B981),
+                                color: healthColor,
                               ),
                             ),
                           ),
@@ -171,10 +213,10 @@ class CashierSummaryCards extends ConsumerWidget {
                 const SizedBox(height: 12),
                 ClipRRect(
                   borderRadius: BorderRadius.circular(4),
-                  child: const LinearProgressIndicator(
-                    value: 0.4,
-                    backgroundColor: Color(0xFFE5E7EB),
-                    color: Color(0xFFFDE047), // Brighter yellow
+                  child: LinearProgressIndicator(
+                    value: healthPercentage,
+                    backgroundColor: const Color(0xFFE5E7EB),
+                    color: healthColor,
                     minHeight: 6,
                   ),
                 ),

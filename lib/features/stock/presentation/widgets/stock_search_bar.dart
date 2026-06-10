@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class StockSearchBar extends StatelessWidget {
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../viewmodels/stock_viewmodel.dart';
+
+class StockSearchBar extends ConsumerWidget {
   const StockSearchBar({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Container(
       decoration: BoxDecoration(
         color: Colors.white,
@@ -13,6 +16,9 @@ class StockSearchBar extends StatelessWidget {
         border: Border.all(color: const Color(0xFFD1D5DB)),
       ),
       child: TextField(
+        onChanged: (value) {
+          ref.read(stockViewModelProvider.notifier).setSearchQuery(value);
+        },
         style: GoogleFonts.plusJakartaSans(
           fontSize: 14,
           color: const Color(0xFF111827),
