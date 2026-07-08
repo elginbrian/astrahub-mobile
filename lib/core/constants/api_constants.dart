@@ -21,6 +21,21 @@ abstract class ApiConstants {
   static const String businessData = '/profile/business-data';
   static const String profileTransactions = '/profile/transactions';
 
+  // ── Home Endpoints ────────────────────────────────────────────────
+  static const String homeDashboard = '/dashboard';
+  static const String homeLowStock = '/dashboard/low-stock';
+  static const String homeActivities = '/dashboard/activities';
+
+  // ── Notifications Endpoints ───────────────────────────────────────
+  static const String notifications = '/notifications';
+
+  // ── Finance Endpoints ─────────────────────────────────────────────
+  static const String financeAstraPay = '/finance/astrapay';
+  static const String financePayLaterBill = '/finance/paylater/bill';
+  static const String financeWithdraw = '/finance/astrapay/withdraw';
+  static const String financeTopUp = '/finance/astrapay/topup';
+  static const String financePayBill = '/finance/astrapay/pay-bill';
+
   // ── Cashier (Kasir) Endpoints ─────────────────────────────────────
   static const String cashierDashboard = '/kasir/dashboard';
   static const String cashierServices = '/kasir/services';

@@ -1,16 +1,44 @@
 import 'package:flutter/material.dart';
-
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:intl/intl.dart';
+import 'package:google_fonts/google_fonts.dart';
 import '../../../../core/theme/app_colors.dart';
+import '../viewmodels/notification_viewmodel.dart';
+import '../../domain/entities/notification_entity.dart';
 
 import '../widgets/notification_app_bar.dart';
 import '../widgets/notification_date_group.dart';
 import '../widgets/notification_item.dart';
 
-class NotificationPage extends StatelessWidget {
+class NotificationPage extends ConsumerWidget {
   const NotificationPage({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final state = ref.watch(notificationViewModelProvider);
+
+    // Group notifications by date
+    final Map<String, List<NotificationEntity>> groupedNotifications = {};
+    for (var notif in state.notifications) {
+      final date = DateTime(notif.createdAt.year, notif.createdAt.month, notif.createdAt.day);
+      final now = DateTime.now();
+      final today = DateTime(now.year, now.month, now.day);
+      final yesterday = today.subtract(const Duration(days: 1));
+      
+      String key;
+      if (date == today) {
+        key = 'Hari Ini, ${DateFormat('d MMMM yyyy', 'id_ID').format(date)}';
+      } else if (date == yesterday) {
+        key = 'Kemarin, ${DateFormat('d MMMM yyyy', 'id_ID').format(date)}';
+      } else {
+        key = DateFormat('d MMMM yyyy', 'id_ID').format(date);
+      }
+
+      if (!groupedNotifications.containsKey(key)) {
+        groupedNotifications[key] = [];
+      }
+      groupedNotifications[key]!.add(notif);
+    }
     return Scaffold(
       backgroundColor: const Color(0xFFF9FAFB),
       appBar: const NotificationAppBar(),
@@ -20,67 +48,92 @@ class NotificationPage extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const SizedBox(height: 8),
-              NotificationDateGroup(
-                date: 'Hari Ini, 4 Juni 2024',
-                items: [
-                  const NotificationItem(
-                    icon: Icons.check_circle,
-                    iconColor: Color(0xFF059669),
-                    iconBgColor: Color(0xFFD1FAE5),
-                    title: 'Servis Honda Beat Selesai',
-                    subtitle: 'Mekanik: Budi • Total: Rp 150.000',
-                    time: '14:30',
+              if (state.isLoading)
+                const Center(
+                  child: Padding(
+                    padding: EdgeInsets.all(24.0),
+                    child: CircularProgressIndicator(),
                   ),
-                  const NotificationItem(
-                    icon: Icons.qr_code_2,
-                    iconColor: AppColors.astraBlue700,
-                    iconBgColor: Color(0xFFDBEAFE),
-                    title: 'Pembayaran QRIS Berhasil',
-                    subtitle: 'Pelanggan: Andi • Ref: #ASTR-8821',
-                    time: '14:15',
+                )
+              else if (state.notifications.isEmpty)
+                SizedBox(
+                  height: MediaQuery.of(context).size.height * 0.6,
+                  child: Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Icon(Icons.notifications_off_outlined, size: 48, color: Colors.grey.shade400),
+                        const SizedBox(height: 16),
+                        Text(
+                          'Belum ada notifikasi',
+                          style: GoogleFonts.plusJakartaSans(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w600,
+                            color: Colors.grey.shade600,
+                          ),
+                        ),
+                        const SizedBox(height: 4),
+                        Text(
+                          'Semua pemberitahuan sistem akan muncul di sini',
+                          textAlign: TextAlign.center,
+                          style: GoogleFonts.plusJakartaSans(
+                            fontSize: 12,
+                            color: Colors.grey.shade500,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
-                  const NotificationItem(
-                    icon: Icons.local_shipping,
-                    iconColor: Color(0xFFC2410C),
-                    iconBgColor: Color(0xFFFFEDD5),
-                    title: 'Pesanan Suku Cadang Dikirim',
-                    subtitle: 'Oli Astra SPX 2 (10 pcs) • Kurir: Astra Express',
-                    time: '13:00',
-                  ),
-                  const NotificationItem(
-                    icon: Icons.build,
-                    iconColor: Color(0xFF4B5563),
-                    iconBgColor: Color(0xFFE5E7EB),
-                    title: 'Servis Yamaha NMAX Dimulai',
-                    subtitle: 'Mekanik: Slamet • Estimasi Selesai: 16:00',
-                    time: '12:45',
-                  ),
-                  const NotificationItem(
-                    icon: Icons.warning_amber_rounded,
-                    iconColor: Color(0xFFDC2626),
-                    iconBgColor: Color(0xFFFEE2E2),
-                    title: 'Stok Hampir Habis',
-                    subtitle: 'Kampas Rem Depan (Sisa 2 pcs)',
-                    time: '11:00',
-                    isAlert: true,
-                  ),
-                ],
-              ),
-              const SizedBox(height: 8),
-              NotificationDateGroup(
-                date: 'Kemarin, 3 Juni 2024',
-                items: [
-                  const NotificationItem(
-                    icon: Icons.check_circle_outline,
-                    iconColor: Color(0xFF059669),
-                    iconBgColor: Color(0xFFD1FAE5),
-                    title: 'Tutup Kasir Berhasil',
-                    subtitle: 'Total Omzet: Rp 4.250.000',
-                    time: '21:00',
-                  ),
-                ],
-              ),
+                )
+              else
+                ...groupedNotifications.entries.map((entry) {
+                  return Padding(
+                    padding: const EdgeInsets.only(bottom: 8.0),
+                    child: NotificationDateGroup(
+                      date: entry.key,
+                      items: entry.value.map<Widget>((notif) {
+                        IconData icon = Icons.info_outline;
+                        Color iconColor = AppColors.astraBlue;
+                        Color iconBgColor = AppColors.astraBlue50;
+
+                        if (notif.type == 'service_completed') {
+                          icon = Icons.check_circle;
+                          iconColor = const Color(0xFF059669);
+                          iconBgColor = const Color(0xFFD1FAE5);
+                        } else if (notif.type == 'payment_received') {
+                          icon = Icons.qr_code_2;
+                          iconColor = const Color(0xFFC2410C);
+                          iconBgColor = const Color(0xFFFFEDD5);
+                        } else if (notif.type == 'stock_alert') {
+                          icon = Icons.warning_amber_rounded;
+                          iconColor = const Color(0xFFDC2626);
+                          iconBgColor = const Color(0xFFFEE2E2);
+                        }
+
+                        return GestureDetector(
+                          onTap: () {
+                            if (!notif.isRead) {
+                              ref.read(notificationViewModelProvider.notifier).markAsRead(notif.id);
+                            }
+                          },
+                          child: Opacity(
+                            opacity: notif.isRead ? 0.6 : 1.0,
+                            child: NotificationItem(
+                              icon: icon,
+                              iconColor: iconColor,
+                              iconBgColor: iconBgColor,
+                              title: notif.title,
+                              subtitle: notif.message,
+                              time: DateFormat('HH:mm').format(notif.createdAt.toLocal()),
+                              isAlert: notif.type == 'stock_alert',
+                            ),
+                          ),
+                        );
+                      }).toList(),
+                    ),
+                  );
+                }),
               const SizedBox(height: 24),
             ],
           ),

@@ -4,28 +4,34 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 
 import '../../../../core/theme/app_colors.dart';
-import '../../../cashier/presentation/viewmodels/cashier_viewmodel.dart';
+import '../viewmodels/home_viewmodel.dart';
+import '../../../finance/presentation/viewmodels/finance_viewmodel.dart';
 
 class HomeSummaryCards extends ConsumerWidget {
   const HomeSummaryCards({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final state = ref.watch(cashierViewModelProvider);
+    final state = ref.watch(homeViewModelProvider);
     final currencyFormatter = NumberFormat.currency(
       locale: 'id_ID',
       symbol: 'Rp ',
       decimalDigits: 0,
     );
 
-    int totalRevenue = 0;
-    int completedCount = 0;
-    for (var service in state.todayServices) {
-      if (service.paymentStatus == 'paid' || service.status == 'selesai') {
-        totalRevenue += service.total;
-        completedCount++;
-      }
-    }
+    final dashboard = state.dashboard;
+    final totalRevenue = dashboard?.revenue.toInt() ?? 0;
+    final completedCount = dashboard?.completedServices ?? 0;
+    final avgNota = completedCount > 0 ? (totalRevenue / completedCount).round() : 0;
+    
+    // Simulate revenue change for now as 0% (since backend doesn't provide it yet)
+    final double revenueChange = 0.0;
+
+    final financeState = ref.watch(financeViewModelProvider);
+    final astraPayBalance = financeState.astraPayBalance?.balance ?? 0.0;
+    final payLaterLimit = financeState.payLaterBill?.limit ?? 0.0;
+    final payLaterUsed = financeState.payLaterBill?.used ?? 0.0;
+    final progressValue = payLaterLimit > 0 ? (payLaterUsed / payLaterLimit).clamp(0.0, 1.0) : 0.0;
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -80,7 +86,7 @@ class HomeSummaryCards extends ConsumerWidget {
                           ),
                           const SizedBox(height: 4),
                           Text(
-                            currencyFormatter.format(totalRevenue == 0 ? 1250000 : totalRevenue),
+                            currencyFormatter.format(totalRevenue),
                             style: GoogleFonts.plusJakartaSans(
                               fontSize: 20,
                               fontWeight: FontWeight.bold,
@@ -90,19 +96,43 @@ class HomeSummaryCards extends ConsumerWidget {
                         ],
                       ),
                     ),
-                    Row(
-                      children: [
-                        const Icon(Icons.arrow_drop_up, color: Colors.green, size: 24),
-                        Text(
-                          '18%',
-                          style: GoogleFonts.plusJakartaSans(
-                            fontSize: 12,
-                            fontWeight: FontWeight.w600,
-                            color: Colors.green,
+                    if (revenueChange > 0)
+                      Row(
+                        children: [
+                          const Icon(Icons.arrow_drop_up, color: Colors.green, size: 24),
+                          Text(
+                            '${revenueChange.toStringAsFixed(0)}%',
+                            style: GoogleFonts.plusJakartaSans(
+                              fontSize: 12,
+                              fontWeight: FontWeight.w600,
+                              color: Colors.green,
+                            ),
                           ),
+                        ],
+                      )
+                    else if (revenueChange < 0)
+                      Row(
+                        children: [
+                          const Icon(Icons.arrow_drop_down, color: Colors.red, size: 24),
+                          Text(
+                            '${revenueChange.abs().toStringAsFixed(0)}%',
+                            style: GoogleFonts.plusJakartaSans(
+                              fontSize: 12,
+                              fontWeight: FontWeight.w600,
+                              color: Colors.red,
+                            ),
+                          ),
+                        ],
+                      )
+                    else
+                      Text(
+                        '-',
+                        style: GoogleFonts.plusJakartaSans(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w600,
+                          color: const Color(0xFF9CA3AF),
                         ),
-                      ],
-                    ),
+                      ),
                   ],
                 ),
                 const SizedBox(height: 16),
@@ -127,7 +157,7 @@ class HomeSummaryCards extends ConsumerWidget {
                               ),
                               const SizedBox(height: 4),
                               Text(
-                                completedCount == 0 ? '7' : completedCount.toString(),
+                                completedCount.toString(),
                                 style: GoogleFonts.plusJakartaSans(
                                   fontSize: 14,
                                   fontWeight: FontWeight.bold,
@@ -158,7 +188,7 @@ class HomeSummaryCards extends ConsumerWidget {
                               ),
                               const SizedBox(height: 4),
                               Text(
-                                currencyFormatter.format(427000),
+                                currencyFormatter.format(avgNota),
                                 style: GoogleFonts.plusJakartaSans(
                                   fontSize: 14,
                                   fontWeight: FontWeight.bold,
@@ -212,7 +242,7 @@ class HomeSummaryCards extends ConsumerWidget {
                       ),
                       const SizedBox(height: 4),
                       Text(
-                        'Rp 7.500.000',
+                        currencyFormatter.format(payLaterLimit - payLaterUsed),
                         style: GoogleFonts.plusJakartaSans(
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
@@ -222,10 +252,10 @@ class HomeSummaryCards extends ConsumerWidget {
                       const SizedBox(height: 8),
                       ClipRRect(
                         borderRadius: BorderRadius.circular(4),
-                        child: const LinearProgressIndicator(
-                          value: 0.25,
-                          backgroundColor: Color(0xFFE5E7EB),
-                          valueColor: AlwaysStoppedAnimation<Color>(AppColors.astraYellow400),
+                        child: LinearProgressIndicator(
+                          value: progressValue,
+                          backgroundColor: const Color(0xFFE5E7EB),
+                          valueColor: const AlwaysStoppedAnimation<Color>(AppColors.astraYellow400),
                           minHeight: 6,
                         ),
                       ),

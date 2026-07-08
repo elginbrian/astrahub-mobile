@@ -2,14 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:intl/intl.dart';
 import '../../../../core/router/app_routes.dart';
 import '../../../../core/theme/app_colors.dart';
+import '../viewmodels/home_viewmodel.dart';
 
-class HomeRecentActivities extends StatelessWidget {
+class HomeRecentActivities extends ConsumerWidget {
   const HomeRecentActivities({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final homeState = ref.watch(homeViewModelProvider);
+    final activities = homeState.dashboard?.recentActivities ?? [];
+
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20),
       child: Column(
@@ -39,32 +45,57 @@ class HomeRecentActivities extends StatelessWidget {
             ],
           ),
           const SizedBox(height: 12),
-          _buildActivityCard(
-            icon: Icons.check_circle,
-            iconColor: AppColors.astraBlue,
-            iconBgColor: AppColors.astraBlue50,
-            title: 'Servis Honda Beat selesai',
-            subtitle: 'Pengerjaan: Ganti Oli & CVT',
-            time: '10:30',
-          ),
           const SizedBox(height: 12),
-          _buildActivityCard(
-            icon: Icons.qr_code_2,
-            iconColor: const Color(0xFFC2410C),
-            iconBgColor: const Color(0xFFFFEDD5),
-            title: 'Pembayaran QRIS berhasil',
-            subtitle: 'Dari: Pelanggan #1029',
-            time: '09:15',
-          ),
-          const SizedBox(height: 12),
-          _buildActivityCard(
-            icon: Icons.local_shipping_outlined,
-            iconColor: const Color(0xFF4B5563),
-            iconBgColor: const Color(0xFFF3F4F6),
-            title: 'Pesanan suku cadang dikirim',
-            subtitle: 'Logistik: Astra Part Express',
-            time: 'Kemarin',
-          ),
+          if (homeState.isLoading)
+            const Center(child: CircularProgressIndicator())
+          else if (activities.isEmpty)
+            Container(
+              width: double.infinity,
+              padding: const EdgeInsets.all(16),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(8),
+                border: Border.all(color: const Color(0xFFE5E7EB)),
+              ),
+              child: Text(
+                'Belum ada aktivitas terbaru',
+                textAlign: TextAlign.center,
+                style: GoogleFonts.plusJakartaSans(
+                  fontSize: 13,
+                  color: const Color(0xFF6B7280),
+                ),
+              ),
+            )
+          else
+            ...activities.map((activity) {
+              IconData icon = Icons.info_outline;
+              Color iconColor = AppColors.astraBlue;
+              Color iconBgColor = AppColors.astraBlue50;
+
+              if (activity.type == 'service_completed') {
+                icon = Icons.check_circle;
+                iconColor = Colors.green;
+                iconBgColor = const Color(0xFFDCFCE7);
+              } else if (activity.type == 'payment_received') {
+                icon = Icons.qr_code_2;
+                iconColor = const Color(0xFFC2410C);
+                iconBgColor = const Color(0xFFFFEDD5);
+              }
+
+              final timeStr = DateFormat('HH:mm').format(activity.createdAt.toLocal());
+
+              return Padding(
+                padding: const EdgeInsets.only(bottom: 12.0),
+                child: _buildActivityCard(
+                  icon: icon,
+                  iconColor: iconColor,
+                  iconBgColor: iconBgColor,
+                  title: activity.description,
+                  subtitle: activity.type,
+                  time: timeStr,
+                ),
+              );
+            }),
         ],
       ),
     );

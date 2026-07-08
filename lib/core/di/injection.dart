@@ -20,6 +20,15 @@ import '../../features/profile/domain/repositories/profile_repository.dart';
 import '../../features/stock/data/datasources/stock_api_service.dart';
 import '../../features/stock/data/repositories/stock_repository_impl.dart';
 import '../../features/stock/domain/repositories/stock_repository.dart';
+import '../../features/home/data/datasources/home_api_service.dart';
+import '../../features/home/data/repositories/home_repository_impl.dart';
+import '../../features/home/domain/repositories/home_repository.dart';
+import '../../features/notification/data/datasources/notification_api_service.dart';
+import '../../features/notification/data/repositories/notification_repository_impl.dart';
+import '../../features/notification/domain/repositories/notification_repository.dart';
+import '../../features/finance/data/datasources/finance_api_service.dart';
+import '../../features/finance/data/repositories/finance_repository_impl.dart';
+import '../../features/finance/domain/repositories/finance_repository.dart';
 
 final getIt = GetIt.instance;
 
@@ -47,6 +56,24 @@ Future<void> setupDependencies() async {
 
   // ── Register Feature Dependencies ─────────────────────────────────
   
+  // Home Feature
+  getIt.registerLazySingleton<HomeApiService>(
+    () => HomeApiService(getIt<DioClient>().instance),
+  );
+  
+  getIt.registerLazySingleton<HomeRepository>(
+    () => HomeRepositoryImpl(apiService: getIt<HomeApiService>()),
+  );
+
+  // Notification Feature
+  getIt.registerLazySingleton<NotificationApiService>(
+    () => NotificationApiService(getIt<DioClient>().instance),
+  );
+  
+  getIt.registerLazySingleton<NotificationRepository>(
+    () => NotificationRepositoryImpl(apiService: getIt<NotificationApiService>()),
+  );
+
   // Profile Feature
   getIt.registerLazySingleton<ProfileApiService>(
     () => ProfileApiService(getIt<DioClient>().instance),
@@ -90,5 +117,14 @@ Future<void> setupDependencies() async {
   
   getIt.registerLazySingleton<StockRepository>(
     () => StockRepositoryImpl(apiService: getIt<StockApiService>()),
+  );
+
+  // Finance Feature
+  getIt.registerLazySingleton<FinanceApiService>(
+    () => FinanceApiService(getIt<DioClient>().instance),
+  );
+  
+  getIt.registerLazySingleton<FinanceRepository>(
+    () => FinanceRepositoryImpl(apiService: getIt<FinanceApiService>()),
   );
 }

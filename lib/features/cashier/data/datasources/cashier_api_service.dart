@@ -91,12 +91,9 @@ class CashierApiService {
 
   Future<ReceiptModel> processPayment(
       String serviceId, Map<String, dynamic> body) async {
-    final requestBody = Map<String, dynamic>.from(body);
-    requestBody['service_id'] = serviceId;
-    
     final response = await _dio.post<Map<String, dynamic>>(
-      ApiConstants.cashierPayment,
-      data: requestBody,
+      '${ApiConstants.cashierServices}/$serviceId/pay',
+      data: body,
     );
     final data = response.data!['data'] as Map<String, dynamic>;
     return ReceiptModel.fromJson(data);
@@ -113,11 +110,10 @@ class CashierApiService {
   Future<List<ServiceTypeModel>> getServiceTypes() async {
     try {
       final response = await _dio.get<Map<String, dynamic>>(
-        ApiConstants.cashierWorkItems,
+        '${ApiConstants.baseUrl}/kasir/service-types',
       );
       final data = response.data!['data'] as List<dynamic>;
       return data
-          .where((e) => e['item_type'] == 'labor')
           .map((e) => ServiceTypeModel(
                 id: e['id'].toString(),
                 name: e['name'] as String,

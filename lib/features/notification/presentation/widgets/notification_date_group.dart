@@ -5,7 +5,7 @@ import 'notification_item.dart';
 
 class NotificationDateGroup extends StatelessWidget {
   final String date;
-  final List<NotificationItem> items;
+  final List<Widget> items;
 
   const NotificationDateGroup({
     super.key,

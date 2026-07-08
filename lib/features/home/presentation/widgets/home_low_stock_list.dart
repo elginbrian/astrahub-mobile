@@ -5,19 +5,17 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../core/router/app_routes.dart';
 import '../../../../core/theme/app_colors.dart';
-import '../../../stock/presentation/viewmodels/stock_viewmodel.dart';
+import '../viewmodels/home_viewmodel.dart';
 
 class HomeLowStockList extends ConsumerWidget {
   const HomeLowStockList({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final stockState = ref.watch(stockViewModelProvider);
+    final homeState = ref.watch(homeViewModelProvider);
     
-    // Ambil maksimal 3 stok yang jumlahnya <= 10, urutkan dari yang paling sedikit
-    final lowStocks = stockState.stocks.where((s) => s.quantity <= 10).toList();
-    lowStocks.sort((a, b) => a.quantity.compareTo(b.quantity));
-    final displayStocks = lowStocks.take(3).toList();
+    // Low stock items from home dashboard
+    final displayStocks = homeState.lowStockItems.take(3).toList();
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -51,7 +49,7 @@ class HomeLowStockList extends ConsumerWidget {
             ],
           ),
           const SizedBox(height: 12),
-          if (stockState.isLoading)
+          if (homeState.isLoading)
             const Center(child: CircularProgressIndicator())
           else if (displayStocks.isEmpty)
             Container(
