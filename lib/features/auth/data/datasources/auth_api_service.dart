@@ -53,6 +53,11 @@ class AuthApiService {
     final response = await _dio.get<Map<String, dynamic>>(ApiConstants.profile);
     final data = response.data!['data'] as Map<String, dynamic>;
     
+    // Map 'id' to 'user_id' for UserModel
+    if (data.containsKey('id')) {
+      data['user_id'] = data['id'];
+    }
+
     // Convert 'workshop' object from ProfileResponse to 'workshop_id' and 'workshop_name' for UserModel
     if (data.containsKey('workshop') && data['workshop'] != null) {
       data['workshop_id'] = data['workshop']['id'];
