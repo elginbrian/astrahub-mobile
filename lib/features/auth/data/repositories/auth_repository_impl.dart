@@ -65,6 +65,8 @@ class AuthRepositoryImpl implements AuthRepository {
         'phone': phone,
         if (email != null && email.isNotEmpty) 'email': email,
         'password': password,
+        'password_confirmation': password,
+        'agree_terms': true,
       });
 
       final data = responseMap['data'] as Map<String, dynamic>;
@@ -127,7 +129,7 @@ class AuthRepositoryImpl implements AuthRepository {
   Future<Either<Failure, GoogleLoginResultEntity>> googleLogin(String idToken) async {
     try {
       final responseMap = await apiService.googleLogin({
-        'id_token': idToken,
+        'google_id_token': idToken,
       });
       
       final data = responseMap['data'] as Map<String, dynamic>;
@@ -167,7 +169,7 @@ class AuthRepositoryImpl implements AuthRepository {
   }) async {
     try {
       final responseMap = await apiService.googleRegister({
-        'id_token': idToken,
+        'google_id_token': idToken,
         'phone': phone,
         'full_name': fullName,
       });

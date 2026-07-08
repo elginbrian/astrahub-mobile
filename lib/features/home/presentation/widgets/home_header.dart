@@ -6,6 +6,7 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../../../core/router/app_routes.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../auth/presentation/providers/auth_state_provider.dart';
+import '../../../notification/presentation/viewmodels/notification_viewmodel.dart';
 
 class HomeHeader extends ConsumerWidget {
   const HomeHeader({super.key});
@@ -16,6 +17,9 @@ class HomeHeader extends ConsumerWidget {
     final user = authState.user;
     final firstName = user?.fullName.split(' ').first ?? 'User';
     final workshopName = user?.workshopName ?? 'Belum ada Bengkel';
+
+    final notificationState = ref.watch(notificationViewModelProvider);
+    final hasUnread = notificationState.notifications.any((notif) => !notif.isRead);
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -57,18 +61,19 @@ class HomeHeader extends ConsumerWidget {
                 onPressed: () => context.pushNamed(AppRoutes.notificationName),
                 icon: const Icon(Icons.notifications_none, color: Colors.white),
               ),
-              Positioned(
-                right: 12,
-                top: 12,
-                child: Container(
-                  width: 8,
-                  height: 8,
-                  decoration: const BoxDecoration(
-                    color: Colors.red,
-                    shape: BoxShape.circle,
+              if (hasUnread)
+                Positioned(
+                  right: 12,
+                  top: 12,
+                  child: Container(
+                    width: 8,
+                    height: 8,
+                    decoration: const BoxDecoration(
+                      color: Colors.red,
+                      shape: BoxShape.circle,
+                    ),
                   ),
                 ),
-              ),
             ],
           ),
         ],
